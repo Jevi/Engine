@@ -9,8 +9,8 @@ class Entity;
 class Component
 {
 public:
-	//Constant fields representing compoenent types
-	static const int RENDERER = 1;
+	//Constant fields representing component types
+	static const int RENDER = 1;
 	static const int AUDIO = 2;
 
 	string name;				//The name of the component

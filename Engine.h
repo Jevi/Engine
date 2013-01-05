@@ -11,7 +11,7 @@
 #include "Debug.h"
 #include "EventHandler.h"
 #include "Entity.h"
-#include "EntityManager.h"
+#include "AssetManager.h"
 
 class Engine: public EventHandler
 {
@@ -27,10 +27,8 @@ public:
 
 	virtual void OnEvent(SDL_Event* Event)
 	override;
-	virtual void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
-	override;
-	virtual void OnExit()
-	override;
+	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+	void OnExit();
 
 private:
 
@@ -52,8 +50,6 @@ private:
 	AppState appState;
 	SDL_Surface* appWindow;
 	SDL_Event appEvent;
-
-	EntityManager entityManager;
 };
 
 #endif

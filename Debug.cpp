@@ -1,6 +1,6 @@
 #include "Debug.h"
 
-void Debug::Log(const char* format, ... )
+void Debug::Log(const char* format, ...)
 {
 	va_list arguments;
 	va_start(arguments, format);

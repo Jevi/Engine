@@ -19,21 +19,21 @@ public:
 
 	~Texture2D(void)
 	{
-		OnUnLoad();
+		OnUnload();
 	}
 
 	void Bind();
 
 	void OnLoad();
 
-	void OnUnLoad();
+	void OnUnload();
 
 protected:
 
 	GLuint textureId;
 	bool loaded;
 	string filename;
-	
+
 };
 
 #endif

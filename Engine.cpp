@@ -8,7 +8,6 @@ Engine::Engine() :
 
 Engine::~Engine()
 {
-	entityManager.RemoveAll();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
 }
@@ -49,6 +48,9 @@ bool Engine::OnInit()
 	}
 	Debug::Log("SDL Video Mode Initialized");
 
+	AssetManager* am = AssetManager::GetInstance();
+	am->LoadAssetsFromXML("E:/Dev/cpp/projects/Engine/res/test.xml");
+
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, appWidth, appHeight, 0, 1, -1);
@@ -72,8 +74,6 @@ void Engine::OnLoop()
 
 void Engine::OnEvent(SDL_Event* Event)
 {
-	entityManager.OnEvent();
-
 	while (SDL_PollEvent(Event))
 	{
 		EventHandler::OnEvent(Event);
@@ -96,7 +96,6 @@ void Engine::OnUpdate()
 void Engine::OnRender()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	entityManager.OnRender();
 	Graphics::DrawQuad(100, 100, 100, 100, 1, 1, 0, 1);
 	Graphics::FillQuad(300, 100, 100, 100, 1, 1, 0, 1);
 	SDL_GL_SwapBuffers();

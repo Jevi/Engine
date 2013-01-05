@@ -9,24 +9,22 @@ void Texture2D::OnLoad()
 {
 	if (loaded)
 	{
-		OnUnLoad();
+		OnUnload();
 	}
 
-	const char* fname = filename.c_str();
-
-	SDL_Surface* image = IMG_Load(fname);
+	SDL_Surface* image = IMG_Load(filename.c_str());
 
 	if (image == NULL)
 	{
-		Debug::Log("Could Not Load: %s", fname);
+		Debug::Log("Could Not Load: %s", filename.c_str());
 		return;
 	}
-	Debug::Log("Loaded: %s", fname);
+	Debug::Log("Loaded: %s", filename.c_str());
 
 	width = image->w;
 	height = image->h;
 
-	if((width == 0) || (height == 0))
+	if ((width == 0) || (height == 0))
 	{
 		return;
 	}
@@ -45,13 +43,13 @@ void Texture2D::OnLoad()
 	loaded = true;
 }
 
-void Texture2D::OnUnLoad()
+void Texture2D::OnUnload()
 {
 	if (loaded)
 	{
 		GLuint tempId;
 		tempId = textureId;
-		glDeleteTextures(1, & tempId);
+		glDeleteTextures(1, &tempId);
 
 		width = height = 0;
 		filename = "";
