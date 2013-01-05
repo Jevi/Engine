@@ -39,6 +39,8 @@ bool AssetManager::LoadAssetsFromXML(string Filename)
 				string type(Element->Attribute("type"));
 				int scene = atoi(Element->Attribute("scene"));
 
+				Debug::Log("Element Values: %s | %s | %i", filename.c_str(), type.c_str(), scene);
+
 				if (type == "GRAPHICAL")
 				{
 					asset = new Texture2D(filename, scene);
@@ -57,6 +59,11 @@ bool AssetManager::LoadAssetsFromXML(string Filename)
 		return true;
 	}
 	return false;
+}
+
+unsigned int AssetManager::GetCurrentScene()
+{
+	return currentScene;
 }
 
 void AssetManager::SetCurrentScene(unsigned int CurrScene)
@@ -79,6 +86,8 @@ void AssetManager::SetCurrentScene(unsigned int CurrScene)
 	{
 		vec[i]->OnLoad();
 	}
+
+	Debug::Log("Current Scene: %i", currentScene);
 }
 
 void AssetManager::Destroy()

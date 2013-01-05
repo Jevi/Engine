@@ -20,6 +20,7 @@ public:
 	static AssetManager* GetInstance();
 
 	bool LoadAssetsFromXML(string Filename);
+	unsigned int GetCurrentScene();
 	void SetCurrentScene(unsigned int CurrScene);
 	unsigned int GetLoadedAssetCount()
 	{

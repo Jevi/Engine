@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-	Engine* en = new Engine();
+	Engine* en = Engine::GetInstance();
 	en->OnStart();
 	return 0;
 }

@@ -17,21 +17,33 @@ class Engine: public EventHandler
 {
 public:
 
-	Engine();
-	~Engine();
-
-	int appWidth;
-	int appHeight;
+	static Engine* GetInstance();
 
 	void OnStart();
-
-	virtual void OnEvent(SDL_Event* Event)
-	override;
+	void OnEvent(SDL_Event* Event);
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
 	void OnExit();
+	void Destroy();
 
 private:
 
+	Engine();
+
+	enum AppState
+	{
+		Uninitialized, Running, Exiting
+	};
+
+	static Engine* instance;
+	int appWidth;
+	int appHeight;
+
+	AppState appState;
+	SDL_Surface* appWindow;
+	SDL_Event appEvent;
+
+	void SwitchState(AppState state);
+	const char* ToString(AppState state);
 	bool OnInit();
 	void OnLoop();
 
@@ -39,17 +51,6 @@ private:
 	void OnRender();
 	bool IsExiting();
 
-	enum AppState
-	{
-		Uninitialized, Running, Exiting
-	};
-
-	void SwitchState(AppState state);
-	const char* ToString(AppState state);
-
-	AppState appState;
-	SDL_Surface* appWindow;
-	SDL_Event appEvent;
 };
 
 #endif

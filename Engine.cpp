@@ -1,13 +1,29 @@
 #include "Engine.h"
 
+Engine* Engine::instance;
+
+AssetManager* am;
+
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
 {
 
 }
 
-Engine::~Engine()
+Engine* Engine::GetInstance()
 {
+	if (instance)
+	{
+		return instance;
+	}
+
+	instance = new Engine;
+	return instance;
+}
+
+void Engine::Destroy()
+{
+	am->Destroy();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
 }
@@ -27,7 +43,7 @@ void Engine::OnStart()
 			OnLoop();
 		}
 	}
-	delete this;
+	Destroy();
 }
 
 bool Engine::OnInit()
@@ -48,8 +64,9 @@ bool Engine::OnInit()
 	}
 	Debug::Log("SDL Video Mode Initialized");
 
-	AssetManager* am = AssetManager::GetInstance();
+	am = AssetManager::GetInstance();
 	am->LoadAssetsFromXML("E:/Dev/cpp/projects/Engine/res/test.xml");
+	am->SetCurrentScene(1);
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
@@ -96,8 +113,7 @@ void Engine::OnUpdate()
 void Engine::OnRender()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	Graphics::DrawQuad(100, 100, 100, 100, 1, 1, 0, 1);
-	Graphics::FillQuad(300, 100, 100, 100, 1, 1, 0, 1);
+
 	SDL_GL_SwapBuffers();
 }
 

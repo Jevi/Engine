@@ -4,8 +4,6 @@
 #include "Asset.h"
 #include "Graphics.h"
 
-class Graphics;
-
 class Texture2D: public Asset
 {
 public:
@@ -13,7 +11,7 @@ public:
 	int width, height;
 
 	Texture2D(string Filename, unsigned int Scene) :
-			Asset(Filename, Scene), filename(Filename), width(0), height(0)
+			Asset(Filename, Scene), filename(Filename), width(0), height(0), loaded(false)
 	{
 	}
 
