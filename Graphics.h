@@ -7,8 +7,8 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
-#include "Debug.h"
-#include "Texture2D.h"
+#include "debug.h"
+#include "texture2D.h"
 
 class Texture2D;
 

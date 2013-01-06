@@ -4,10 +4,10 @@
 #include <vector>
 #include <map>
 
-#include "Asset.h"
-#include "Debug.h"
+#include "asset.h"
+#include "debug.h"
 #include "tinyxml2.h"
-#include "Texture2D.h"
+#include "texture2D.h"
 
 using namespace tinyxml2;
 

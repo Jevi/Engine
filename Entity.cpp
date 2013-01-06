@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include "entity.h"
 
 Component* Entity::GetComponent(string Name)
 {

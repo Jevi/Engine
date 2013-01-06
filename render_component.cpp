@@ -1,4 +1,4 @@
-#include "RenderComponent.h"
+#include "render_component.h"
 
 RenderComponent::RenderComponent(string Name) :
 		Component(Name)

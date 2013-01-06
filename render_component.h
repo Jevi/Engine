@@ -1,9 +1,9 @@
 #ifndef RENDERCOMPONENT_H
 #define RENDERCOMPONENT_H
 
-#include "Component.h"
-#include "Texture2D.h"
-#include "Graphics.h"
+#include "component.h"
+#include "texture2D.h"
+#include "graphics.h"
 
 class RenderComponent: public Component
 {

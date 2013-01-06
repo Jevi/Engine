@@ -1,4 +1,4 @@
-#include "Texture2D.h"
+#include "texture2D.h"
 
 void Texture2D::Bind()
 {

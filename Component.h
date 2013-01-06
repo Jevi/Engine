@@ -1,7 +1,7 @@
 #ifndef COMPONENT_H 
 #define COMPONENT_H
 
-#include "Entity.h"
+#include "entity.h"
 using namespace std;
 
 class Entity;

@@ -7,11 +7,11 @@
 #include <SDL_opengl.h>
 #include <SDL_image.h>
 
-#include "Graphics.h"
-#include "Debug.h"
-#include "EventHandler.h"
-#include "Entity.h"
-#include "AssetManager.h"
+#include "graphics.h"
+#include "debug.h"
+#include "event_handler.h"
+#include "entity.h"
+#include "asset_manager.h"
 
 class Engine: public EventHandler
 {

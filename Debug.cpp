@@ -1,4 +1,4 @@
-#include "Debug.h"
+#include "debug.h"
 
 void Debug::Log(const char* format, ...)
 {

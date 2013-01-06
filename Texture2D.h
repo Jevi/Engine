@@ -1,8 +1,8 @@
 #ifndef TEXTURE2D_H
 #define TEXTURE2D_H
 
-#include "Asset.h"
-#include "Graphics.h"
+#include "asset.h"
+#include "graphics.h"
 
 class Texture2D: public Asset
 {

@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "Transform.h"
-#include "Component.h"
+#include "transform.h"
+#include "component.h"
 using namespace std;
 
 class Component;
