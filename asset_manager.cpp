@@ -1,17 +1,17 @@
 #include "asset_manager.h"
 
-AssetManager* AssetManager::instance;
+EntityLoader* EntityLoader::instance;
 
-AssetManager* AssetManager::GetInstance()
+EntityLoader* EntityLoader::GetInstance()
 {
 	if (!instance)
 	{
-		instance = new AssetManager;
+		instance = new EntityLoader;
 	}
 	return instance;
 }
 
-bool AssetManager::LoadAssetsFromXML(string Filename)
+bool EntityLoader::LoadAssetsFromXML(string Filename)
 {
 	Debug::Log("Loading: %s", Filename.c_str());
 	XMLDocument doc;
@@ -23,50 +23,129 @@ bool AssetManager::LoadAssetsFromXML(string Filename)
 	}
 	Debug::Log("Loaded: %s", Filename.c_str());
 
-	XMLNode* AssetTree = doc.FirstChild();
-	if (AssetTree)
+	XMLNode* Tree = doc.FirstChild();
+	if (Tree)
 	{
-		Debug::Log("Root Name: %s", AssetTree->ToElement()->Name());
-		for (XMLNode* child = AssetTree->FirstChild(); child; child = child->NextSibling())
-		{
-			XMLElement* Element = child->ToElement();
-			if (Element)
-			{
-				Debug::Log("Current Element: %s", Element->Name());
-				Asset* asset = 0;
+		ProcessEntities(Tree);
 
-				string filename(Element->Attribute("filename"));
-				string type(Element->Attribute("type"));
-				int scene = atoi(Element->Attribute("scene"));
+	}
 
-				Debug::Log("Element Values: %s | %s | %i", filename.c_str(), type.c_str(), scene);
-
-				if (type == "GRAPHICAL")
-				{
-					asset = new Texture2D(filename, scene);
-					asset->type = Asset::GRAPHICAL;
-				}
-
-				if (asset)
-				{
-					asset->loaded = true;
-					assetMap[asset->scene].push_back(asset);
-					++loadedAssetCount;
-					Debug::Log("Asset Loaded: %s", filename.c_str());
-				}
-			}
-		}
-		return true;
+	Debug::Log("Loaded Entities: ");
+	vector<Entity*> vec = sceneToEntityVectorMap[1];
+	for (unsigned int i = 0; i < vec.size(); ++i)
+	{
+		Debug::Log("Name: %s", vec[i]->GetName().c_str());
 	}
 	return false;
 }
 
-unsigned int AssetManager::GetCurrentScene()
+void EntityLoader::ProcessEntities(const XMLNode* Tree)
+{
+	for (const XMLNode* entityNode = Tree->FirstChild(); entityNode; entityNode = entityNode->NextSibling())
+	{
+		const XMLElement* entityElement = entityNode->ToElement();
+		if (strcmp(entityElement->Name(), "Entity") == 0)
+		{
+			Entity* entity;
+			string name;
+			float posx;
+			float posy;
+			float rot;
+			float scale;
+			unsigned int scene;
+
+			if (entityElement->Attribute("name") != NULL)
+			{
+				name = string((entityElement->Attribute("name")));
+				if (entityElement->Attribute("posx") != NULL)
+				{
+					posx = (float) atoi(entityElement->Attribute("posx"));
+					if (entityElement->Attribute("posy") != NULL)
+					{
+						posy = (float) atoi(entityElement->Attribute("posy"));
+						if (entityElement->Attribute("rot") != NULL)
+						{
+							rot = (float) atoi(entityElement->Attribute("rot"));
+							if (entityElement->Attribute("scale") != NULL)
+							{
+								scale = (float) atoi(entityElement->Attribute("scale"));
+								if (entityElement->Attribute("scene") != NULL)
+								{
+									scene = atoi(entityElement->Attribute("scene"));
+
+									entity = new Entity(name, posx, posy, rot, scale);
+									Debug::Log("Adding Entity Named: %s", entity->GetName().c_str());
+									// should check if entity name is already in use
+									sceneToEntityVectorMap[scene].push_back(entity);
+									ProcessComponents(entityNode);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	/*const XMLElement* currElem = Parent->ToElement();
+	if (currElem)
+	{
+	Debug::Log("Current Element: %s", currElem->Name());
+
+	if (currElem->Name() == "Entity")
+	{
+	Entity* entity;
+	string name(currElem->Attribute("name"));
+	float posx = atoi(currElem->Attribute("posx"));
+	float posy = atoi(currElem->Attribute("posy"));
+	float rot = atoi(currElem->Attribute("rot"));
+	float scale = atoi(currElem->Attribute("scale"));
+	entity = new Entity(name, posx, posy, rot, scale);
+
+	Asset* asset = 0;
+
+	string filename(currElem->Attribute("filename"));
+	string type(currElem->Attribute("type"));
+	int scene = atoi(currElem->Attribute("scene"));
+
+	Debug::Log("Element Values: %s | %s | %i", filename.c_str(), type.c_str(), scene);
+
+	if (type == "GRAPHICAL")
+	{
+	asset = new Texture2D(filename, scene);
+	asset->type = Asset::GRAPHICAL;
+	}
+
+	if (asset)
+	{
+	asset->loaded = true;
+	assetMap[asset->scene].push_back(asset);
+	++loadedAssetCount;
+	Debug::Log("Asset Loaded: %s", filename.c_str());
+	}
+	}
+	}
+
+	for (const XMLNode* child = Parent->FirstChild(); child; child = child->NextSibling())
+	{
+	Debug::Log("Current Element: %s", child->ToElement()->Name());
+	ProcessEntities(child);
+	}*/
+}
+
+void EntityLoader::ProcessComponents(const XMLNode* Tree)
+{
+	for (const XMLNode* componentNode = Tree->FirstChild(); componentNode; componentNode = componentNode->NextSibling())
+	{
+		const XMLElement* componentElement = componentNode->ToElement();
+	}
+}
+
+unsigned int EntityLoader::GetCurrentScene()
 {
 	return currentScene;
 }
 
-void AssetManager::SetCurrentScene(unsigned int CurrScene)
+void EntityLoader::SetCurrentScene(unsigned int CurrScene)
 {
 	//If this isn't the first scene load, unload all of the currently loaded assets and change the current scene
 	if (currentScene != -1)
@@ -90,7 +169,7 @@ void AssetManager::SetCurrentScene(unsigned int CurrScene)
 	Debug::Log("Current Scene: %i", currentScene);
 }
 
-void AssetManager::Destroy()
+void EntityLoader::Destroy()
 {
 	map<unsigned int, vector<Asset*> >::iterator pos;
 	for (pos = assetMap.begin(); pos != assetMap.end(); ++pos)
@@ -102,4 +181,5 @@ void AssetManager::Destroy()
 			delete assets[i];
 		}
 	}
+	delete this;
 }

@@ -8,18 +8,22 @@
 #include "debug.h"
 #include "tinyxml2.h"
 #include "texture2D.h"
+#include "entity.h"
 
 using namespace tinyxml2;
 
-class AssetManager
+class EntityLoader
 {
 public:
 
 	map<unsigned int, vector<Asset*>> assetMap;
+	map<unsigned int, vector<Entity*>> sceneToEntityVectorMap;
 
-	static AssetManager* GetInstance();
+	static EntityLoader* GetInstance();
 
 	bool LoadAssetsFromXML(string Filename);
+	void ProcessEntities(const XMLNode* Tree);
+	void ProcessComponents(const XMLNode* Tree);
 	unsigned int GetCurrentScene();
 	void SetCurrentScene(unsigned int CurrScene);
 	unsigned int GetLoadedAssetCount()
@@ -30,11 +34,11 @@ public:
 
 private:
 
-	static AssetManager* instance;
+	static EntityLoader* instance;
 	unsigned int currentScene;
 	unsigned int loadedAssetCount;
 
-	AssetManager() :
+	EntityLoader() :
 			currentScene(-1), loadedAssetCount(0)
 	{
 	}

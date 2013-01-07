@@ -1,8 +1,7 @@
 #include "engine.h"
 
 Engine* Engine::instance;
-
-AssetManager* am;
+EntityLoader* el;
 
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
@@ -12,7 +11,7 @@ Engine::Engine() :
 
 Engine* Engine::GetInstance()
 {
-	if (instance)
+	if (instance != NULL)
 	{
 		return instance;
 	}
@@ -23,9 +22,10 @@ Engine* Engine::GetInstance()
 
 void Engine::Destroy()
 {
-	am->Destroy();
+	el->Destroy();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
+	delete this;
 }
 
 void Engine::OnStart()
@@ -48,6 +48,10 @@ void Engine::OnStart()
 
 bool Engine::OnInit()
 {
+	char currentDirectory[FILENAME_MAX];
+	_getcwd(currentDirectory, sizeof(currentDirectory));
+	Debug::Log("Current Directory: %s", currentDirectory);
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		Debug::Log("Could Not Initialize SDL");
@@ -64,9 +68,9 @@ bool Engine::OnInit()
 	}
 	Debug::Log("SDL Video Mode Initialized");
 
-	am = AssetManager::GetInstance();
-	am->LoadAssetsFromXML("E:/Dev/cpp/projects/Engine/res/test.xml");
-	am->SetCurrentScene(1);
+	el = EntityLoader::GetInstance();
+	el->LoadAssetsFromXML("res\\test.xml");
+	el->SetCurrentScene(1);
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();

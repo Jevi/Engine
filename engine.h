@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_image.h>
+#include <direct.h>
 
 #include "graphics.h"
 #include "debug.h"
