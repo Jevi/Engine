@@ -5,13 +5,13 @@
 #include <GL/glew.h>
 
 #ifdef _WIN32
-	#include <SDL.h>
-	#include <SDL_opengl.h>
-	#include <SDL_image.h>
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
 #else
-	#include <SDL/SDL.h>
-	#include <SDL/SDL_opengl.h>
-	#include <SDL/SDL_image.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
+#include <SDL/SDL_image.h>
 #endif
 
 #include "debug.h"

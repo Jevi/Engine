@@ -5,16 +5,16 @@
 #include <GL/glew.h>
 
 #ifdef _WIN32
-	#include <SDL.h>
-	#include <SDL_opengl.h>
-	#include <SDL_image.h>
-    #include <direct.h>
-    #define getcwd _getcwd
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <SDL_image.h>
+#include <direct.h>
+#define getcwd _getcwd
 #else
-	#include <SDL/SDL.h>
-	#include <SDL/SDL_opengl.h>
-	#include <SDL/SDL_image.h>
-    #include <unistd.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_opengl.h>
+#include <SDL/SDL_image.h>
+#include <unistd.h>
 #endif
 
 #include "graphics.h"

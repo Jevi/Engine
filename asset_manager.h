@@ -5,10 +5,11 @@
 #include <map>
 
 #include "asset.h"
+#include "texture2D.h"
 #include "debug.h"
 #include "tinyxml2.h"
-#include "texture2D.h"
 #include "entity.h"
+#include "render_component.h"
 
 using namespace tinyxml2;
 
@@ -22,8 +23,6 @@ public:
 	static EntityLoader* GetInstance();
 
 	bool LoadAssetsFromXML(string Filename);
-	void ProcessEntities(const XMLNode* Tree);
-	void ProcessComponents(const XMLNode* Tree);
 	unsigned int GetCurrentScene();
 	void SetCurrentScene(unsigned int CurrScene);
 	unsigned int GetLoadedAssetCount()
@@ -42,6 +41,10 @@ private:
 			currentScene(-1), loadedAssetCount(0)
 	{
 	}
+
+	void ProcessEntities(const XMLNode* Tree);
+	vector<Component*> ProcessComponents(const XMLNode* Tree);
+	Asset* GetComponentAsset(const XMLNode* ComponentNode);
 };
 
 #endif

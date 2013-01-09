@@ -10,8 +10,8 @@ class Component
 {
 public:
 	//Constant fields representing component types
-	static const int RENDER = 1;
-	static const int AUDIO = 2;
+	static const int RENDER = 0;
+	static const int AUDIO = 1;
 
 	string name;				//The name of the component
 	bool enabled;					//Is the component currently enabled?

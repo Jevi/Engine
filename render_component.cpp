@@ -21,12 +21,17 @@ RenderComponent::RenderComponent(string Name, Texture2D* Sprite, bool Enabled) :
 	enabled = Enabled;
 }
 
-void RenderComponent::OnStart()
+RenderComponent::~RenderComponent()
+{
+	sprite->OnUnload();
+}
+
+void RenderComponent::Start()
 {
 
 }
 
-void RenderComponent::OnUpdate(unsigned long dt)
+void RenderComponent::Update(unsigned long dt)
 {
 	Render();
 }

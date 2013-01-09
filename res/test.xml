@@ -1,7 +1,7 @@
 <Assets>
-  <Entity name="entity" posx="100" posy="100" rot="0" scale="0" scene="1">
-    <Component name="render" type="RENDER" enabled="true">
-      <Asset filename="res/img/mario.png" type="GRAPHICAL"/>
+  <Entity name="entity" posx="100" posy="100" rot="0" scale="0">
+    <Component name="render" type="1" enabled="0">
+      <Asset filename="res/img/mario.png" type="0" scene= "1"/>
     </Component>
   </Entity>
 </Assets>

@@ -14,9 +14,10 @@ public:
 	RenderComponent(string Name);
 	RenderComponent(string Name, Texture2D* Sprite);
 	RenderComponent(string Name, Texture2D* Sprite, bool Enabled);
+	~RenderComponent();
 
-	void OnStart();
-	void OnUpdate(unsigned long dt);
+	void Start();
+	void Update(unsigned long dt);
 
 private:
 
