@@ -3,9 +3,16 @@
 
 #define NO_SDL_GLEXT
 #include <GL/glew.h>
-#include <SDL.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
+
+#ifdef _WIN32
+	#include <SDL.h>
+	#include <SDL_opengl.h>
+	#include <SDL_image.h>
+#else
+	#include <SDL/SDL.h>
+	#include <SDL/SDL_opengl.h>
+	#include <SDL/SDL_image.h>
+#endif
 
 #include "debug.h"
 #include "texture2D.h"

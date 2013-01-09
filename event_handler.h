@@ -1,7 +1,11 @@
 #ifndef EVENTHANDLER_H
 #define EVENTHANDLER_H
 
-#include <SDL.h>
+#ifdef _WIN32
+	#include <SDL.h>
+#else
+	#include <SDL/SDL.h>
+#endif
 
 class EventHandler
 {

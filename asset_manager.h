@@ -16,8 +16,8 @@ class EntityLoader
 {
 public:
 
-	map<unsigned int, vector<Asset*>> assetMap;
-	map<unsigned int, vector<Entity*>> sceneToEntityVectorMap;
+	map<unsigned int, vector<Asset*> > assetMap;
+	map<unsigned int, vector<Entity*> > sceneToEntityVectorMap;
 
 	static EntityLoader* GetInstance();
 
