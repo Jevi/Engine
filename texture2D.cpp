@@ -7,11 +7,6 @@ void Texture2D::Bind()
 
 void Texture2D::OnLoad()
 {
-	if (loaded)
-	{
-		OnUnload();
-	}
-
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
 	if (image == NULL)

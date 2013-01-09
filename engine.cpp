@@ -117,6 +117,7 @@ void Engine::OnUpdate()
 void Engine::OnRender()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
+
 	SDL_GL_SwapBuffers();
 }
 

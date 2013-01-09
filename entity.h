@@ -5,6 +5,7 @@
 #include <vector>
 #include "transform.h"
 #include "component.h"
+#include "debug.h"
 using namespace std;
 
 class Component;
