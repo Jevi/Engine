@@ -70,7 +70,7 @@ bool Engine::OnInit()
 
 	el = EntityLoader::GetInstance();
 	el->LoadAssetsFromXML("res/test.xml");
-	el->SetCurrentScene(1);
+	el->SetCurrentScene(0);
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
@@ -111,13 +111,17 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 
 void Engine::OnUpdate()
 {
-
+	
 }
 
 void Engine::OnRender()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-
+	vector<Entity*> entities = el->sceneToEntityVectorMap[el->GetCurrentScene()];
+	for (int i = 0; i < entities.size(); i++)
+	{
+		entities[i]->Update(0);
+	}
 	SDL_GL_SwapBuffers();
 }
 

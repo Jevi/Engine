@@ -29,7 +29,7 @@ bool EntityLoader::LoadAssetsFromXML(string Filename)
 		ProcessEntities(Tree);
 
 	}
-	vector<Entity*> vec = sceneToEntityVectorMap[1];
+	vector<Entity*> vec = sceneToEntityVectorMap[0];
 	Debug::Log("Total Entities Loaded: %i", vec.size());
 	return false;
 }
@@ -48,13 +48,28 @@ void EntityLoader::ProcessEntities(const XMLNode* Tree)
 			float rot;
 			float scale;
 
-			do 
+			do
 			{
-				if (entityElement->Attribute("name") != NULL) { break; }
-				if (entityElement->Attribute("posx") != NULL) { break; }
-				if (entityElement->Attribute("posy") != NULL) { break; }
-				if (entityElement->Attribute("rot") != NULL) { break; }
-				if (entityElement->Attribute("scale") != NULL) { break; }
+				if (entityElement->Attribute("name") == NULL)
+				{
+					break;
+				}
+				if (entityElement->Attribute("posx") == NULL)
+				{
+					break;
+				}
+				if (entityElement->Attribute("posy") == NULL)
+				{
+					break;
+				}
+				if (entityElement->Attribute("rot") == NULL)
+				{
+					break;
+				}
+				if (entityElement->Attribute("scale") == NULL)
+				{
+					break;
+				}
 
 				name = string((entityElement->Attribute("name")));
 				posx = (float) atoi(entityElement->Attribute("posx"));
@@ -63,79 +78,80 @@ void EntityLoader::ProcessEntities(const XMLNode* Tree)
 				scale = (float) atoi(entityElement->Attribute("scale"));
 
 				entity = new Entity(name, posx, posy, rot, scale);
-				vector<Component*> components = ProcessComponents(entityNode);
-				Debug::Log("Total Components Found: %i", components.size());
-				Debug::Log("Adding Entity Named: %s", entity->GetName().c_str());
-				// should check if entity name is already in use
-				sceneToEntityVectorMap[1].push_back(entity);
-			} while (0);
-		}
-	}
-}
-
-vector<Component*> EntityLoader::ProcessComponents(const XMLNode* Tree)
-{
-	vector<Component*> components;
-	for (const XMLNode* componentNode = Tree->FirstChild(); componentNode; componentNode = componentNode->NextSibling())
-	{
-		const XMLElement* componentElement = componentNode->ToElement();
-		if (strcmp(componentElement->Name(), "Component") == 0)
-		{
-			Component* component = 0;
-			string name;
-			int type;
-			bool enabled;
-
-			do 
-			{
-				if (componentElement->Attribute("name") != NULL) { break; }
-				if (componentElement->Attribute("type") != NULL) { break; }
-				if (componentElement->Attribute("enabled") != NULL) { break; }
-
-				name = string(componentElement->Attribute("name"));
-				type = atoi(componentElement->Attribute("type"));
-				enabled = (atoi(componentElement->Attribute("enabled")) != 0);
-
-				Asset* asset = GetComponentAsset(componentNode);
-
-				switch (type)
+				
+				// Process Components
+				for (const XMLNode* componentNode = entityNode->FirstChild(); componentNode; componentNode = componentNode->NextSibling())
 				{
-				case Component::RENDER:
-					component = new RenderComponent(name, (Texture2D*) asset, enabled);
-					break;
-				case Component::AUDIO:
-					break;
+					const XMLElement* componentElement = componentNode->ToElement();
+					if (strcmp(componentElement->Name(), "Component") == 0)
+					{
+						Component* component = 0;
+						string name;
+						int type;
+						bool enabled;
+
+						do
+						{
+							if (componentElement->Attribute("name") == NULL)
+							{
+								break;
+							}
+							if (componentElement->Attribute("type") == NULL)
+							{
+								break;
+							}
+							if (componentElement->Attribute("enabled") == NULL)
+							{
+								break;
+							}
+
+							name = string(componentElement->Attribute("name"));
+							type = atoi(componentElement->Attribute("type"));
+							enabled = (atoi(componentElement->Attribute("enabled")) != 0);
+							
+							// Process Asset
+							const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
+							Asset* asset = 0;
+							string filename(assetElement->Attribute("filename"));
+							int type = atoi(assetElement->Attribute("type"));
+							int scene = atoi(assetElement->Attribute("scene"));
+
+							switch (type)
+							{
+							case Asset::GRAPHICAL:
+								asset = new Texture2D(filename, scene);
+								asset->type = Asset::GRAPHICAL;
+								break;
+							case Asset::AUDIO:
+								break;
+							}
+							assetMap[0].push_back(asset);
+							Debug::Log("Loaded Asset: %s, %i, %i", asset->filename.c_str(), asset->type, asset->scene);
+							// 
+							switch (type)
+							{
+							case Component::RENDER:
+								Debug::Log("Asset TEST: %s", ((Texture2D*) asset)->filename.c_str());
+								component = new RenderComponent(name, (Texture2D*) asset, enabled);
+								break;
+							case Component::AUDIO:
+								break;
+							}
+
+							Debug::Log("Loaded Component: %s, %i, %i", name.c_str(), type, enabled);
+							entity->AddComponent(component);
+						}
+						while (0);
+					}
 				}
 
-				Debug::Log("Loaded Component: %s", name.c_str());
-				components.push_back(component);
-			} while (0);
+				Debug::Log("Loaded Entity: %s, %f, %f, %f, %f", entity->GetName().c_str(), posx, posy, rot, scale);
+				// should check if entity name is already in use
+				sceneToEntityVectorMap[0].push_back(entity);
+			}
+			while (0);
 		}
 	}
-	return components;
-}
-
-Asset* EntityLoader::GetComponentAsset(const XMLNode* ComponentNode)
-{
-	const XMLElement* assetElement = ComponentNode->FirstChild()->ToElement();
-
-	Asset* asset = 0;
-	string filename(assetElement->Attribute("filename"));
-	int type = atoi(assetElement->Attribute("type"));
-	int scene = atoi(assetElement->Attribute("scene"));
-
-	switch (type)
-	{
-	case Asset::GRAPHICAL:
-		asset = new Texture2D(filename, scene);
-		asset->type = Asset::GRAPHICAL;
-		break;
-	case Asset::AUDIO:
-		break;
-	}
-
-	Debug::Log("Found Asset: %s, %i, %i", filename.c_str(), type, scene);
-	return asset;
 }
 
 unsigned int EntityLoader::GetCurrentScene()

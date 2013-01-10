@@ -25,7 +25,7 @@ Component* Entity::GetComponentAt(unsigned int Idx)
 
 bool Entity::AddComponent(Component* NewComponent)
 {
-    Debug::Log("Trying to add: %s", NewComponent->name.c_str());
+	Debug::Log("Trying to add: %s", NewComponent->name.c_str());
 	//make sure the component doesn't already exist
 	for (unsigned int i = 0; i < components.size(); ++i)
 	{

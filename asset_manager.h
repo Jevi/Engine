@@ -43,8 +43,6 @@ private:
 	}
 
 	void ProcessEntities(const XMLNode* Tree);
-	vector<Component*> ProcessComponents(const XMLNode* Tree);
-	Asset* GetComponentAsset(const XMLNode* ComponentNode);
 };
 
 #endif
