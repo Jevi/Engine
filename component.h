@@ -13,26 +13,40 @@ public:
 	static const int RENDER = 0;
 	static const int AUDIO = 1;
 
-	string name;				//The name of the component
-	bool enabled;					//Is the component currently enabled?
-	Entity* entity;			//The game object that owns this component
-	int type;						//The type of component
+	/*
+	 Unique name identifier for Component
+	 */
+	string name;
+	/*
+	 Component type 
+	 */
+	int type;
+	/*
+	 Defines whether this component is enabled
+	 */
+	bool enabled;
+	/*
+	 refers to this Components Entity owner
+	 */
+	Entity* entity;
 
-	//Initializing Ctor
 	Component(string Name) :
-			name(Name), enabled(true), entity(NULL)
+			name(Name), enabled(false), entity(NULL)
 	{
 	}
 
-	//Dtor
 	virtual ~Component()
 	{
 		entity = NULL;
 	}
 
-	//Abstract function, called when the scene is started
+	/*
+	 Abstract Method. Must be implemented by child component class
+	 */
 	virtual void Start() = 0;
-	//Abstract function, called when the scene is updated
+	/*
+	 Abstract Method. Must be implemented by child component class
+	 */
 	virtual void Update(unsigned long dt) = 0;
 };
 

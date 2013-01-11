@@ -3,6 +3,6 @@
 int main(int argc, char *argv[])
 {
 	Engine* en = Engine::GetInstance();
-	en->OnStart();
+	en->Start();
 	return 0;
 }

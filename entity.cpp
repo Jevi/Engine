@@ -1,5 +1,29 @@
 #include "entity.h"
 
+void Entity::Start()
+{
+	//Iterate over the component list, initializing each component if it is enabled
+	for (unsigned int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->enabled)
+		{
+			components[i]->Start();
+		}
+	}
+}
+
+void Entity::Update(unsigned long dt)
+{
+	//Iterate over the component list, updating each component if it is enabled
+	for (unsigned int i = 0; i < components.size(); ++i)
+	{
+		if (components[i]->enabled)
+		{
+			components[i]->Update(dt);
+		}
+	}
+}
+
 Component* Entity::GetComponent(string Name)
 {
 	for (unsigned int i = 0; i < components.size(); i++)
@@ -12,15 +36,14 @@ Component* Entity::GetComponent(string Name)
 	return NULL;
 }
 
-Component* Entity::GetComponentAt(unsigned int Idx)
+Component* Entity::GetComponentAt(unsigned int Index)
 {
 	//If the target index exceeds the number of objects in the list, then the component does not exist
-	if (Idx > components.size() - 1)
+	if (Index > components.size() - 1)
 	{
 		return NULL;
 	}
-
-	return components[Idx];
+	return components[Index];
 }
 
 bool Entity::AddComponent(Component* NewComponent)
@@ -57,39 +80,16 @@ bool Entity::RemoveComponent(string Name)
 	return false;
 }
 
-bool Entity::RemoveComponentAt(unsigned int Idx)
+bool Entity::RemoveComponentAt(unsigned int Index)
 {
 	//If the target index exceeds the number of objects in the component list, then the target index does not exist
-	if (Idx > (components.size() - 1))
+	if (Index > (components.size() - 1))
 	{
 		return false;
 	}
 
 	//Remove the component from the list
-	components.erase(components.begin() + Idx);
+	components.erase(components.begin() + Index);
 	return true;
 }
 
-void Entity::Start()
-{
-	//Iterate over the component list, initializing each component if it is enabled
-	for (unsigned int i = 0; i < components.size(); ++i)
-	{
-		if (components[i]->enabled)
-		{
-			components[i]->Start();
-		}
-	}
-}
-
-void Entity::Update(unsigned long dt)
-{
-	//Iterate over the component list, updating each component if it is enabled
-	for (unsigned int i = 0; i < components.size(); ++i)
-	{
-		if (components[i]->enabled)
-		{
-			components[i]->Update(dt);
-		}
-	}
-}

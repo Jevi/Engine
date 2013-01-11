@@ -13,8 +13,11 @@ class Component;
 class Entity
 {
 public:
-	Transform transform;							// The object's transform
-	//Initializing Ctor
+	/**
+	 Holds Entity's position, rotation and scale
+	 */
+	Transform transform;
+
 	Entity(string Name, float PosX, float PosY, float Rot, float Scale) :
 			name(Name), transform(PosX, PosY, Rot, Scale)
 	{
@@ -24,27 +27,57 @@ public:
 	{
 	}
 
-	//Initializes the game object by initializing each of its attached components
+	/*
+	 Initializes Entity by initializing all enabled components
+	 */
 	void Start();
-	//Updates the game object by updating each of its attached components
+	/*
+	 Updates all enabled components
+	 */
 	void Update(unsigned long dt);
 
-	// Getters
+	// Accessor Methods
+
+	/*
+	 Return Entity unique name identifier
+	 */
 	string GetName()
 	{
 		return name;
 	}
+	/*
+	 Returns component with unique name identifier
+	 */
 	Component* GetComponent(string Name);
-	Component* GetComponentAt(unsigned int Idx);
+	/*
+	 Returns component at specific index from Entity component vector
+	 */
+	Component* GetComponentAt(unsigned int Index);
 
-	// Modifiers
+	// Modifier Methods
+
+	/*
+	 Adds component to Entity component vector if it has a unique name identifier
+	 */
 	bool AddComponent(Component* NewComponent);
+	/*
+	 Removes component with unique name identifier
+	 */
 	bool RemoveComponent(string Name);
-	bool RemoveComponentAt(unsigned int Idx);
+	/*
+	 Removes component from Entity component vector if it has a unique name identifier
+	 */
+	bool RemoveComponentAt(unsigned int Index);
 
 private:
+	/*
+	 Component vector of Entity which defines Entity properties
+	 */
 	vector<Component*> components;
-	string name;								// The unique name of the game object
+	/*
+	 Unique name identifier of Entity
+	 */
+	string name;
 };
 
 #endif

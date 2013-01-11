@@ -78,7 +78,7 @@ void EntityLoader::ProcessEntities(const XMLNode* Tree)
 				scale = (float) atoi(entityElement->Attribute("scale"));
 
 				entity = new Entity(name, posx, posy, rot, scale);
-				
+
 				// Process Components
 				for (const XMLNode* componentNode = entityNode->FirstChild(); componentNode; componentNode = componentNode->NextSibling())
 				{
@@ -108,7 +108,7 @@ void EntityLoader::ProcessEntities(const XMLNode* Tree)
 							name = string(componentElement->Attribute("name"));
 							type = atoi(componentElement->Attribute("type"));
 							enabled = (atoi(componentElement->Attribute("enabled")) != 0);
-							
+
 							// Process Asset
 							const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
 							Asset* asset = 0;
@@ -167,7 +167,7 @@ void EntityLoader::SetCurrentScene(unsigned int CurrScene)
 		vector<Asset*> currentSceneAssetVec = assetMap[currentScene];
 		for (unsigned int i = 0; i < currentSceneAssetVec.size(); ++i)
 		{
-			currentSceneAssetVec[i]->OnUnload();
+			currentSceneAssetVec[i]->Unload();
 		}
 	}
 
@@ -176,7 +176,7 @@ void EntityLoader::SetCurrentScene(unsigned int CurrScene)
 	//Load all of the new scene's assets
 	for (unsigned int i = 0; i < vec.size(); ++i)
 	{
-		vec[i]->OnLoad();
+		vec[i]->Load();
 	}
 
 	Debug::Log("Current Scene: %i", currentScene);

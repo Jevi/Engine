@@ -23,7 +23,7 @@ RenderComponent::RenderComponent(string Name, Texture2D* Sprite, bool Enabled) :
 
 RenderComponent::~RenderComponent()
 {
-	sprite->OnUnload();
+	sprite->Unload();
 }
 
 void RenderComponent::Start()

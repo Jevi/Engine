@@ -1,7 +1,7 @@
 #include "engine.h"
 
-Engine* Engine::instance;
-EntityLoader* el;
+Engine* Engine::instance = 0;
+// EntityLoader* el;
 
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
@@ -11,7 +11,7 @@ Engine::Engine() :
 
 Engine* Engine::GetInstance()
 {
-	if (instance != NULL)
+	if (instance != 0)
 	{
 		return instance;
 	}
@@ -22,31 +22,31 @@ Engine* Engine::GetInstance()
 
 void Engine::Destroy()
 {
-	el->Destroy();
+	// el->Destroy();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
 	delete this;
 }
 
-void Engine::OnStart()
+void Engine::Start()
 {
 	if (appState != Uninitialized)
 	{
 		return;
 	}
 
-	if (OnInit())
+	if (Init())
 	{
 		appState = Running;
 		while (!IsExiting())
 		{
-			OnLoop();
+			Heartbeat();
 		}
 	}
 	Destroy();
 }
 
-bool Engine::OnInit()
+bool Engine::Init()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
@@ -64,13 +64,13 @@ bool Engine::OnInit()
 	}
 	Debug::Log("SDL Video Mode Initialized");
 
-	char currentDirectory[FILENAME_MAX];
-	getcwd(currentDirectory, sizeof(currentDirectory));
-	Debug::Log("Current Directory: %s", currentDirectory);
+	/*char currentDirectory[FILENAME_MAX];
+	 getcwd(currentDirectory, sizeof(currentDirectory));
+	 Debug::Log("Current Directory: %s", currentDirectory);*/
 
-	el = EntityLoader::GetInstance();
-	el->LoadAssetsFromXML("res/test.xml");
-	el->SetCurrentScene(0);
+	/*el = EntityLoader::GetInstance();
+	 el->LoadAssetsFromXML("res/test.xml");
+	 el->SetCurrentScene(0);*/
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
@@ -79,15 +79,15 @@ bool Engine::OnInit()
 	return true;
 }
 
-void Engine::OnLoop()
+void Engine::Heartbeat()
 {
 	switch (appState)
 	{
 	case Running:
 	{
 		OnEvent(&appEvent);
-		OnUpdate();
-		OnRender();
+		Update();
+		Render();
 		break;
 	}
 	}
@@ -105,27 +105,23 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 {
 	if (sym == SDLK_ESCAPE)
 	{
-		OnExit();
+		Exit();
 	}
 }
 
-void Engine::OnUpdate()
+void Engine::Update()
 {
-	
+
 }
 
-void Engine::OnRender()
+void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	vector<Entity*> entities = el->sceneToEntityVectorMap[el->GetCurrentScene()];
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->Update(0);
-	}
+
 	SDL_GL_SwapBuffers();
 }
 
-void Engine::OnExit()
+void Engine::Exit()
 {
 	SwitchState(Exiting);
 }
@@ -141,25 +137,25 @@ bool Engine::IsExiting()
 
 void Engine::SwitchState(AppState state)
 {
-	Debug::Log("GameState Changed: %s", ToString(state));
+	Debug::Log("GameState Changed: %s", ToString(state).c_str());
 	appState = state;
 }
 
-const char* Engine::ToString(AppState state)
+string Engine::ToString(AppState state)
 {
 	switch (state)
 	{
 	case Uninitialized:
-		return "Uninitialized";
+		return string("Uninitialized");
 		break;
 	case Running:
-		return "Running";
+		return string("Running");
 		break;
 	case Exiting:
-		return "Exiting";
+		return string("Exiting");
 		break;
 	default:
-		return "State Not Valid";
+		return string("State Not Valid");
 		break;
 	}
 }

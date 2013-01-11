@@ -62,7 +62,7 @@ public:
 
 	virtual void OnExpose();
 
-	virtual void OnExit();
+	virtual void Exit();
 
 	virtual void OnUser(Uint8 type, int code, void* data1, void* data2);
 };

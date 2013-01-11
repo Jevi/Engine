@@ -27,13 +27,26 @@ class Engine: public EventHandler
 {
 public:
 
+	/*
+	 Returns singleton Engine instance.
+	 */
 	static Engine* GetInstance();
-
-	void OnStart();
+	/*
+	 Initializes engine and begins main game loop (heartbeat)
+	 */
+	void Start();
+	/*
+	 Polls events for Engine to utilize
+	 */
 	void OnEvent(SDL_Event* Event);
+	/*
+	 Handles Engine specific input logic on a key press
+	 */
 	void OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
-	void OnExit();
-	void Destroy();
+	/*
+	 Handles Engine specific input logic based on keyboard state
+	 */
+	void OnKeyboardState(Uint8* keyboardState);
 
 private:
 
@@ -52,14 +65,37 @@ private:
 	SDL_Surface* appWindow;
 	SDL_Event appEvent;
 
-	void SwitchState(AppState state);
-	const char* ToString(AppState state);
-	bool OnInit();
-	void OnLoop();
-
-	void OnUpdate();
-	void OnRender();
+	/*
+	 Initializes SDL/OpenGL as well as any other vital objects
+	 */
+	bool Init();
+	/*
+	 Engine Heartbeat. Engine core logic depending on state.
+	 */
+	void Heartbeat();
+	/*
+	 Update
+	 */
+	void Update();
+	/*
+	 Renders all renderable assets/entities
+	 */
+	void Render();
 	bool IsExiting();
+
+	/*
+	 Changes the Engine's state
+	 */
+	void SwitchState(AppState state);
+	string ToString(AppState state);
+	/*
+	 Changes Engine state to AppState::Exiting
+	 */
+	void Exit();
+	/*
+	 Frees up memory, deletes instance and quits API's accordingly
+	 */
+	void Destroy();
 
 };
 

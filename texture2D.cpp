@@ -5,7 +5,7 @@ void Texture2D::Bind()
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
-void Texture2D::OnLoad()
+void Texture2D::Load()
 {
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
@@ -38,7 +38,7 @@ void Texture2D::OnLoad()
 	loaded = true;
 }
 
-void Texture2D::OnUnload()
+void Texture2D::Unload()
 {
 	if (loaded)
 	{

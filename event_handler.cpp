@@ -119,7 +119,7 @@ void EventHandler::OnEvent(SDL_Event* Event)
 		break;
 
 	case SDL_QUIT:
-		OnExit();
+		Exit();
 		break;
 
 	case SDL_SYSWMEVENT:
@@ -255,7 +255,7 @@ void EventHandler::OnExpose()
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnExit()
+void EventHandler::Exit()
 {
 //Pure virtual, do nothing
 }
