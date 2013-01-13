@@ -5,7 +5,7 @@
 #include <map>
 
 #include "asset.h"
-#include "texture2D.h"
+#include "sprite.h"
 #include "debug.h"
 #include "tinyxml2.h"
 #include "entity.h"
@@ -17,18 +17,38 @@ class EntityLoader
 {
 public:
 
-	map<unsigned int, vector<Asset*> > assetMap;
-	map<unsigned int, vector<Entity*> > sceneToEntityVectorMap;
-
 	static EntityLoader* GetInstance();
-
 	bool LoadAssetsFromXML(string Filename);
+
+	// Accessors
+
+	/*
+	 get current active scene
+	 */
 	unsigned int GetCurrentScene();
-	void SetCurrentScene(unsigned int CurrScene);
+	/*
+
+	 */
 	unsigned int GetLoadedAssetCount()
 	{
 		return loadedAssetCount;
 	}
+
+	/*
+	 Returns entities at specific scene
+	 */
+	vector<Entity*> GetEntitiesAtScene(unsigned int Scene);
+
+	// Modifiers
+
+	/*
+	 Unload all loaded assets and load assets for new scene
+	 */
+	void SetCurrentScene(unsigned int Scene);
+
+	/*
+	 deletes all assets for all scenes and deletes singleton instance
+	 */
 	void Destroy();
 
 private:
@@ -36,13 +56,21 @@ private:
 	static EntityLoader* instance;
 	unsigned int currentScene;
 	unsigned int loadedAssetCount;
+	map<unsigned int, vector<Asset*> > assetMap;
+	map<unsigned int, vector<Entity*> > sceneToEntityVectorMap;
 
 	EntityLoader() :
 			currentScene(-1), loadedAssetCount(0)
 	{
 	}
 
-	void ProcessEntities(const XMLNode* Tree);
+	/*
+	 creates Entities from filename
+	 */
+	void ProcessElements(const XMLNode* Tree);
+	void ProcessEntity(const XMLNode* EntityNode);
+	void ProcessAsset(const XMLNode* AssetNode);
+	bool LoadEntity(Entity* Entity);
 };
 
 #endif
