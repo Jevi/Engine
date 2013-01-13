@@ -1,12 +1,11 @@
 #include "engine.h"
 
 Engine* Engine::instance = 0;
-// EntityLoader* el;
 
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
 {
-
+	entiyLoader = EntityLoader::GetInstance();
 }
 
 Engine* Engine::GetInstance()
@@ -22,7 +21,7 @@ Engine* Engine::GetInstance()
 
 void Engine::Destroy()
 {
-	// el->Destroy();
+	entiyLoader->Destroy();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
 	delete this;
@@ -37,6 +36,13 @@ void Engine::Start()
 
 	if (Init())
 	{
+		Debug::Log("\n----- Engine Initialized Successfully -----\n");
+
+		if (entiyLoader->LoadAssetsFromXML("res/test.xml"))
+		{
+			entiyLoader->SetCurrentScene(0);
+		}
+
 		appState = Running;
 		while (!IsExiting())
 		{
@@ -48,6 +54,12 @@ void Engine::Start()
 
 bool Engine::Init()
 {
+	char currentDirectory[FILENAME_MAX];
+	getcwd(currentDirectory, sizeof(currentDirectory));
+	Debug::Log("Current Directory: %s\n", currentDirectory);
+
+	Debug::Log("----- Initializing Engine -----\n");
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		Debug::Log("Could Not Initialize SDL");
@@ -64,17 +76,10 @@ bool Engine::Init()
 	}
 	Debug::Log("SDL Video Mode Initialized");
 
-	/*char currentDirectory[FILENAME_MAX];
-	 getcwd(currentDirectory, sizeof(currentDirectory));
-	 Debug::Log("Current Directory: %s", currentDirectory);*/
-
-	/*el = EntityLoader::GetInstance();
-	 el->LoadAssetsFromXML("res/test.xml");
-	 el->SetCurrentScene(0);*/
-
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, appWidth, appHeight, 0, 1, -1);
+	Debug::Log("OpenGL Initialized");
 
 	return true;
 }
@@ -117,7 +122,11 @@ void Engine::Update()
 void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-
+	vector<Entity*> entities = entiyLoader->GetEntitiesAtScene(entiyLoader->GetCurrentScene());
+	for (int i = 0; i < entities.size(); i++)
+	{
+		entities[i]->Update(0);
+	}
 	SDL_GL_SwapBuffers();
 }
 

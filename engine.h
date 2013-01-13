@@ -65,6 +65,8 @@ private:
 	SDL_Surface* appWindow;
 	SDL_Event appEvent;
 
+	EntityLoader* entiyLoader;
+
 	/*
 	 Initializes SDL/OpenGL as well as any other vital objects
 	 */

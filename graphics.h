@@ -15,9 +15,9 @@
 #endif
 
 #include "debug.h"
-#include "texture2D.h"
+#include "sprite.h"
 
-class Texture2D;
+class Sprite;
 
 class Graphics
 {
@@ -31,7 +31,7 @@ public:
 	static void FillQuad(float x, float y, float width, float height);
 	static void FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
-	static void DrawTexture(Texture2D* texture, float x, float y);
+	static void DrawTexture(Sprite* texture, float x, float y, float rotation, float scale);
 
 private:
 

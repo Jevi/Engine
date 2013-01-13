@@ -9,10 +9,23 @@ class Entity;
 class Component
 {
 public:
-	//Constant fields representing component types
-	static const int RENDER = 0;
-	static const int AUDIO = 1;
 
+	//Constant fields representing component types
+	static const unsigned int RENDER = 0;
+	static const unsigned int AUDIO = 1;
+
+	static string TypeToString(unsigned int Type)
+	{
+		switch (Type)
+		{
+		case RENDER:
+			return string("RENDER");
+			break;
+		case AUDIO:
+			return string("AUDIO");
+			break;
+		}
+	}
 	/*
 	 Unique name identifier for Component
 	 */

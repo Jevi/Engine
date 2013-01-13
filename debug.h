@@ -17,6 +17,7 @@ class Debug
 public:
 
 	static void Log(const char* format, ...);
+	static string BoolToString(bool Bool);
 };
 
 #endif

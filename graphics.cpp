@@ -64,13 +64,18 @@ void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawTexture(Texture2D* texture, float x, float y)
+void Graphics::DrawTexture(Sprite* texture, float x, float y, float rotation, float scale)
 {
+	glPushMatrix();
 	glEnable (GL_TEXTURE_2D);
 	texture->Bind();
 
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glTranslatef(x, y, 0);
+	glScalef(scale, scale, 1);
+	glTranslatef(-x, -y, 0);
 
 	glBegin (GL_QUADS);
 	glTexCoord2f(0, 0);
@@ -85,4 +90,5 @@ void Graphics::DrawTexture(Texture2D* texture, float x, float y)
 
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
 }

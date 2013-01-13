@@ -1,22 +1,28 @@
-#ifndef TEXTURE2D_H
-#define TEXTURE2D_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
 #include "asset.h"
 #include "graphics.h"
 
-class Texture2D: public Asset
+class Sprite: public Asset
 {
 public:
 
+	/*
+	 Dimension of texture
+	 */
 	int width, height;
+	/*
+	 asset location on hdd
+	 */
 	string filename;
 
-	Texture2D(string Filename, unsigned int Scene) :
+	Sprite(string Filename, unsigned int Scene) :
 			Asset(Filename, Scene), filename(Filename), width(0), height(0), loaded(false)
 	{
 	}
 
-	~Texture2D(void)
+	~Sprite(void)
 	{
 		Unload();
 	}

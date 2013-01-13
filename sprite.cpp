@@ -1,11 +1,11 @@
-#include "texture2D.h"
+#include "sprite.h"
 
-void Texture2D::Bind()
+void Sprite::Bind()
 {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
-void Texture2D::Load()
+void Sprite::Load()
 {
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
@@ -38,7 +38,7 @@ void Texture2D::Load()
 	loaded = true;
 }
 
-void Texture2D::Unload()
+void Sprite::Unload()
 {
 	if (loaded)
 	{
