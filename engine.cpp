@@ -1,27 +1,27 @@
 #include "engine.h"
 
-Engine* Engine::instance = 0;
+Engine* Engine::instance;
+string Engine::appProject;
 
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
 {
-	entiyLoader = EntityLoader::GetInstance();
+	appProject = "workspace/demo";
+	assetLoader = AssetLoader::GetInstance();
+	levelManager = LevelManager::GetInstance();
 }
 
 Engine* Engine::GetInstance()
 {
-	if (instance != 0)
+	if (!instance)
 	{
-		return instance;
+		instance = new Engine;
 	}
-
-	instance = new Engine;
 	return instance;
 }
 
 void Engine::Destroy()
 {
-	entiyLoader->Destroy();
 	Debug::Log("Exiting Engine");
 	SDL_Quit();
 	delete this;
@@ -38,15 +38,15 @@ void Engine::Start()
 	{
 		Debug::Log("\n----- Engine Initialized Successfully -----\n");
 
-		if (entiyLoader->LoadAssetsFromXML("res/test.xml"))
+		if (assetLoader->LoadAssets())
 		{
-			entiyLoader->SetCurrentScene(0);
-		}
+			levelManager->LoadNextLevel();
 
-		appState = Running;
-		while (!IsExiting())
-		{
-			Heartbeat();
+			appState = Running;
+			while (!IsExiting())
+			{
+				Heartbeat();
+			}
 		}
 	}
 	Destroy();
@@ -88,13 +88,13 @@ void Engine::Heartbeat()
 {
 	switch (appState)
 	{
-	case Running:
-	{
-		OnEvent(&appEvent);
-		Update();
-		Render();
-		break;
-	}
+		case Running:
+		{
+			OnEvent(&appEvent);
+			Update();
+			Render();
+			break;
+		}
 	}
 }
 
@@ -122,11 +122,7 @@ void Engine::Update()
 void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	vector<Entity*> entities = entiyLoader->GetEntitiesAtScene(entiyLoader->GetCurrentScene());
-	for (int i = 0; i < entities.size(); i++)
-	{
-		entities[i]->Update(0);
-	}
+
 	SDL_GL_SwapBuffers();
 }
 
@@ -154,17 +150,17 @@ string Engine::ToString(AppState state)
 {
 	switch (state)
 	{
-	case Uninitialized:
-		return string("Uninitialized");
-		break;
-	case Running:
-		return string("Running");
-		break;
-	case Exiting:
-		return string("Exiting");
-		break;
-	default:
-		return string("State Not Valid");
-		break;
+		case Uninitialized:
+			return string("Uninitialized");
+			break;
+		case Running:
+			return string("Running");
+			break;
+		case Exiting:
+			return string("Exiting");
+			break;
+		default:
+			return string("State Not Valid");
+			break;
 	}
 }

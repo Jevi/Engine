@@ -1,14 +1,19 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include <sstream>
+#include <string>
+
 #include "vector2.h"
+
+using namespace std;
 
 class Transform
 {
 public:
-	Vector2 position;		//Positional vector
-	float rotation;			//Rotation in degrees
-	float scale;			//the scale is proportionate--same for both width and height
+	Vector2 position; //Positional vector
+	float rotation; //Rotation in degrees
+	float scale; //the scale is proportionate--same for both width and height
 
 	//Initializing Ctors
 	Transform(float PosX, float PosY, float Rot, float Scale) :
@@ -46,6 +51,13 @@ public:
 		{
 			rotation += 360;
 		}
+	}
+
+	string ToString()
+	{
+		ostringstream os;
+		os << "X: " << position.x << " Y: " << position.y << " Rotation: " << rotation << " Scale: " << scale;
+		return os.str();
 	}
 };
 #endif

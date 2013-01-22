@@ -21,12 +21,22 @@
 #include "debug.h"
 #include "event_handler.h"
 #include "entity.h"
-#include "asset_manager.h"
+#include "asset_loader.h"
+#include "level_manager.h"
+
+using namespace std;
+
+class AssetLoader;
+class LevelManager;
 
 class Engine: public EventHandler
 {
 public:
 
+	static string GetProject()
+	{
+		return appProject;
+	}
 	/*
 	 Returns singleton Engine instance.
 	 */
@@ -60,12 +70,14 @@ private:
 	static Engine* instance;
 	int appWidth;
 	int appHeight;
+	static string appProject;
 
 	AppState appState;
 	SDL_Surface* appWindow;
 	SDL_Event appEvent;
 
-	EntityLoader* entiyLoader;
+	AssetLoader* assetLoader;
+	LevelManager* levelManager;
 
 	/*
 	 Initializes SDL/OpenGL as well as any other vital objects
@@ -80,22 +92,24 @@ private:
 	 */
 	void Update();
 	/*
-	 Renders all renderable assets/entities
+	 Renders all render-able assets/entities
 	 */
 	void Render();
+
 	bool IsExiting();
 
 	/*
 	 Changes the Engine's state
 	 */
 	void SwitchState(AppState state);
+
 	string ToString(AppState state);
 	/*
 	 Changes Engine state to AppState::Exiting
 	 */
 	void Exit();
 	/*
-	 Frees up memory, deletes instance and quits API's accordingly
+	 Frees up memory, deletes instance and quits APIs accordingly
 	 */
 	void Destroy();
 

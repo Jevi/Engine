@@ -1,20 +1,20 @@
 #include "render_component.h"
 
 RenderComponent::RenderComponent(string Name) :
-		Component(Name)
+		Component(Name, Component::RENDER)
 {
 	type = RENDER;
 }
 
 RenderComponent::RenderComponent(string Name, Sprite* Sprite) :
-		Component(Name)
+		Component(Name, Component::RENDER)
 {
 	type = RENDER;
 	sprite = Sprite;
 }
 
 RenderComponent::RenderComponent(string Name, Sprite* Sprite, bool Enabled) :
-		Component(Name)
+		Component(Name, Component::RENDER)
 {
 	type = RENDER;
 	sprite = Sprite;
@@ -45,5 +45,13 @@ void RenderComponent::Render()
 
 	Graphics::DrawTexture(sprite, x, y, rotation, scale);
 	// Graphics::DrawQuad(x, y, sprite->width * scale, sprite->height * scale, 255, 0, 0, 255);
+}
+
+string RenderComponent::ToString()
+{
+	ostringstream os;
+	os << "Name: " << id << " Type: " << Asset::TypeToString(type) << " Entity: " << entity->GetName() << " Enabled: " << Debug::BoolToString(enabled) << endl;
+	// os << sprite->ToString();
+	return os.str();
 }
 

@@ -28,7 +28,7 @@ Component* Entity::GetComponent(string Name)
 {
 	for (unsigned int i = 0; i < components.size(); i++)
 	{
-		if (components[i]->name == Name)
+		if (components[i]->id == Name)
 		{
 			return components[i];
 		}
@@ -51,7 +51,7 @@ bool Entity::AddComponent(Component* NewComponent)
 	//make sure the component doesn't already exist
 	for (unsigned int i = 0; i < components.size(); ++i)
 	{
-		if ((components[i] == NewComponent) || (components[i]->name == NewComponent->name))
+		if ((components[i] == NewComponent) || (components[i]->id == NewComponent->id))
 		{
 			return false;
 		}
@@ -69,7 +69,7 @@ bool Entity::RemoveComponent(string Name)
 	for (unsigned int i = 0; i < components.size(); ++i)
 	{
 		//If the current component's name matches the target name, then remove the component from the list
-		if (components[i]->name == Name)
+		if (components[i]->id == Name)
 		{
 			components.erase(components.begin() + i);
 			return true;
@@ -92,3 +92,27 @@ bool Entity::RemoveComponentAt(unsigned int Index)
 	return true;
 }
 
+string Entity::ToString()
+{
+	XMLDocument doc;
+
+	XMLElement* root = doc.NewElement("Entity");
+	root->SetAttribute("id", id.c_str());
+	root->SetAttribute("x", transform.position.x);
+	root->SetAttribute("y", transform.position.y);
+	root->SetAttribute("rot", transform.rotation);
+	root->SetAttribute("scale", transform.scale);
+	doc.LinkEndChild(root);
+
+	for (unsigned int i = 0; i < components.size(); ++i)
+	{
+		Component* component = components[i];
+		XMLElement* compElem = doc.NewElement("Component");
+		compElem->SetAttribute("id", component->id.c_str());
+		compElem->SetAttribute("type", component->type);
+		compElem->SetAttribute("enabled", component->enabled);
+		root->LinkEndChild(compElem);
+	}
+
+	return Debug::XMLDocumentToString(&doc);
+}

@@ -1,7 +1,0 @@
-<Entities>
-  <Entity name="entity" x="0" y="0" rot="0" scale="1">
-    <Component name="render" type="1" enabled="1">
-      <Asset id ="king_sprite_sheet"/>
-    </Component>
-  </Entity>  
-</Entities>

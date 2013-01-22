@@ -3,9 +3,14 @@
 
 #include <string>
 #include <vector>
+#include <sstream>
+
 #include "transform.h"
 #include "component.h"
 #include "debug.h"
+#include "tinyxml2.h"
+
+using namespace tinyxml2;
 using namespace std;
 
 class Component;
@@ -18,8 +23,8 @@ public:
 	 */
 	Transform transform;
 
-	Entity(string Name, float PosX, float PosY, float Rot, float Scale) :
-			name(Name), transform(PosX, PosY, Rot, Scale)
+	Entity(string Id, float PosX, float PosY, float Rot, float Scale) :
+			id(Id), transform(PosX, PosY, Rot, Scale)
 	{
 	}
 
@@ -43,7 +48,7 @@ public:
 	 */
 	string GetName()
 	{
-		return name;
+		return id;
 	}
 	/*
 	 Returns component with unique name identifier
@@ -69,6 +74,8 @@ public:
 	 */
 	bool RemoveComponentAt(unsigned int Index);
 
+	string ToString();
+
 private:
 	/*
 	 Component vector of Entity which defines Entity properties
@@ -77,7 +84,7 @@ private:
 	/*
 	 Unique name identifier of Entity
 	 */
-	string name;
+	string id;
 };
 
 #endif

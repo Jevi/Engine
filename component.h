@@ -18,18 +18,18 @@ public:
 	{
 		switch (Type)
 		{
-		case RENDER:
-			return string("RENDER");
-			break;
-		case AUDIO:
-			return string("AUDIO");
-			break;
+			case RENDER:
+				return string("RENDER");
+				break;
+			case AUDIO:
+				return string("AUDIO");
+				break;
 		}
 	}
 	/*
 	 Unique name identifier for Component
 	 */
-	string name;
+	string id;
 	/*
 	 Component type 
 	 */
@@ -43,8 +43,8 @@ public:
 	 */
 	Entity* entity;
 
-	Component(string Name) :
-			name(Name), enabled(false), entity(NULL)
+	Component(string Id, unsigned int Type) :
+			id(Id), enabled(false), entity(NULL)
 	{
 	}
 
@@ -61,6 +61,8 @@ public:
 	 Abstract Method. Must be implemented by child component class
 	 */
 	virtual void Update(unsigned long dt) = 0;
+
+	virtual string ToString() = 0;
 };
 
 #endif

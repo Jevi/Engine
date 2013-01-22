@@ -276,7 +276,7 @@ private:
 		{
 			int newAllocated = cap * 2;
 			T* newMem = new T[newAllocated];
-			memcpy(newMem, _mem, sizeof(T) * _size);	// warning: not using constructors, only works for PODs
+			memcpy(newMem, _mem, sizeof(T) * _size); // warning: not using constructors, only works for PODs
 			if (_mem != _pool)
 			{
 				delete[] _mem;
@@ -288,8 +288,8 @@ private:
 
 	T* _mem;
 	T _pool[INIT];
-	int _allocated;		// objects allocated
-	int _size;			// number objects in use
+	int _allocated; // objects allocated
+	int _size; // number objects in use
 };
 
 /*
@@ -864,8 +864,8 @@ public:
 protected:
 	XMLNode(XMLDocument*);
 	virtual ~XMLNode();
-	XMLNode(const XMLNode&);	// not supported
-	XMLNode& operator=(const XMLNode&);	// not supported
+	XMLNode(const XMLNode&); // not supported
+	XMLNode& operator=(const XMLNode&); // not supported
 
 	XMLDocument* _document;
 	XMLNode* _parent;
@@ -933,8 +933,8 @@ protected:
 	virtual ~XMLText()
 	{
 	}
-	XMLText(const XMLText&);	// not supported
-	XMLText& operator=(const XMLText&);	// not supported
+	XMLText(const XMLText&); // not supported
+	XMLText& operator=(const XMLText&); // not supported
 
 private:
 	bool _isCData;
@@ -963,8 +963,8 @@ public:
 protected:
 	XMLComment(XMLDocument* doc);
 	virtual ~XMLComment();
-	XMLComment(const XMLComment&);	// not supported
-	XMLComment& operator=(const XMLComment&);	// not supported
+	XMLComment(const XMLComment&); // not supported
+	XMLComment& operator=(const XMLComment&); // not supported
 
 private:
 };
@@ -1002,8 +1002,8 @@ public:
 protected:
 	XMLDeclaration(XMLDocument* doc);
 	virtual ~XMLDeclaration();
-	XMLDeclaration(const XMLDeclaration&);	// not supported
-	XMLDeclaration& operator=(const XMLDeclaration&);	// not supported
+	XMLDeclaration(const XMLDeclaration&); // not supported
+	XMLDeclaration& operator=(const XMLDeclaration&); // not supported
 };
 
 /** Any tag that tinyXml doesn't recognize is saved as an
@@ -1035,8 +1035,8 @@ public:
 protected:
 	XMLUnknown(XMLDocument* doc);
 	virtual ~XMLUnknown();
-	XMLUnknown(const XMLUnknown&);	// not supported
-	XMLUnknown& operator=(const XMLUnknown&);	// not supported
+	XMLUnknown(const XMLUnknown&); // not supported
+	XMLUnknown& operator=(const XMLUnknown&); // not supported
 };
 
 enum XMLError
@@ -1173,8 +1173,8 @@ private:
 	{
 	}
 
-	XMLAttribute(const XMLAttribute&);	// not supported
-	void operator=(const XMLAttribute&);	// not supported
+	XMLAttribute(const XMLAttribute&); // not supported
+	void operator=(const XMLAttribute&); // not supported
 	void SetName(const char* name);
 
 	char* ParseDeep(char* p, bool processEntities);
@@ -1456,9 +1456,9 @@ public:
 	// internal:
 	enum
 	{
-		OPEN,		// <foo>
-		CLOSED,		// <foo/>
-		CLOSING		// </foo>
+		OPEN, // <foo>
+		CLOSED, // <foo/>
+		CLOSING // </foo>
 	};
 	int ClosingType() const
 	{
@@ -1471,8 +1471,8 @@ public:
 private:
 	XMLElement(XMLDocument* doc);
 	virtual ~XMLElement();
-	XMLElement(const XMLElement&);	// not supported
-	void operator=(const XMLElement&);	// not supported
+	XMLElement(const XMLElement&); // not supported
+	void operator=(const XMLElement&); // not supported
 
 	XMLAttribute* FindAttribute(const char* name);
 	XMLAttribute* FindOrCreateAttribute(const char* name);
@@ -1693,8 +1693,8 @@ public:
 	}
 
 private:
-	XMLDocument(const XMLDocument&);	// not supported
-	void operator=(const XMLDocument&);	// not supported
+	XMLDocument(const XMLDocument&); // not supported
+	void operator=(const XMLDocument&); // not supported
 	void InitDocument();
 
 	bool _writeBOM;
@@ -2071,7 +2071,7 @@ public:
 private:
 	void SealElement();
 	void PrintSpace(int depth);
-	void PrintString(const char*, bool restrictedEntitySet);	// prints out, after detecting entities.
+	void PrintString(const char*, bool restrictedEntitySet); // prints out, after detecting entities.
 	void Print(const char* format, ...);
 
 	bool _elementJustOpened;
@@ -2096,6 +2096,6 @@ private:
 #endif
 };
 
-}	// tinyxml2
+} // tinyxml2
 
 #endif // TINYXML2_INCLUDED

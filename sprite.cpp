@@ -5,23 +5,21 @@ void Sprite::Bind()
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
-void Sprite::Load()
+bool Sprite::Load()
 {
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
 	if (image == NULL)
 	{
-		Debug::Log("Could Not Load: %s", filename.c_str());
-		return;
+		return false;
 	}
-	Debug::Log("Loaded: %s", filename.c_str());
 
 	width = image->w;
 	height = image->h;
 
 	if ((width == 0) || (height == 0))
 	{
-		return;
+		return false;
 	}
 
 	GLuint tempId;
@@ -36,6 +34,7 @@ void Sprite::Load()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image->pixels);
 	SDL_FreeSurface(image);
 	loaded = true;
+	return true;
 }
 
 void Sprite::Unload()
@@ -50,4 +49,15 @@ void Sprite::Unload()
 		filename = "";
 		loaded = false;
 	}
+}
+
+string Sprite::ToString()
+{
+	XMLDocument doc;
+	XMLElement* root = doc.NewElement("Asset");
+	root->SetAttribute("id", id.c_str());
+	root->SetAttribute("filename", filename.c_str());
+	root->SetAttribute("type", type);
+	doc.LinkEndChild(root);
+	return Debug::XMLDocumentToString(&doc);
 }

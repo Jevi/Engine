@@ -1,17 +1,17 @@
 #include "asset_manager.h"
 
-EntityLoader* EntityLoader::instance;
+AssetManager* AssetManager::instance;
 
-EntityLoader* EntityLoader::GetInstance()
+AssetManager* AssetManager::GetInstance()
 {
 	if (!instance)
 	{
-		instance = new EntityLoader;
+		instance = new AssetManager;
 	}
 	return instance;
 }
 
-bool EntityLoader::LoadAssetsFromXML(string Filename)
+bool AssetManager::LoadAssetsFromXML(string Filename)
 {
 	XMLDocument doc;
 
@@ -34,7 +34,7 @@ bool EntityLoader::LoadAssetsFromXML(string Filename)
 	return true;
 }
 
-void EntityLoader::ProcessElements(const XMLNode* Tree)
+void AssetManager::ProcessElements(const XMLNode* Tree)
 {
 	for (const XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling())
 	{
@@ -43,35 +43,10 @@ void EntityLoader::ProcessElements(const XMLNode* Tree)
 		{
 			ProcessEntity(Node);
 		}
-		if (strcmp(Element->Name(), "Asset") == 0)
-		{
-			ProcessAsset(Node);
-		}
 	}
 }
 
-void EntityLoader::ProcessAsset(const XMLNode* AssetNode)
-{
-	const XMLElement* assetElement = AssetNode->ToElement();
-	Asset* asset = 0;
-	string filename(assetElement->Attribute("filename"));
-	unsigned int type = atoi(assetElement->Attribute("type"));
-	unsigned int scene = atoi(assetElement->Attribute("scene"));
-
-	switch (type)
-	{
-	case Asset::GRAPHICAL:
-		asset = new Sprite(filename, scene);
-		asset->type = Asset::GRAPHICAL;
-		break;
-	case Asset::AUDIO:
-		break;
-	}
-	assetMap[scene].push_back(asset);
-	Debug::Log("Loaded Asset: %s, %s, %i", asset->filename.c_str(), Asset::TypeToString(asset->type).c_str(), asset->scene);
-}
-
-void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
+void AssetManager::ProcessEntity(const XMLNode* EntityNode)
 {
 	const XMLElement* entityElement = EntityNode->ToElement();
 	Entity* entity = 0;
@@ -83,7 +58,7 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 
 	do
 	{
-		if (entityElement->Attribute("name") == NULL)
+		if (entityElement->Attribute("id") == NULL)
 		{
 			break;
 		}
@@ -104,7 +79,7 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 			break;
 		}
 
-		name = string((entityElement->Attribute("name")));
+		name = string((entityElement->Attribute("id")));
 		posx = (float) atof(entityElement->Attribute("x"));
 		posy = (float) atof(entityElement->Attribute("y"));
 		rot = (float) atof(entityElement->Attribute("rot"));
@@ -125,7 +100,7 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 
 				do
 				{
-					if (componentElement->Attribute("name") == NULL)
+					if (componentElement->Attribute("id") == NULL)
 					{
 						break;
 					}
@@ -138,8 +113,7 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 						break;
 					}
 
-					name = string(componentElement->Attribute("name"));
-
+					name = string(componentElement->Attribute("id"));
 					type = atoi(componentElement->Attribute("type"));
 					enabled = (atoi(componentElement->Attribute("enabled")) != 0);
 
@@ -152,26 +126,23 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 
 					switch (type)
 					{
-					case Asset::GRAPHICAL:
-						asset = new Sprite(filename, scene);
-						asset->type = Asset::GRAPHICAL;
-						break;
-					case Asset::AUDIO:
-						break;
+						case Asset::GRAPHICAL:
+							asset = new Sprite("test", "test2");
+							break;
+						case Asset::AUDIO:
+							break;
 					}
 					assetMap[scene].push_back(asset);
-					Debug::Log("Loaded Asset: %s, %s, %i", asset->filename.c_str(), Asset::TypeToString(asset->type).c_str(), asset->scene);
+					Debug::Log("Loaded:\n%s", asset->ToString().c_str());
 					// 
 					switch (type)
 					{
-					case Component::RENDER:
-						component = new RenderComponent(name, (Sprite*) asset, enabled);
-						break;
-					case Component::AUDIO:
-						break;
+						case Component::RENDER:
+							component = new RenderComponent(name, (Sprite*) asset, enabled);
+							break;
+						case Component::AUDIO:
+							break;
 					}
-
-					Debug::Log("Loaded Component: %s, %s, %s", name.c_str(), Component::TypeToString(type).c_str(), Debug::BoolToString(enabled).c_str());
 					entity->AddComponent(component);
 				}
 				while (0);
@@ -182,12 +153,12 @@ void EntityLoader::ProcessEntity(const XMLNode* EntityNode)
 	while (0);
 }
 
-bool EntityLoader::LoadEntity(Entity* NewEntity)
+bool AssetManager::LoadEntity(Entity* NewEntity)
 {
-	vector<Entity*> entities = GetEntitiesAtScene(unsigned int(0));
+	vector<Entity*> entities = GetEntitiesAtScene(0);
 	bool canAdd = true;
 
-	for (int i = 0; i < entities.size(); i++)
+	for (unsigned int i = 0; i < entities.size(); i++)
 	{
 		if (strcmp(NewEntity->GetName().c_str(), entities[i]->GetName().c_str()) == 0)
 		{
@@ -196,28 +167,28 @@ bool EntityLoader::LoadEntity(Entity* NewEntity)
 	}
 	if (canAdd)
 	{
-		Debug::Log("Loaded Entity: %s, %f, %f, %f, %f", NewEntity->GetName().c_str(), NewEntity->transform.position.x, NewEntity->transform.position.y, NewEntity->transform.rotation, NewEntity->transform.scale);
+		Debug::Log("Loaded:\n%s", NewEntity->ToString().c_str());
 		sceneToEntityVectorMap[0].push_back(NewEntity);
 	}
 	else
 	{
-		Debug::Log("Could Not Load Entity: %s, %f, %f, %f, %f", NewEntity->GetName().c_str(), NewEntity->transform.position.x, NewEntity->transform.position.y, NewEntity->transform.rotation, NewEntity->transform.scale);
+		Debug::Log("Could Not Load:\n%s", NewEntity->ToString().c_str());
 		delete NewEntity;
 	}
 	return canAdd;
 }
 
-unsigned int EntityLoader::GetCurrentScene()
+unsigned int AssetManager::GetCurrentScene()
 {
 	return currentScene;
 }
 
-vector<Entity*> EntityLoader::GetEntitiesAtScene(unsigned int Scene)
+vector<Entity*> AssetManager::GetEntitiesAtScene(unsigned int Scene)
 {
 	return sceneToEntityVectorMap[Scene];
 }
 
-void EntityLoader::SetCurrentScene(unsigned int Scene)
+void AssetManager::SetCurrentScene(unsigned int Scene)
 {
 	//If this isn't the first scene load, unload all of the currently loaded assets and change the current scene
 	if (currentScene != -1)
@@ -226,22 +197,31 @@ void EntityLoader::SetCurrentScene(unsigned int Scene)
 		vector<Asset*> currentSceneAssetVec = assetMap[currentScene];
 		for (unsigned int i = 0; i < currentSceneAssetVec.size(); ++i)
 		{
+			Debug::Log("Unloaded From Scene:\n%s", currentSceneAssetVec[i]->ToString().c_str());
 			currentSceneAssetVec[i]->Unload();
 		}
 	}
 
 	currentScene = Scene;
 	Debug::Log("----- Loading Assets For Scene: %i -----\n", currentScene);
-	vector<Asset*> vec = assetMap[currentScene];
+
+	vector<Asset*> currentSceneAssetVec = assetMap[currentScene];
 	//Load all of the new scene's assets
-	for (unsigned int i = 0; i < vec.size(); ++i)
+	for (unsigned int i = 0; i < currentSceneAssetVec.size(); ++i)
 	{
-		vec[i]->Load();
+		if (currentSceneAssetVec[i]->Load())
+		{
+			Debug::Log("Loaded To Scene:\n%s", currentSceneAssetVec[i]->ToString().c_str());
+		}
+		else
+		{
+			Debug::Log("Could Not Load To Scene:\n%s", currentSceneAssetVec[i]->ToString().c_str());
+		}
 	}
 	Debug::Log("\n----- Finished Loading Assets For Scene: %i -----\n", currentScene);
 }
 
-void EntityLoader::Destroy()
+void AssetManager::Destroy()
 {
 	map<unsigned int, vector<Asset*> >::iterator pos;
 	for (pos = assetMap.begin(); pos != assetMap.end(); ++pos)

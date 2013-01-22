@@ -1,0 +1,7 @@
+<Entities>
+	<Entity id="player" x="0" y="0" rot="0" scale="0">
+		<Component id="player_render" type="0" enabled="0">
+			<Asset id="king_sprite_sheet"/>
+		</Component>
+	</Entity>
+</Entities>

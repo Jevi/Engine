@@ -13,11 +13,12 @@
 
 using namespace tinyxml2;
 
-class EntityLoader
+class AssetManager
 {
 public:
 
-	static EntityLoader* GetInstance();
+	static AssetManager* GetInstance();
+
 	bool LoadAssetsFromXML(string Filename);
 
 	// Accessors
@@ -53,13 +54,15 @@ public:
 
 private:
 
-	static EntityLoader* instance;
+	static AssetManager* instance;
+
 	unsigned int currentScene;
 	unsigned int loadedAssetCount;
+
 	map<unsigned int, vector<Asset*> > assetMap;
 	map<unsigned int, vector<Entity*> > sceneToEntityVectorMap;
 
-	EntityLoader() :
+	AssetManager() :
 			currentScene(-1), loadedAssetCount(0)
 	{
 	}
@@ -69,7 +72,6 @@ private:
 	 */
 	void ProcessElements(const XMLNode* Tree);
 	void ProcessEntity(const XMLNode* EntityNode);
-	void ProcessAsset(const XMLNode* AssetNode);
 	bool LoadEntity(Entity* Entity);
 };
 

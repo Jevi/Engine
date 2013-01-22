@@ -6,7 +6,7 @@
 class Vector2
 {
 public:
-	float x, y;		//The x and y components of the vector
+	float x, y; //The x and y components of the vector
 
 	//Initializing Ctor
 	Vector2(float X, float Y) :

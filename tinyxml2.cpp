@@ -32,9 +32,9 @@
 
 using namespace std;
 
-static const char LINE_FEED = (char) 0x0a;			// all line endings are normalized to LF
+static const char LINE_FEED = (char) 0x0a; // all line endings are normalized to LF
 static const char LF = LINE_FEED;
-static const char CARRIAGE_RETURN = (char) 0x0d;			// CR gets filtered out
+static const char CARRIAGE_RETURN = (char) 0x0d; // CR gets filtered out
 static const char CR = CARRIAGE_RETURN;
 static const char SINGLE_QUOTE = '\'';
 static const char DOUBLE_QUOTE = '\"';
@@ -105,7 +105,7 @@ char* StrPair::ParseText(char* p, const char* endTag, int strFlags)
 {
 	TIXMLASSERT( endTag && *endTag);
 
-	char* start = p;	// fixme: hides a member
+	char* start = p; // fixme: hides a member
 	char endChar = *endTag;
 	size_t length = strlen(endTag);
 
@@ -131,9 +131,9 @@ char* StrPair::ParseName(char* p)
 		return 0;
 	}
 
-	while (*p && (XMLUtil::IsAlphaNum((unsigned char) *p) || *p == '_' || *p == ':' || (*p == '-' && p > start)		// can be in a name, but not lead it.
+	while (*p && (XMLUtil::IsAlphaNum((unsigned char) *p) || *p == '_' || *p == ':' || (*p == '-' && p > start) // can be in a name, but not lead it.
 			|| (*p == '.' && p > start)))
-	{	// can be in a name, but not lead it.
+	{ // can be in a name, but not lead it.
 		++p;
 	}
 
@@ -152,8 +152,8 @@ void StrPair::CollapseWhitespace()
 
 	if (_start && *_start)
 	{
-		char* p = _start;	// the read pointer
-		char* q = _start;	// the write pointer
+		char* p = _start; // the read pointer
+		char* q = _start; // the write pointer
 
 		while (*p)
 		{
@@ -162,7 +162,7 @@ void StrPair::CollapseWhitespace()
 				p = XMLUtil::SkipWhiteSpace(p);
 				if (*p == 0)
 				{
-					break;    // don't write to q; this trims the trailing space.
+					break; // don't write to q; this trims the trailing space.
 				}
 				*q = ' ';
 				++q;
@@ -184,8 +184,8 @@ const char* StrPair::GetStr()
 
 		if (_flags)
 		{
-			char* p = _start;	// the read pointer
-			char* q = _start;	// the write pointer
+			char* p = _start; // the read pointer
+			char* q = _start; // the write pointer
 
 			while (p < _end)
 			{
@@ -315,7 +315,7 @@ void XMLUtil::ConvertUTF32ToUTF8(unsigned long input, char* output, int* length)
 	}
 	else
 	{
-		*length = 0;    // This code won't covert this correctly anyway.
+		*length = 0; // This code won't covert this correctly anyway.
 		return;
 	}
 
@@ -324,21 +324,21 @@ void XMLUtil::ConvertUTF32ToUTF8(unsigned long input, char* output, int* length)
 	// Scary scary fall throughs.
 	switch (*length)
 	{
-	case 4:
-		--output;
-		*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
-		input >>= 6;
-	case 3:
-		--output;
-		*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
-		input >>= 6;
-	case 2:
-		--output;
-		*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
-		input >>= 6;
-	case 1:
-		--output;
-		*output = (char) (input | FIRST_BYTE_MARK[*length]);
+		case 4:
+			--output;
+			*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
+			input >>= 6;
+		case 3:
+			--output;
+			*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
+			input >>= 6;
+		case 2:
+			--output;
+			*output = (char) ((input | BYTE_MARK) & BYTE_MASK);
+			input >>= 6;
+		case 1:
+			--output;
+			*output = (char) (input | FIRST_BYTE_MARK[*length]);
 	}
 }
 
@@ -537,7 +537,7 @@ char* XMLDocument::Identify(char* p, XMLNode** node)
 	static const char* commentHeader = { "<!--" };
 	static const char* dtdHeader = { "<!" };
 	static const char* cdataHeader = { "<![CDATA[" };
-	static const char* elementHeader = { "<" };	// and a header for everything else; check last.
+	static const char* elementHeader = { "<" }; // and a header for everything else; check last.
 
 	static const int xmlHeaderLen = 2;
 	static const int commentHeaderLen = 4;
@@ -592,7 +592,7 @@ char* XMLDocument::Identify(char* p, XMLNode** node)
 	{
 		returnNode = new (_textPool.Alloc()) XMLText(this);
 		returnNode->_memPool = &_textPool;
-		p = start;	// Back it up, all the text counts.
+		p = start; // Back it up, all the text counts.
 	}
 
 	*node = returnNode;
@@ -861,7 +861,7 @@ char* XMLNode::ParseDeep(char* p, StrPair* parentEnd)
 			{
 				*parentEnd = static_cast<XMLElement*>(node)->_value;
 			}
-			node->_memPool->SetTracked();	// created and then immediately deleted.
+			node->_memPool->SetTracked(); // created and then immediately deleted.
 			DELETE_NODE( node);
 			return p;
 		}
@@ -943,7 +943,7 @@ XMLNode* XMLText::ShallowClone(XMLDocument* doc) const
 	{
 		doc = _document;
 	}
-	XMLText* text = doc->NewText(Value());	// fixme: this will always allocate memory. Intern?
+	XMLText* text = doc->NewText(Value()); // fixme: this will always allocate memory. Intern?
 	text->SetCData(this->CData());
 	return text;
 }
@@ -987,7 +987,7 @@ XMLNode* XMLComment::ShallowClone(XMLDocument* doc) const
 	{
 		doc = _document;
 	}
-	XMLComment* comment = doc->NewComment(Value());	// fixme: this will always allocate memory. Intern?
+	XMLComment* comment = doc->NewComment(Value()); // fixme: this will always allocate memory. Intern?
 	return comment;
 }
 
@@ -1031,7 +1031,7 @@ XMLNode* XMLDeclaration::ShallowClone(XMLDocument* doc) const
 	{
 		doc = _document;
 	}
-	XMLDeclaration* dec = doc->NewDeclaration(Value());	// fixme: this will always allocate memory. Intern?
+	XMLDeclaration* dec = doc->NewDeclaration(Value()); // fixme: this will always allocate memory. Intern?
 	return dec;
 }
 
@@ -1075,7 +1075,7 @@ XMLNode* XMLUnknown::ShallowClone(XMLDocument* doc) const
 	{
 		doc = _document;
 	}
-	XMLUnknown* text = doc->NewUnknown(Value());	// fixme: this will always allocate memory. Intern?
+	XMLUnknown* text = doc->NewUnknown(Value()); // fixme: this will always allocate memory. Intern?
 	return text;
 }
 
@@ -1106,7 +1106,7 @@ char* XMLAttribute::ParseDeep(char* p, bool processEntities)
 		return 0;
 	}
 
-	++p;	// move up to opening quote
+	++p; // move up to opening quote
 	p = XMLUtil::SkipWhiteSpace(p);
 	if (*p != '\"' && *p != '\'')
 	{
@@ -1114,7 +1114,7 @@ char* XMLAttribute::ParseDeep(char* p, bool processEntities)
 	}
 
 	char endTag[2] = { *p, 0 };
-	++p;	// move past opening quote
+	++p; // move past opening quote
 
 	p = _value.ParseText(p, endTag, processEntities ? StrPair::ATTRIBUTE_VALUE : StrPair::ATTRIBUTE_VALUE_LEAVE_ENTITIES);
 	return p;
@@ -1444,7 +1444,7 @@ char* XMLElement::ParseAttributes(char* p)
 		else if (*p == '/' && *(p + 1) == '>')
 		{
 			_closingType = CLOSED;
-			return p + 2;	// done; sealed element.
+			return p + 2; // done; sealed element.
 		}
 		// end of the tag
 		else if (*p == '>')
@@ -1505,10 +1505,10 @@ XMLNode* XMLElement::ShallowClone(XMLDocument* doc) const
 	{
 		doc = _document;
 	}
-	XMLElement* element = doc->NewElement(Value());					// fixme: this will always allocate memory. Intern?
+	XMLElement* element = doc->NewElement(Value()); // fixme: this will always allocate memory. Intern?
 	for (const XMLAttribute* a = FirstAttribute(); a; a = a->Next())
 	{
-		element->SetAttribute(a->Name(), a->Value());					// fixme: this will always allocate memory. Intern?
+		element->SetAttribute(a->Name(), a->Value()); // fixme: this will always allocate memory. Intern?
 	}
 	return element;
 }
@@ -1560,7 +1560,7 @@ bool XMLElement::Accept(XMLVisitor* visitor) const
 XMLDocument::XMLDocument(bool processEntities, Whitespace whitespace) :
 		XMLNode(0), _writeBOM(false), _processEntities(processEntities), _errorID(XML_NO_ERROR), _whitespace(whitespace), _errorStr1(0), _errorStr2(0), _charBuffer(0)
 {
-	_document = this;	// avoid warning about 'this' in initializer list
+	_document = this; // avoid warning about 'this' in initializer list
 }
 
 XMLDocument::~XMLDocument()
@@ -1809,7 +1809,7 @@ XMLPrinter::XMLPrinter(FILE* file, bool compact) :
 	}
 	_restrictedEntityFlag[(int) '&'] = true;
 	_restrictedEntityFlag[(int) '<'] = true;
-	_restrictedEntityFlag[(int) '>'] = true;	// not required, but consistency is nice
+	_restrictedEntityFlag[(int) '>'] = true; // not required, but consistency is nice
 	_buffer.Push(0);
 }
 
@@ -2161,5 +2161,5 @@ bool XMLPrinter::Visit(const XMLUnknown& unknown)
 	return true;
 }
 
-}   // namespace tinyxml2
+} // namespace tinyxml2
 

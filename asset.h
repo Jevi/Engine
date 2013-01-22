@@ -17,15 +17,18 @@ public:
 	{
 		switch (Type)
 		{
-		case GRAPHICAL:
-			return string("GRAPHICAL");
-			break;
-		case AUDIO:
-			return string("AUDIO");
-			break;
+			case GRAPHICAL:
+				return string("GRAPHICAL");
+				break;
+			case AUDIO:
+				return string("AUDIO");
+				break;
+			default:
+				return "DEFAULT";
 		}
 	}
 
+	string id;
 	/*
 	 asset location on hdd
 	 */
@@ -35,27 +38,25 @@ public:
 	 */
 	unsigned int type;
 	/*
-	 scene for asset to be loaded to
-	 */
-	unsigned int scene;
-	/*
 	 represents whether asset has been loaded or not
 	 */
 	bool loaded;
 
-	Asset(string Filename, unsigned int Scene) :
-			filename(Filename), scene(Scene), loaded(false)
+	Asset(string Id, string Filename, unsigned int Type) :
+			id(Id), filename(Filename), type(Type), loaded(false)
 	{
 	}
 
 	/*
 	 Abstract function, called when the asset is loaded
 	 */
-	virtual void Load() = 0;
+	virtual bool Load() = 0;
 	/*
 	 Abstract function, called when the asset is unloaded
 	 */
 	virtual void Unload() = 0;
+
+	virtual string ToString() = 0;
 };
 
 #endif
