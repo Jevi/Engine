@@ -1,10 +1,12 @@
 #include "debug.h"
 
-void Debug::Log(const char* format, ...)
+void Debug::Log(LogLevel level, const char* format, ...)
 {
 	va_list arguments;
 	va_start(arguments, format);
-	vprintf(format, arguments);
+    cout << "[" << LogLevelToString(level) << "]\t";
+    vprintf(format, arguments);
+    cout << endl;
 	va_end(arguments);
 	cout << endl;
 }

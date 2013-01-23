@@ -19,7 +19,12 @@ class Debug
 {
 public:
 
-	static void Log(const char* format, ...);
+    enum LogLevel
+    {
+        LOG_DEBUG, LOG_HIDEBUG, LOG_PARM, LOG_ENTRY, LOG_INFO, LOG_WARNING, LOG_ERROR, LOG_SEVERE
+    };
+
+    static void Log(LogLevel level, const char* format, ...);
 	static string BoolToString(bool Bool);
 	static string XMLDocumentToString(XMLDocument* doc);
 
@@ -35,6 +40,36 @@ private:
 
 	static void ProcessElements(const XMLNode* ParentNode, ostringstream& os, unsigned int indents = 0);
 	static const char* GetIndent(int indents);
+    static string LogLevelToString(LogLevel level)
+    {
+        switch(level)
+        {
+        case LOG_DEBUG:
+            return "LOG_DEBUG";
+            break;
+        case LOG_HIDEBUG:
+            return "LOG_HIDEBUG";
+            break;
+        case LOG_PARM:
+            return "LOG_PARAM";
+            break;
+        case LOG_ENTRY:
+            return "LOG_ENTRY";
+            break;
+        case LOG_INFO:
+            return "LOG_INFO";
+            break;
+        case LOG_WARNING:
+            return "LOG_WARNING";
+            break;
+        case LOG_ERROR:
+            return "LOG_ERROR";
+            break;
+        case LOG_SEVERE:
+            return "LOG_SEVERE";
+            break;
+        }
+    }
 };
 
 #endif

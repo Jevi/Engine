@@ -2,7 +2,15 @@
 #define LEVELMANAGER_H
 
 #include <vector>
+
+#include "engine.h"
+#include "tinyxml2.h"
+#include "debug.h"
 #include "entity.h"
+#include "render_component.h"
+#include "component.h"
+#include "asset.h"
+#include "sprite.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -42,6 +50,7 @@ private:
 	vector<Entity*> entities;
 
 	string GetLevelEntitiesXML(int Level);
+    void ProcessEntity(const XMLNode* EntityNode);
 };
 
 #endif

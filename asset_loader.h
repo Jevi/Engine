@@ -24,6 +24,8 @@ public:
 		return assets;
 	}
 
+    Asset* GetAsset(string Id);
+
 	void Destroy();
 
 	bool LoadAssets();

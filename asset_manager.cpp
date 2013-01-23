@@ -17,10 +17,10 @@ bool AssetManager::LoadAssetsFromXML(string Filename)
 
 	if (doc.LoadFile(Filename.c_str()) != XML_SUCCESS)
 	{
-		Debug::Log("Could Not Load: %s", Filename.c_str());
+        Debug::Log(Debug::LOG_WARNING, "Could Not Load: %s", Filename.c_str());
 		return false;
 	}
-	Debug::Log("----- Processing: %s -----\n", Filename.c_str());
+    Debug::Log(Debug::LOG_ENTRY, "----- Processing: %s -----\n", Filename.c_str());
 
 	XMLNode* Tree = doc.FirstChild();
 	if (Tree)
@@ -29,8 +29,8 @@ bool AssetManager::LoadAssetsFromXML(string Filename)
 
 	}
 	vector<Entity*> vec = sceneToEntityVectorMap[0];
-	Debug::Log("Total Entities Loaded: %i", vec.size());
-	Debug::Log("\n----- Finished Processing: %s -----\n", Filename.c_str());
+    Debug::Log(Debug::LOG_INFO, "Total Entities Loaded: %i", vec.size());
+    Debug::Log(Debug::LOG_ENTRY, "\n----- Finished Processing: %s -----\n", Filename.c_str());
 	return true;
 }
 
@@ -133,7 +133,7 @@ void AssetManager::ProcessEntity(const XMLNode* EntityNode)
 							break;
 					}
 					assetMap[scene].push_back(asset);
-					Debug::Log("Loaded:\n%s", asset->ToString().c_str());
+                    Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 					// 
 					switch (type)
 					{

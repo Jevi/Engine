@@ -1,20 +1,20 @@
 #include "render_component.h"
 
-RenderComponent::RenderComponent(string Name) :
-		Component(Name, Component::RENDER)
+RenderComponent::RenderComponent(string Id) :
+        Component(Id, Component::RENDER)
 {
 	type = RENDER;
 }
 
-RenderComponent::RenderComponent(string Name, Sprite* Sprite) :
-		Component(Name, Component::RENDER)
+RenderComponent::RenderComponent(string Id, Sprite* Sprite) :
+        Component(Id, Component::RENDER)
 {
 	type = RENDER;
 	sprite = Sprite;
 }
 
-RenderComponent::RenderComponent(string Name, Sprite* Sprite, bool Enabled) :
-		Component(Name, Component::RENDER)
+RenderComponent::RenderComponent(string Id, Sprite* Sprite, bool Enabled) :
+        Component(Id, Component::RENDER)
 {
 	type = RENDER;
 	sprite = Sprite;

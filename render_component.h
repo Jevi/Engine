@@ -14,9 +14,9 @@ class RenderComponent: public Component
 {
 public:
 
-	RenderComponent(string Name);
-	RenderComponent(string Name, Sprite* Sprite);
-	RenderComponent(string Name, Sprite* Sprite, bool Enabled);
+    RenderComponent(string Id);
+    RenderComponent(string Id, Sprite* Sprite);
+    RenderComponent(string Id, Sprite* Sprite, bool Enabled);
 	~RenderComponent();
 	/*
 	 Override base class Start()

@@ -11,6 +11,18 @@ AssetLoader* AssetLoader::GetInstance()
 	return instance;
 }
 
+Asset* AssetLoader::GetAsset(string Id)
+{
+    for(unsigned int i = 0; i < assets.size(); i++)
+    {
+        if(strcmp(assets[i]->id.c_str(), Id.c_str()) == 0)
+        {
+            return assets[i];
+        }
+    }
+    return NULL;
+}
+
 void AssetLoader::Destroy()
 {
 	for (unsigned int i = 0; i < assets.size(); ++i)
