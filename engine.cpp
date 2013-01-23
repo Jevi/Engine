@@ -22,7 +22,7 @@ Engine* Engine::GetInstance()
 
 void Engine::Destroy()
 {
-    Debug::Log(Debug::LOG_INFO, "Exiting Engine");
+    Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
 	SDL_Quit();
 	delete this;
 }
@@ -36,7 +36,7 @@ void Engine::Start()
 
 	if (Init())
 	{
-        Debug::Log(Debug::LOG_INFO, "\n----- Engine Initialized Successfully -----\n");
+        Debug::Log(Debug::LOG_ENTRY, "Engine Initialized Successfully");
 
 		if (assetLoader->LoadAssets())
 		{
@@ -56,15 +56,15 @@ bool Engine::Init()
 {
 	char currentDirectory[FILENAME_MAX];
 	getcwd(currentDirectory, sizeof(currentDirectory));
-    Debug::Log(Debug::LOG_INFO, "Current Directory: %s\n", currentDirectory);
-    Debug::Log(Debug::LOG_ENTRY, "----- Initializing Engine -----\n");
+    Debug::Log(Debug::LOG_INFO, "Current Directory: %s", currentDirectory);
+    Debug::Log(Debug::LOG_ENTRY, "Initializing Engine");
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
         Debug::Log(Debug::LOG_SEVERE, "Could Not Initialize SDL");
 		return false;
 	}
-    Debug::Log(Debug::LOG_DEBUG, "SDL Initialized");
+    Debug::Log(Debug::LOG_INFO, "SDL Initialized");
 
 	SDL_WM_SetCaption("SDL OPENGL ENGINE", NULL);
 
@@ -73,12 +73,12 @@ bool Engine::Init()
         Debug::Log(Debug::LOG_SEVERE, "Could Not Set SDL Video Mode");
 		return false;
 	}
-    Debug::Log(Debug::LOG_DEBUG, "SDL Video Mode Initialized");
+    Debug::Log(Debug::LOG_INFO, "SDL Video Mode Initialized");
 
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0, appWidth, appHeight, 0, 1, -1);
-    Debug::Log(Debug::LOG_DEBUG, "OpenGL Initialized");
+    Debug::Log(Debug::LOG_INFO, "OpenGL Initialized");
 	return true;
 }
 
@@ -140,7 +140,7 @@ bool Engine::IsExiting()
 
 void Engine::SwitchState(AppState state)
 {
-    Debug::Log(Debug::LOG_DEBUG, "GameState Changed: %s", ToString(state).c_str());
+    Debug::Log(Debug::LOG_INFO, "GameState Changed: %s", ToString(state).c_str());
 	appState = state;
 }
 

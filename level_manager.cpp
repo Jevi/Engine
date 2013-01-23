@@ -24,10 +24,10 @@ void LevelManager::LoadLevel(int Level)
 
     if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
     {
-        Debug::Log("Could Not Load: %s", filename.c_str());
+        Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
         return;
     }
-    Debug::Log("----- Processing: %s -----\n", filename.c_str());
+    Debug::Log(Debug::LOG_ENTRY, "Processing: %s", filename.c_str());
 
     XMLNode* Tree = doc.FirstChild();
     if (Tree)
@@ -41,7 +41,7 @@ void LevelManager::LoadLevel(int Level)
             }
         }
     }
-    Debug::Log("----- Finished Processing: %s -----\n", filename.c_str());
+    Debug::Log(Debug::LOG_ENTRY, "Finished Processing: %s", filename.c_str());
 }
 
 void LevelManager::ProcessEntity(const XMLNode* EntityNode)
@@ -122,7 +122,7 @@ void LevelManager::ProcessEntity(const XMLNode* EntityNode)
                     Asset* asset = 0;
                     string id(assetElement->Attribute("id"));
                     asset = assetLoader->GetAsset(id);
-                    Debug::Log("Loaded:\n%s", asset->ToString().c_str());
+                    Debug::Log(Debug::LOG_INFO, "Loaded: %s", asset->ToString().c_str());
                     // process Asset
 
                     switch (type)
@@ -149,12 +149,12 @@ void LevelManager::ProcessEntity(const XMLNode* EntityNode)
 
         if (canAdd)
         {
-            Debug::Log("Loaded:\n%s", entity->ToString().c_str());
+            Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", entity->ToString().c_str());
             entities.push_back(entity);
         }
         else
         {
-            Debug::Log("Could Not Load:\n%s", entity->ToString().c_str());
+            Debug::Log(Debug::LOG_INFO, "Could Not Load:\n%s", entity->ToString().c_str());
             delete entity;
         }
     }
@@ -180,7 +180,7 @@ string LevelManager::GetLevelEntitiesXML(int Level)
 
     if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
     {
-        Debug::Log("Could Not Load: %s", filename.c_str());
+        Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
         return NULL;
     }
 

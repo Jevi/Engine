@@ -21,7 +21,7 @@ public:
 
     enum LogLevel
     {
-        LOG_DEBUG, LOG_HIDEBUG, LOG_PARM, LOG_ENTRY, LOG_INFO, LOG_WARNING, LOG_ERROR, LOG_SEVERE
+        LOG_DEBUG, LOG_PARM, LOG_ENTRY, LOG_INFO, LOG_WARNING, LOG_ERROR, LOG_SEVERE
     };
 
     static void Log(LogLevel level, const char* format, ...);
@@ -47,9 +47,6 @@ private:
         case LOG_DEBUG:
             return "LOG_DEBUG";
             break;
-        case LOG_HIDEBUG:
-            return "LOG_HIDEBUG";
-            break;
         case LOG_PARM:
             return "LOG_PARAM";
             break;
@@ -68,6 +65,9 @@ private:
         case LOG_SEVERE:
             return "LOG_SEVERE";
             break;
+		default:
+			return "LOG_DEFAULT";
+			break;
         }
     }
 };

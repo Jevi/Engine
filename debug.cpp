@@ -6,7 +6,6 @@ void Debug::Log(LogLevel level, const char* format, ...)
 	va_start(arguments, format);
     cout << "[" << LogLevelToString(level) << "]\t";
     vprintf(format, arguments);
-    cout << endl;
 	va_end(arguments);
 	cout << endl;
 }
@@ -35,10 +34,10 @@ string Debug::XMLDocumentToString(XMLDocument* doc)
 void Debug::ProcessElements(const XMLNode* ParentNode, ostringstream& os, unsigned int indents)
 {
 	const XMLElement* CurrElem = ParentNode->ToElement();
-	bool hasClosingTag = false;
-	os << GetIndent(indents) << "<" << CurrElem->Name();
-
 	const XMLAttribute* CurrElemAttribute = CurrElem->FirstAttribute();
+	bool hasClosingTag = false;
+
+	os << GetIndent(indents) << "<" << CurrElem->Name();
 	while (CurrElemAttribute)
 	{
 		os << " " << CurrElemAttribute->Name() << "=" << "\"" << CurrElemAttribute->Value() << "\"";
@@ -52,7 +51,7 @@ void Debug::ProcessElements(const XMLNode* ParentNode, ostringstream& os, unsign
 	}
 	else
 	{
-		os << "/>\n";
+		os << "/>";
 	}
 
 	for (const XMLNode* ChildNode = ParentNode->FirstChild(); ChildNode; ChildNode = ChildNode->NextSibling())
@@ -62,7 +61,7 @@ void Debug::ProcessElements(const XMLNode* ParentNode, ostringstream& os, unsign
 
 	if (hasClosingTag)
 	{
-		os << GetIndent(indents) << "<" << CurrElem->Name() << "/>\n";
+		os << GetIndent(indents) << "\n<" << CurrElem->Name() << "/>";
 	}
 }
 

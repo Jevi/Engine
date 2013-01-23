@@ -40,10 +40,10 @@ bool AssetLoader::LoadAssets()
 
 	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
 	{
-		Debug::Log("Could Not Load: %s", filename.c_str());
+		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
 		return false;
 	}
-	Debug::Log("----- Processing: %s -----\n", filename.c_str());
+	Debug::Log(Debug::LOG_ENTRY, "Processing: %s", filename.c_str());
 
 	XMLNode* Tree = doc.FirstChild();
 	if (Tree)
@@ -51,8 +51,8 @@ bool AssetLoader::LoadAssets()
 		ProcessElements(Tree);
 	}
 
-	Debug::Log("Total Assets Loaded: %i", assets.size());
-	Debug::Log("\n----- Finished Processing: %s -----\n", filename.c_str());
+	Debug::Log(Debug::LOG_INFO, "Total Assets Loaded: %i", assets.size());
+	Debug::Log(Debug::LOG_ENTRY, "Finished Processing: %s", filename.c_str());
 	return true;
 }
 
@@ -85,5 +85,5 @@ void AssetLoader::ProcessAsset(const XMLNode* AssetNode)
 			break;
 	}
 	assets.push_back(asset);
-	Debug::Log("Loaded:\n%s", asset->ToString().c_str());
+	Debug::Log(Debug::LOG_INFO, "Loaded: %s", asset->ToString().c_str());
 }
