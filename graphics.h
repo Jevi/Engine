@@ -14,6 +14,7 @@
 #include <SDL/SDL_image.h>
 #endif
 
+#include "engine_math.h"
 #include "debug.h"
 #include "sprite.h"
 
@@ -28,10 +29,11 @@ public:
 	static void DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 	static void DrawQuad(float x, float y, float width, float height);
 	static void DrawQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
+	static void DrawQuad(float x, float y, float width, float height, float rotation, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 	static void FillQuad(float x, float y, float width, float height);
 	static void FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
-	static void DrawTexture(Sprite* texture, float x, float y, float rotation, float scale);
+	static void DrawTexture(Sprite* sprite, float x, float y, float rotation, float scale);
 
 private:
 

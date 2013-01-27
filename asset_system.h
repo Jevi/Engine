@@ -1,5 +1,5 @@
-#ifndef ASSETLOADER_H
-#define ASSETLOADER_H
+#ifndef ASSETSYSTEM_H
+#define ASSETSYSTEM_H
 
 #include <vector>
 
@@ -19,12 +19,9 @@ public:
 
 	static AssetLoader* GetInstance();
 
-	vector<Asset*> GetAssets()
-	{
-		return assets;
-	}
+	vector<Asset*> assets;
 
-    Asset* GetAsset(string Id);
+	Asset* GetAsset(string Id);
 
 	void Destroy();
 
@@ -39,7 +36,6 @@ private:
 
 	static AssetLoader* instance;
 	unsigned int loadedAssetCount;
-	vector<Asset*> assets;
 
 	AssetLoader() :
 			loadedAssetCount(0)

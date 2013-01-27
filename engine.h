@@ -3,6 +3,7 @@
 
 #define NO_SDL_GLEXT
 #include <GL/glew.h>
+#include <Box2D/Box2D.h>
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -21,13 +22,13 @@
 #include "debug.h"
 #include "event_handler.h"
 #include "entity.h"
-#include "asset_loader.h"
-#include "level_manager.h"
+#include "asset_system.h"
+#include "level_system.h"
 
 using namespace std;
 
 class AssetLoader;
-class LevelManager;
+class LevelSystem;
 
 class Engine: public EventHandler
 {
@@ -36,6 +37,15 @@ public:
 	static string GetProject()
 	{
 		return appProject;
+	}
+
+	static b2World* GetWorld()
+	{
+		if (!world)
+		{
+			world = new b2World(b2Vec2(0.0f, 9.81f));
+		}
+		return world;
 	}
 	/*
 	 Returns singleton Engine instance.
@@ -68,6 +78,8 @@ private:
 	};
 
 	static Engine* instance;
+	static b2World* world;
+
 	int appWidth;
 	int appHeight;
 	static string appProject;
@@ -77,7 +89,7 @@ private:
 	SDL_Event appEvent;
 
 	AssetLoader* assetLoader;
-	LevelManager* levelManager;
+	LevelSystem* levelManager;
 
 	/*
 	 Initializes SDL/OpenGL as well as any other vital objects

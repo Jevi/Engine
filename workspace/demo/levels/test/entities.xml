@@ -1,7 +1,18 @@
 <Entities>
-	<Entity id="player" x="0" y="0" rot="0" scale="0">
-		<Component id="player_render" type="0" enabled="0">
-			<Asset id="king_sprite_sheet"/>
+	<Entity id="player" x="140" y="0" rot="0" scale="1">
+		<Component id="render" type="0" enabled="1">
+			<Asset id="king_sprite_sheet" />
+		</Component>
+		<Component id="physics" type="2" enabled="1">
+			<Physics type="1" density="1"/>
+		</Component>
+	</Entity>
+	<Entity id="player2" x="0" y="300" rot="0" scale="1">
+		<Component id="render" type="0" enabled="1">
+			<Asset id="king_sprite_sheet" />
+		</Component>
+		<Component id="physics" type="2" enabled="1">
+			<Physics type="0" density="1"/>
 		</Component>
 	</Entity>
 </Entities>

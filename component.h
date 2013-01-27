@@ -13,6 +13,7 @@ public:
 	//Constant fields representing component types
 	static const unsigned int RENDER = 0;
 	static const unsigned int AUDIO = 1;
+	static const unsigned int PHYSICS = 2;
 
 	static string TypeToString(unsigned int Type)
 	{
@@ -23,6 +24,12 @@ public:
 				break;
 			case AUDIO:
 				return string("AUDIO");
+				break;
+			case PHYSICS:
+				return string("PHYSICS");
+				break;
+			default:
+				return string("DEFUALT");
 				break;
 		}
 	}

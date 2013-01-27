@@ -4,8 +4,9 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <Box2D/Box2D.h>
 
-#include "transform.h"
+#include "engine_math.h"
 #include "component.h"
 #include "debug.h"
 #include "tinyxml2.h"
@@ -21,10 +22,11 @@ public:
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
-	Transform transform;
+	b2Transform transform;
+	float scale;
 
 	Entity(string Id, float PosX, float PosY, float Rot, float Scale) :
-			id(Id), transform(PosX, PosY, Rot, Scale)
+			id(Id), transform(b2Vec2(PosX, PosY), b2Rot(Rot)), scale(Scale)
 	{
 	}
 
@@ -46,7 +48,7 @@ public:
 	/*
 	 Return Entity unique name identifier
 	 */
-	string GetName()
+	string GetId()
 	{
 		return id;
 	}

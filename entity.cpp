@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "engine_math.h"
 
 void Entity::Start()
 {
@@ -98,10 +99,9 @@ string Entity::ToString()
 
 	XMLElement* root = doc.NewElement("Entity");
 	root->SetAttribute("id", id.c_str());
-	root->SetAttribute("x", transform.position.x);
-	root->SetAttribute("y", transform.position.y);
-	root->SetAttribute("rot", transform.rotation);
-	root->SetAttribute("scale", transform.scale);
+	root->SetAttribute("x", EngineMath::MetersToPixels(transform.p.x));
+	root->SetAttribute("y", EngineMath::MetersToPixels(transform.p.y));
+	root->SetAttribute("rot", EngineMath::RadiansToDegrees(transform.q.GetAngle()));
 	doc.LinkEndChild(root);
 
 	for (unsigned int i = 0; i < components.size(); ++i)
@@ -109,7 +109,7 @@ string Entity::ToString()
 		Component* component = components[i];
 		XMLElement* compElem = doc.NewElement("Component");
 		compElem->SetAttribute("id", component->id.c_str());
-		compElem->SetAttribute("type", component->type);
+		compElem->SetAttribute("type", Component::TypeToString(component->type).c_str());
 		compElem->SetAttribute("enabled", component->enabled);
 		root->LinkEndChild(compElem);
 	}

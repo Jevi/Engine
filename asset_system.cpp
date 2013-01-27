@@ -1,4 +1,4 @@
-#include "asset_loader.h"
+#include "asset_system.h"
 
 AssetLoader* AssetLoader::instance;
 
@@ -13,14 +13,14 @@ AssetLoader* AssetLoader::GetInstance()
 
 Asset* AssetLoader::GetAsset(string Id)
 {
-    for(unsigned int i = 0; i < assets.size(); i++)
-    {
-        if(strcmp(assets[i]->id.c_str(), Id.c_str()) == 0)
-        {
-            return assets[i];
-        }
-    }
-    return NULL;
+	for (unsigned int i = 0; i < assets.size(); i++)
+	{
+		if (strcmp(assets[i]->id.c_str(), Id.c_str()) == 0)
+		{
+			return assets[i];
+		}
+	}
+	return NULL;
 }
 
 void AssetLoader::Destroy()
@@ -85,5 +85,5 @@ void AssetLoader::ProcessAsset(const XMLNode* AssetNode)
 			break;
 	}
 	assets.push_back(asset);
-	Debug::Log(Debug::LOG_INFO, "Loaded: %s", asset->ToString().c_str());
+	Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 }

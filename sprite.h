@@ -7,6 +7,7 @@
 
 #include "asset.h"
 #include "graphics.h"
+#include "engine_math.h"
 
 using namespace tinyxml2;
 using namespace std;
