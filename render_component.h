@@ -10,6 +10,7 @@
 #include "graphics.h"
 #include "tinyxml2.h"
 #include "debug.h"
+#include "physics_component.h"
 
 using namespace std;
 

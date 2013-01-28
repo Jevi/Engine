@@ -14,6 +14,7 @@
 #include <SDL/SDL_image.h>
 #endif
 
+#include <Box2D/Box2D.h>
 #include "engine_math.h"
 #include "debug.h"
 #include "sprite.h"
@@ -34,6 +35,7 @@ public:
 	static void FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
 	static void DrawTexture(Sprite* sprite, float x, float y, float rotation, float scale);
+	static void DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation);
 
 private:
 

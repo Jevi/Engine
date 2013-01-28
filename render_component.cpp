@@ -43,11 +43,28 @@ void RenderComponent::Update(unsigned long dt)
 
 void RenderComponent::Render()
 {
-	float x = entity->transform.p.x;
-	float y = entity->transform.p.y;
-	float rotation = entity->transform.q.GetAngle();
-	float scale = entity->scale;
-	Graphics::DrawTexture(sprite, x, y, rotation, scale);
+	if (entity->GetComponent("physics") != NULL)
+	{
+		if (((PhysicsComponent*) entity->GetComponent("physics"))->body && ((PhysicsComponent*) entity->GetComponent("physics"))->synched)
+		{
+			b2Vec2 bodyVerticies[4];
+			b2Vec2 bodyCenter = ((PhysicsComponent*) entity->GetComponent("physics"))->body->GetWorldCenter();
+			float rotation = ((PhysicsComponent*) entity->GetComponent("physics"))->body->GetAngle();
+			for (unsigned int i = 0; i < 4; i++)
+			{
+				bodyVerticies[i] = ((b2PolygonShape*) (((PhysicsComponent*) entity->GetComponent("physics"))->body->GetFixtureList()->GetShape()))->GetVertex(i);
+			}
+			Graphics::DrawTexture(sprite, bodyVerticies, bodyCenter, rotation);
+		}
+	}
+	else
+	{
+		float x = entity->transform.p.x;
+		float y = entity->transform.p.y;
+		float rotation = entity->transform.q.GetAngle();
+		float scale = entity->scale;
+		Graphics::DrawTexture(sprite, x, y, rotation, scale);
+	}
 }
 
 string RenderComponent::ToString()

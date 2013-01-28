@@ -132,3 +132,33 @@ void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, flo
 	glDisable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
+
+void Graphics::DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation)
+{
+	rotation = EngineMath::RadiansToDegrees(rotation);
+
+	glPushMatrix();
+	glEnable (GL_TEXTURE_2D);
+	sprite->Bind();
+
+	glEnable (GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glTranslatef(EngineMath::MetersToPixels(bodyCenter.x), EngineMath::MetersToPixels(bodyCenter.y), 0);
+	glRotatef(rotation, 0, 0, 1);
+
+	glBegin (GL_QUADS);
+	glTexCoord2f(0, 0);
+	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[0].x), EngineMath::MetersToPixels(bodyVerticies[0].y));
+	glTexCoord2f(1, 0);
+	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[1].x), EngineMath::MetersToPixels(bodyVerticies[1].y));
+	glTexCoord2f(1, 1);
+	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[2].x),EngineMath::MetersToPixels(bodyVerticies[2].y));
+	glTexCoord2f(0, 1);
+	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[3].x), EngineMath::MetersToPixels(bodyVerticies[3].y));
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}

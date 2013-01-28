@@ -140,7 +140,7 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 								asset = assetLoader->GetAsset(assetId);
 								Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 								component = new RenderComponent(componentId, (Sprite*) asset, enabled);
-							} // process Asset
+							}
 							break;
 						case Component::AUDIO:
 							break;

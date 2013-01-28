@@ -43,11 +43,7 @@ void PhysicsComponent::Update(unsigned long dt)
 		b2PolygonShape shape;
 		int width = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->width;
 		int height = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->height;
-		float mwidth = EngineMath::PixelsToMeters((float) width) / 2.0f;
-		float mheight = EngineMath::PixelsToMeters((float) height) / 2.0f;
-		Debug::Log(Debug::LOG_DEBUG, "width: %f height: %f density: %f", mwidth, mheight, density);
-		Debug::Log(Debug::LOG_DEBUG, "width: %i height: %i density: %f", width, height, density);
-		shape.SetAsBox(mwidth, mheight);
+		shape.SetAsBox(EngineMath::PixelsToMeters((float) width) / 2.0f, EngineMath::PixelsToMeters((float) height) / 2.0f);
 
 		b2FixtureDef FixtureDef;
 		FixtureDef.shape = &shape;
@@ -56,15 +52,7 @@ void PhysicsComponent::Update(unsigned long dt)
 		body->CreateFixture(&FixtureDef);
 		synched = true;
 	}
-	else
-	{
-		entity->transform = body->GetTransform();
-		// Debug collision outline
-		int width = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->width;
-		int height = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->height;
-		Graphics::DrawQuad(entity->transform.p.x, entity->transform.p.y, (float) width, (float) height, entity->transform.q.GetAngle(), 255, 0, 0, 255);
-		//Graphics::DrawQuad(body->GetTransform().p.x, body->GetTransform().p.y, (float) width, (float)height, body->GetTransform().q.GetAngle(), 0, 255, 0, 255);
-	}
+	entity->transform = body->GetTransform();
 }
 
 string PhysicsComponent::ToString()

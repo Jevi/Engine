@@ -20,6 +20,7 @@ public:
 	b2Body* body;
 	unsigned int bodyType;
 	float density;
+	bool synched;
 
 	PhysicsComponent(string Id, unsigned int BodyType, float Density, bool Enabled);
 	~PhysicsComponent(void);
@@ -30,8 +31,6 @@ public:
 
 	string ToString();
 
-private:
-	bool synched;
 };
 
 #endif
