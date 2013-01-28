@@ -1,10 +1,15 @@
 #include "physics_component.h"
 
-PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, float Density, bool Enabled) :
-		Component(Id, Component::PHYSICS), bodyType(BodyType), density(Density), synched(false)
+PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enabled) :
+        Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false)
 {
 	type = PHYSICS;
-	enabled = Enabled;
+    enabled = Enabled;
+
+    // defualt
+    density = 1.0f;
+    friction = 1.0f;
+    restitution = 1.0f;
 }
 
 PhysicsComponent::~PhysicsComponent(void)
@@ -48,7 +53,8 @@ void PhysicsComponent::Update(unsigned long dt)
 		b2FixtureDef FixtureDef;
 		FixtureDef.shape = &shape;
 		FixtureDef.density = density;
-		FixtureDef.friction = 0.5f;
+        FixtureDef.friction = friction;
+        FixtureDef.restitution = restitution;
 		body->CreateFixture(&FixtureDef);
 		synched = true;
 	}
@@ -57,5 +63,18 @@ void PhysicsComponent::Update(unsigned long dt)
 
 string PhysicsComponent::ToString()
 {
-	return "";
+    XMLDocument doc;
+    XMLElement* componentElement = doc.NewElement("Component");
+    componentElement->SetAttribute("id", id.c_str());
+    componentElement->SetAttribute("type", Component::TypeToString(Component::PHYSICS).c_str());
+    componentElement->SetAttribute("enabled", enabled);
+    XMLElement* physicsElement = doc.NewElement("Physics");
+    physicsElement->SetAttribute("type", bodyType);
+    physicsElement->SetAttribute("density", density);
+    physicsElement->SetAttribute("friction", friction);
+    physicsElement->SetAttribute("restitution", restitution);
+
+    componentElement->LinkEndChild(physicsElement);
+    doc.LinkEndChild(componentElement);
+    return Debug::XMLDocumentToString(&doc);
 }

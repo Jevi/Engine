@@ -45,14 +45,15 @@ void RenderComponent::Render()
 {
 	if (entity->GetComponent("physics") != NULL)
 	{
-		if (((PhysicsComponent*) entity->GetComponent("physics"))->body && ((PhysicsComponent*) entity->GetComponent("physics"))->synched)
+        PhysicsComponent* physicsComponent = ((PhysicsComponent*) entity->GetComponent("physics"));
+        if (physicsComponent->body && physicsComponent->synched)
 		{
 			b2Vec2 bodyVerticies[4];
-			b2Vec2 bodyCenter = ((PhysicsComponent*) entity->GetComponent("physics"))->body->GetWorldCenter();
-			float rotation = ((PhysicsComponent*) entity->GetComponent("physics"))->body->GetAngle();
+            b2Vec2 bodyCenter = physicsComponent->body->GetWorldCenter();
+            float rotation = physicsComponent->body->GetAngle();
 			for (unsigned int i = 0; i < 4; i++)
 			{
-				bodyVerticies[i] = ((b2PolygonShape*) (((PhysicsComponent*) entity->GetComponent("physics"))->body->GetFixtureList()->GetShape()))->GetVertex(i);
+                bodyVerticies[i] = ((b2PolygonShape*) (physicsComponent->body->GetFixtureList()->GetShape()))->GetVertex(i);
 			}
 			Graphics::DrawTexture(sprite, bodyVerticies, bodyCenter, rotation);
 		}
@@ -70,11 +71,16 @@ void RenderComponent::Render()
 string RenderComponent::ToString()
 {
 	XMLDocument doc;
-	XMLElement* root = doc.NewElement("Component");
-	root->SetAttribute("id", id.c_str());
-	root->SetAttribute("type", Component::TypeToString(Component::RENDER).c_str());
-	root->SetAttribute("enabled", enabled);
-	doc.LinkEndChild(root);
+    XMLElement* componentElement = doc.NewElement("Component");
+    componentElement->SetAttribute("id", id.c_str());
+    componentElement->SetAttribute("type", Component::TypeToString(Component::RENDER).c_str());
+    componentElement->SetAttribute("enabled", enabled);
+
+    XMLElement* renderElement = doc.NewElement("Render");
+    renderElement->SetAttribute("asset", sprite->id.c_str());
+
+    componentElement->LinkEndChild(renderElement);
+    doc.LinkEndChild(componentElement);
 	return Debug::XMLDocumentToString(&doc);
 }
 

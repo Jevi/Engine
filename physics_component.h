@@ -8,6 +8,7 @@
 #include "engine.h"
 #include "engine_math.h"
 #include "component.h"
+#include "tinyxml2.h"
 
 using namespace std;
 
@@ -19,10 +20,12 @@ public:
 
 	b2Body* body;
 	unsigned int bodyType;
-	float density;
+    float density;
+    float friction;
+    float restitution;
 	bool synched;
 
-	PhysicsComponent(string Id, unsigned int BodyType, float Density, bool Enabled);
+    PhysicsComponent(string Id, unsigned int BodyType, bool Enabled);
 	~PhysicsComponent(void);
 
 	void Start();
