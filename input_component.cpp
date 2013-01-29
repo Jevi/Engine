@@ -8,12 +8,11 @@
 #include "debug.h"
 #include "engine_math.h"
 
-InputComponent::InputComponent(string Id, bool Enabled)
-	: Component(Id, Component::INPUT)
+InputComponent::InputComponent(string Id, bool Enabled) :
+		Component(Id, Component::INPUT)
 {
 	enabled = Enabled;
 }
-
 
 InputComponent::~InputComponent(void)
 {
@@ -30,7 +29,7 @@ void InputComponent::Update(unsigned long dt)
 	if (keystate[SDLK_RIGHT])
 	{
 		Debug::Log(Debug::LOG_DEBUG, "RIGHT");
-		entity->transform.p.x = EngineMath::PixelsToMeters(300);
+		entity->transform.Set(b2Vec2(entity->transform.p.x + EngineMath::PixelsToMeters(100), entity->transform.p.y), entity->transform.q.GetAngle());
 	}
 }
 

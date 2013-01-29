@@ -3,7 +3,7 @@
 
 void Graphics::DrawPoint(float x, float y)
 {
-	glBegin(GL_POINTS);
+	glBegin (GL_POINTS);
 	glVertex2f(x, y);
 	glEnd();
 }

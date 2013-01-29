@@ -140,29 +140,29 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 					switch (type)
 					{
 						case Component::RENDER:
-							{
-								Asset* asset = 0;
-								const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
-								string assetId(assetElement->Attribute("asset"));
-								asset = assetLoader->GetAsset(assetId);
-								Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
-								component = new RenderComponent(componentId, (Sprite*) asset, enabled);
-							}
+						{
+							Asset* asset = 0;
+							const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
+							string assetId(assetElement->Attribute("asset"));
+							asset = assetLoader->GetAsset(assetId);
+							Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
+							component = new RenderComponent(componentId, (Sprite*) asset, enabled);
+						}
 							break;
 						case Component::AUDIO:
 							break;
 						case Component::PHYSICS:
-							{
-								const XMLElement* physicsElement = componentNode->FirstChild()->ToElement();
-								unsigned int bodyType = atoi(physicsElement->Attribute("type"));
-								float density = (float) atof(physicsElement->Attribute("density"));
-								float friction = (float) atof(physicsElement->Attribute("friction"));
-								float restitution = (float) atof(physicsElement->Attribute("restitution"));
-								component = new PhysicsComponent(componentId, bodyType, enabled);
-								((PhysicsComponent*) component)->density = density;
-								((PhysicsComponent*) component)->friction = friction;
-								((PhysicsComponent*) component)->restitution = restitution;
-							}
+						{
+							const XMLElement* physicsElement = componentNode->FirstChild()->ToElement();
+							unsigned int bodyType = atoi(physicsElement->Attribute("type"));
+							float density = (float) atof(physicsElement->Attribute("density"));
+							float friction = (float) atof(physicsElement->Attribute("friction"));
+							float restitution = (float) atof(physicsElement->Attribute("restitution"));
+							component = new PhysicsComponent(componentId, bodyType, enabled);
+							((PhysicsComponent*) component)->density = density;
+							((PhysicsComponent*) component)->friction = friction;
+							((PhysicsComponent*) component)->restitution = restitution;
+						}
 							break;
 					}
 					if (component)
