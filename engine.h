@@ -21,7 +21,6 @@
 #include "graphics.h"
 #include "debug.h"
 #include "event_handler.h"
-#include "entity.h"
 #include "asset_system.h"
 #include "level_system.h"
 

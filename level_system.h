@@ -20,6 +20,7 @@ using namespace tinyxml2;
 
 class Engine;
 class AssetLoader;
+class Entity;
 
 class LevelSystem
 {

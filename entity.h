@@ -6,18 +6,10 @@
 #include <sstream>
 #include <Box2D/Box2D.h>
 
-#include "engine_math.h"
 #include "component.h"
-#include "debug.h"
-#include "tinyxml2.h"
-#include "render_component.h"
-#include "physics_component.h"
-
-using namespace tinyxml2;
 using namespace std;
 
 class Component;
-class RenderComponent;
 
 class Entity
 {

@@ -153,7 +153,7 @@ void Graphics::DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCen
 	glTexCoord2f(1, 0);
 	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[1].x), EngineMath::MetersToPixels(bodyVerticies[1].y));
 	glTexCoord2f(1, 1);
-	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[2].x),EngineMath::MetersToPixels(bodyVerticies[2].y));
+	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[2].x), EngineMath::MetersToPixels(bodyVerticies[2].y));
 	glTexCoord2f(0, 1);
 	glVertex2f(EngineMath::MetersToPixels(bodyVerticies[3].x), EngineMath::MetersToPixels(bodyVerticies[3].y));
 	glEnd();

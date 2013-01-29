@@ -5,15 +5,17 @@
 using namespace std;
 
 class Entity;
+class RenderComponent;
+class PhysicsComponent;
 
 class Component
 {
 public:
 
-	//Constant fields representing component types
-	static const unsigned int RENDER = 0;
-	static const unsigned int AUDIO = 1;
-	static const unsigned int PHYSICS = 2;
+	static enum ComponentType
+	{
+		RENDER, AUDIO, PHYSICS
+	};
 
 	static string TypeToString(unsigned int Type)
 	{

@@ -1,4 +1,9 @@
 #include "render_component.h"
+#include "physics_component.h"
+#include "engine_math.h"
+#include "graphics.h"
+#include "tinyxml2.h"
+#include "debug.h"
 
 RenderComponent::RenderComponent(string Id) :
 		Component(Id, Component::RENDER)
@@ -45,15 +50,15 @@ void RenderComponent::Render()
 {
 	if (entity->GetComponent("physics") != NULL)
 	{
-        PhysicsComponent* physicsComponent = ((PhysicsComponent*) entity->GetComponent("physics"));
-        if (physicsComponent->body && physicsComponent->synched)
+		PhysicsComponent* physicsComponent = ((PhysicsComponent*) entity->GetComponent("physics"));
+		if (physicsComponent->body && physicsComponent->synched)
 		{
 			b2Vec2 bodyVerticies[4];
-            b2Vec2 bodyCenter = physicsComponent->body->GetWorldCenter();
-            float rotation = physicsComponent->body->GetAngle();
+			b2Vec2 bodyCenter = physicsComponent->body->GetWorldCenter();
+			float rotation = physicsComponent->body->GetAngle();
 			for (unsigned int i = 0; i < 4; i++)
 			{
-                bodyVerticies[i] = ((b2PolygonShape*) (physicsComponent->body->GetFixtureList()->GetShape()))->GetVertex(i);
+				bodyVerticies[i] = ((b2PolygonShape*) (physicsComponent->body->GetFixtureList()->GetShape()))->GetVertex(i);
 			}
 			Graphics::DrawTexture(sprite, bodyVerticies, bodyCenter, rotation);
 		}
@@ -71,16 +76,16 @@ void RenderComponent::Render()
 string RenderComponent::ToString()
 {
 	XMLDocument doc;
-    XMLElement* componentElement = doc.NewElement("Component");
-    componentElement->SetAttribute("id", id.c_str());
-    componentElement->SetAttribute("type", Component::TypeToString(Component::RENDER).c_str());
-    componentElement->SetAttribute("enabled", enabled);
+	XMLElement* componentElement = doc.NewElement("Component");
+	componentElement->SetAttribute("id", id.c_str());
+	componentElement->SetAttribute("type", Component::TypeToString(Component::RENDER).c_str());
+	componentElement->SetAttribute("enabled", enabled);
 
-    XMLElement* renderElement = doc.NewElement("Render");
-    renderElement->SetAttribute("asset", sprite->id.c_str());
+	XMLElement* renderElement = doc.NewElement("Render");
+	renderElement->SetAttribute("asset", sprite->id.c_str());
 
-    componentElement->LinkEndChild(renderElement);
-    doc.LinkEndChild(componentElement);
+	componentElement->LinkEndChild(renderElement);
+	doc.LinkEndChild(componentElement);
 	return Debug::XMLDocumentToString(&doc);
 }
 

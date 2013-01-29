@@ -4,13 +4,8 @@
 #include <sstream>
 #include <string>
 
-#include "engine_math.h"
 #include "component.h"
 #include "sprite.h"
-#include "graphics.h"
-#include "tinyxml2.h"
-#include "debug.h"
-#include "physics_component.h"
 
 using namespace std;
 
@@ -45,6 +40,7 @@ private:
 	 Texture2D to render to screen
 	 */
 	Sprite* sprite;
+
 	void Render();
 };
 

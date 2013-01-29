@@ -9,9 +9,10 @@ class Asset
 public:
 
 	// constant types of Assets
-
-	static const unsigned int GRAPHICAL = 0;
-	static const unsigned int AUDIO = 1;
+	static enum AssetType
+	{
+		GRAPHICAL, AUDIO
+	};
 
 	static string TypeToString(unsigned int Type)
 	{

@@ -38,8 +38,6 @@ public:
 
 private:
 
-	static void ProcessElements(const XMLNode* ParentNode, ostringstream& os, unsigned int indents = 0);
-	static const char* GetIndent(int indents);
 	static string LogLevelToString(LogLevel level)
 	{
 		switch (level)
