@@ -29,7 +29,7 @@ void InputComponent::Update(unsigned long dt)
 	if (keystate[SDLK_RIGHT])
 	{
 		Debug::Log(Debug::LOG_DEBUG, "RIGHT");
-		entity->transform.Set(b2Vec2(entity->transform.p.x + EngineMath::PixelsToMeters(100), entity->transform.p.y), entity->transform.q.GetAngle());
+       entity->bodyDef.position.x += EngineMath::PixelsToMeters(10);
 	}
 }
 

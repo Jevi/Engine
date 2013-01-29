@@ -9,7 +9,7 @@ class Asset
 public:
 
 	// constant types of Assets
-	static enum AssetType
+    enum AssetType
 	{
 		GRAPHICAL, AUDIO
 	};

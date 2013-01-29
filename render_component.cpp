@@ -62,9 +62,9 @@ void RenderComponent::Render()
 	}
 	else
 	{
-		float x = entity->transform.p.x;
-		float y = entity->transform.p.y;
-		float rotation = entity->transform.q.GetAngle();
+        float x = entity->bodyDef.position.x;
+        float y = entity->bodyDef.position.y;
+        float rotation = entity->bodyDef.angle;
 		float scale = entity->scale;
 		Graphics::DrawTexture(sprite, x, y, rotation, scale);
 	}

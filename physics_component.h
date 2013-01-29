@@ -10,7 +10,7 @@ class PhysicsComponent: public Component
 {
 public:
 
-	static enum BodyType
+    enum BodyType
 	{
 		StaticBody, DynamicBody
 	};

@@ -17,12 +17,15 @@ public:
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
-	b2Transform transform;
+    b2BodyDef bodyDef;
 	float scale;
 
 	Entity(string Id, float PosX, float PosY, float Rot, float Scale) :
-			id(Id), transform(b2Vec2(PosX, PosY), b2Rot(Rot)), scale(Scale)
+            id(Id), scale(Scale)
 	{
+        bodyDef.position.x = PosX;
+        bodyDef.position.y = PosY;
+        bodyDef.angle = Rot;
 	}
 
 	virtual ~Entity()
