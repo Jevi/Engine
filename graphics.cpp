@@ -1,19 +1,34 @@
 #include "graphics.h"
 #include "engine_math.h"
 
+void Graphics::DrawPoint(float x, float y)
+{
+	glBegin(GL_POINTS);
+	glVertex2f(x, y);
+	glEnd();
+}
+
+void Graphics::DrawPoint(float x, float y, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+{
+	glEnable (GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(r, g, b, a);
+
+	DrawPoint(x, y);
+
+	glColor4f(1, 1, 1, 1);
+}
+
 void Graphics::DrawLine(float x1, float y1, float x2, float y2)
 {
-	glPushMatrix();
 	glBegin (GL_LINES);
 	glVertex2f(x1, y1);
 	glVertex2f(x2, y2);
 	glEnd();
-	glPopMatrix();
 }
 
 void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 {
-	glPushMatrix();
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -22,19 +37,16 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLflo
 
 	glDisable(GL_BLEND);
 	glColor4f(1, 1, 1, 1);
-	glPopMatrix();
 }
 
 void Graphics::DrawQuad(float x, float y, float width, float height)
 {
-	glPushMatrix();
 	glBegin (GL_LINE_LOOP);
 	glVertex2f(x, y);
 	glVertex2f(x + width, y);
 	glVertex2f(x + width, y + height);
 	glVertex2f(x, y + height);
 	glEnd();
-	glPopMatrix();
 }
 
 void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
@@ -42,7 +54,6 @@ void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, 
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 
-	glPushMatrix();
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -51,7 +62,6 @@ void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, 
 
 	glDisable(GL_BLEND);
 	glColor4f(1, 1, 1, 1);
-	glPopMatrix();
 }
 
 void Graphics::DrawQuad(float x, float y, float width, float height, float rotation, GLfloat r, GLfloat g, GLfloat b, GLfloat a)

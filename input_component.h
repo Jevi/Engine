@@ -2,15 +2,11 @@
 #define INPUTCOMPONENT_H
 
 #include "component.h"
-#include "event_handler.h"
 
 class InputComponent :
-	public Component, public EventHandler
+	public Component
 {
 public:
-
-	string id;
-	bool enabled;
 
 	InputComponent(string Id, bool Enabled);
 	~InputComponent(void);

@@ -3,17 +3,9 @@
 
 #include <vector>
 
-#include "engine_math.h"
-#include "engine.h"
 #include "tinyxml2.h"
-#include "debug.h"
 #include "entity.h"
-#include "render_component.h"
-#include "component.h"
-#include "asset.h"
-#include "sprite.h"
 #include "asset_system.h"
-#include "physics_component.h"
 
 using namespace std;
 using namespace tinyxml2;

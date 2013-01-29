@@ -1,5 +1,13 @@
 #include "level_system.h"
 #include "engine_math.h"
+#include "engine.h"
+#include "debug.h"
+#include "render_component.h"
+#include "component.h"
+#include "asset.h"
+#include "sprite.h"
+#include "physics_component.h"
+#include "input_component.h"
 
 LevelSystem* LevelSystem::instance;
 AssetLoader* LevelSystem::assetLoader;
@@ -132,7 +140,6 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 					switch (type)
 					{
 						case Component::RENDER:
-							if (strcmp(componentNode->FirstChild()->ToElement()->Name(), "Render") == 0)
 							{
 								Asset* asset = 0;
 								const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
@@ -145,7 +152,6 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 						case Component::AUDIO:
 							break;
 						case Component::PHYSICS:
-							if (strcmp(componentNode->FirstChild()->ToElement()->Name(), "Physics") == 0)
 							{
 								const XMLElement* physicsElement = componentNode->FirstChild()->ToElement();
 								unsigned int bodyType = atoi(physicsElement->Attribute("type"));
@@ -161,7 +167,9 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 					}
 					if (component)
 					{
+						InputComponent* icom = new InputComponent("input", true);
 						entity->AddComponent(component);
+						entity->AddComponent(icom);
 						Debug::Log(Debug::LOG_INFO, "Added Component To: %s\n%s", entity->GetId().c_str(), component->ToString().c_str());
 					}
 				}

@@ -8,20 +8,17 @@
 RenderComponent::RenderComponent(string Id) :
 		Component(Id, Component::RENDER)
 {
-	type = RENDER;
 }
 
 RenderComponent::RenderComponent(string Id, Sprite* Sprite) :
 		Component(Id, Component::RENDER)
 {
-	type = RENDER;
 	sprite = Sprite;
 }
 
 RenderComponent::RenderComponent(string Id, Sprite* Sprite, bool Enabled) :
 		Component(Id, Component::RENDER)
 {
-	type = RENDER;
 	sprite = Sprite;
 	enabled = Enabled;
 

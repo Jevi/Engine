@@ -127,6 +127,7 @@ void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
 	levelManager->UpdateLevel();
+	Graphics::DrawPoint(320, 240, 0, 255, 0, 255);
 	SDL_GL_SwapBuffers();
 }
 

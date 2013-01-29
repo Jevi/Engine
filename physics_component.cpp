@@ -3,12 +3,12 @@
 #include "debug.h"
 #include "engine.h"
 #include "engine_math.h"
+#include "render_component.h"
 #include "tinyxml2.h"
 
 PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enabled) :
 		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false)
 {
-	type = PHYSICS;
 	enabled = Enabled;
 
 	density = 1.0f;
@@ -50,9 +50,10 @@ void PhysicsComponent::Update(unsigned long dt)
 		body = world->CreateBody(&BodyDef);
 
 		b2PolygonShape shape;
-		int width = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->width;
-		int height = ((RenderComponent*) entity->GetComponent("render"))->GetSprite()->height;
-		shape.SetAsBox(EngineMath::PixelsToMeters((float) width) / 2.0f, EngineMath::PixelsToMeters((float) height) / 2.0f);
+		RenderComponent* renderComponent = ((RenderComponent*) entity->GetComponent("render"));
+		int width = renderComponent->GetSprite()->width;
+		int height = renderComponent->GetSprite()->height;
+		shape.SetAsBox(EngineMath::PixelsToMeters(((float) width) * entity->scale) / 2.0f, EngineMath::PixelsToMeters(((float) height) * entity->scale) / 2.0f);
 
 		b2FixtureDef FixtureDef;
 		FixtureDef.shape = &shape;

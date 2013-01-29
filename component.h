@@ -5,8 +5,6 @@
 using namespace std;
 
 class Entity;
-class RenderComponent;
-class PhysicsComponent;
 
 class Component
 {
@@ -14,7 +12,7 @@ public:
 
 	static enum ComponentType
 	{
-		RENDER, AUDIO, PHYSICS
+		RENDER, AUDIO, PHYSICS, INPUT
 	};
 
 	static string TypeToString(unsigned int Type)
@@ -53,7 +51,7 @@ public:
 	Entity* entity;
 
 	Component(string Id, unsigned int Type) :
-			id(Id), enabled(false), entity(NULL)
+			id(Id), type(Type), enabled(false), entity(NULL)
 	{
 	}
 
