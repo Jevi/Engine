@@ -103,9 +103,9 @@ string Entity::ToString()
 	XMLDocument doc;
 	XMLElement* root = doc.NewElement("Entity");
 	root->SetAttribute("id", id.c_str());
-    root->SetAttribute("x", EngineMath::MetersToPixels(bodyDef.position.x));
-    root->SetAttribute("y", EngineMath::MetersToPixels(bodyDef.position.y));
-    root->SetAttribute("rot", EngineMath::RadiansToDegrees(bodyDef.angle));
+	root->SetAttribute("x", EngineMath::MetersToPixels(bodyDef.position.x));
+	root->SetAttribute("y", EngineMath::MetersToPixels(bodyDef.position.y));
+	root->SetAttribute("rot", EngineMath::RadiansToDegrees(bodyDef.angle));
 	doc.LinkEndChild(root);
 
 	for (unsigned int i = 0; i < components.size(); ++i)

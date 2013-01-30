@@ -141,10 +141,9 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 					{
 						case Component::RENDER:
 						{
-							Asset* asset = 0;
 							const XMLElement* assetElement = componentNode->FirstChild()->ToElement();
 							string assetId(assetElement->Attribute("asset"));
-							asset = assetLoader->GetAsset(assetId);
+							Asset* asset = assetLoader->GetAsset(assetId);
 							Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 							component = new RenderComponent(componentId, (Sprite*) asset, enabled);
 						}
@@ -158,18 +157,24 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 							float density = (float) atof(physicsElement->Attribute("density"));
 							float friction = (float) atof(physicsElement->Attribute("friction"));
 							float restitution = (float) atof(physicsElement->Attribute("restitution"));
+							bool allowSleep = (atoi(physicsElement->Attribute("allowSleep")) != 0);
 							component = new PhysicsComponent(componentId, bodyType, enabled);
 							((PhysicsComponent*) component)->density = density;
 							((PhysicsComponent*) component)->friction = friction;
 							((PhysicsComponent*) component)->restitution = restitution;
+							((PhysicsComponent*) component)->allowSleep = allowSleep;
+						}
+							break;
+						case Component::INPUT:
+						{
+							const XMLElement* inputElement = componentNode->FirstChild()->ToElement();
+							component = new InputComponent(componentId, enabled);
 						}
 							break;
 					}
 					if (component)
 					{
-						InputComponent* icom = new InputComponent("input", true);
 						entity->AddComponent(component);
-						entity->AddComponent(icom);
 						Debug::Log(Debug::LOG_INFO, "Added Component To: %s\n%s", entity->GetId().c_str(), component->ToString().c_str());
 					}
 				}
