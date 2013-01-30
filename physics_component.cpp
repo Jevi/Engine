@@ -37,9 +37,9 @@ void PhysicsComponent::Update(unsigned long dt)
 			case DynamicBody:
 				entity->bodyDef.type = b2_dynamicBody;
 		}
-		Debug::Log(Debug::LOG_DEBUG, "%s Allos Sleep: %s", entity->GetId().c_str(), Debug::BoolToString(allowSleep).c_str());
-		body = world->CreateBody(&entity->bodyDef);
-		body->SetSleepingAllowed(allowSleep);
+        entity->bodyDef.gravityScale = gravityScale;
+        entity->bodyDef.allowSleep = allowSleep;
+        body = world->CreateBody(&entity->bodyDef);
 
 		b2PolygonShape shape;
 		RenderComponent* renderComponent = ((RenderComponent*) entity->GetComponent("render"));
@@ -56,7 +56,7 @@ void PhysicsComponent::Update(unsigned long dt)
 		synched = true;
 	}
 
-	// Debug::Log(Debug::LOG_DEBUG, "%s Awake State: %s", entity->GetId().c_str(), Debug::BoolToString(body->IsAwake()).c_str());
+    Debug::Log(Debug::LOG_DEBUG, "%s Awake State: %s - Allow Sleep: %s ", entity->GetId().c_str(), Debug::BoolToString(body->IsAwake()).c_str(), Debug::BoolToString(allowSleep).c_str());
 	entity->bodyDef.position.x = body->GetTransform().p.x;
 	entity->bodyDef.position.y = body->GetTransform().p.y;
 	entity->bodyDef.angle = body->GetTransform().q.GetAngle();

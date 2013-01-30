@@ -157,11 +157,13 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 							float density = (float) atof(physicsElement->Attribute("density"));
 							float friction = (float) atof(physicsElement->Attribute("friction"));
 							float restitution = (float) atof(physicsElement->Attribute("restitution"));
+                            float gravityScale = (float) atof(physicsElement->Attribute("gravityScale"));
 							bool allowSleep = (atoi(physicsElement->Attribute("allowSleep")) != 0);
 							component = new PhysicsComponent(componentId, bodyType, enabled);
 							((PhysicsComponent*) component)->density = density;
 							((PhysicsComponent*) component)->friction = friction;
 							((PhysicsComponent*) component)->restitution = restitution;
+                            ((PhysicsComponent*) component)->gravityScale = gravityScale;
 							((PhysicsComponent*) component)->allowSleep = allowSleep;
 						}
 							break;
