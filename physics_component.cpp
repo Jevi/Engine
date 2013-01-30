@@ -7,13 +7,9 @@
 #include "tinyxml2.h"
 
 PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enabled) :
-		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false)
+		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false), density(1.0f), friction(1.0f), restitution(1.0f),  allowSleep(true)
 {
 	enabled = Enabled;
-
-	density = 1.0f;
-	friction = 1.0f;
-	restitution = 1.0f;
 }
 
 PhysicsComponent::~PhysicsComponent(void)
@@ -36,14 +32,13 @@ void PhysicsComponent::Update(unsigned long dt)
 		switch (bodyType)
 		{
 			case StaticBody:
-                entity->bodyDef.type = b2_staticBody;
+				entity->bodyDef.type = b2_staticBody;
 				break;
 			case DynamicBody:
-                entity->bodyDef.type = b2_dynamicBody;
-			default:
-                entity->bodyDef.type = b2_dynamicBody;
-				break;
+				entity->bodyDef.type = b2_dynamicBody;
 		}
+        entity->bodyDef.gravityScale = gravityScale;
+        entity->bodyDef.allowSleep = allowSleep;
         body = world->CreateBody(&entity->bodyDef);
 
 		b2PolygonShape shape;
@@ -59,10 +54,12 @@ void PhysicsComponent::Update(unsigned long dt)
 		FixtureDef.restitution = restitution;
 		body->CreateFixture(&FixtureDef);
 		synched = true;
-    }
-    entity->bodyDef.position.x = body->GetTransform().p.x;
-    entity->bodyDef.position.y = body->GetTransform().p.y;
-    entity->bodyDef.angle = body->GetTransform().q.GetAngle();
+	}
+
+    Debug::Log(Debug::LOG_DEBUG, "%s Awake State: %s - Allow Sleep: %s ", entity->GetId().c_str(), Debug::BoolToString(body->IsAwake()).c_str(), Debug::BoolToString(allowSleep).c_str());
+	entity->bodyDef.position.x = body->GetTransform().p.x;
+	entity->bodyDef.position.y = body->GetTransform().p.y;
+	entity->bodyDef.angle = body->GetTransform().q.GetAngle();
 }
 
 string PhysicsComponent::ToString()

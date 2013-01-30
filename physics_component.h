@@ -10,17 +10,19 @@ class PhysicsComponent: public Component
 {
 public:
 
-    enum BodyType
+	enum BodyType
 	{
 		StaticBody, DynamicBody
 	};
 
 	b2Body* body;
+    bool synched;
 	unsigned int bodyType;
 	float density;
 	float friction;
 	float restitution;
-	bool synched;
+    float gravityScale;
+	bool allowSleep;
 
 	PhysicsComponent(string Id, unsigned int BodyType, bool Enabled);
 	~PhysicsComponent(void);
