@@ -5,7 +5,7 @@ b2World* Engine::world;
 string Engine::appProject;
 
 Engine::Engine() :
-		appState(Uninitialized), appWidth(640), appHeight(480)
+	appState(Uninitialized), appWidth(640), appHeight(480)
 {
 	appProject = "workspace/demo";
 	assetLoader = AssetLoader::GetInstance();
@@ -20,7 +20,6 @@ Engine* Engine::GetInstance()
 		instance = new Engine;
 	}
 	return instance;
-
 }
 
 void Engine::Destroy()
@@ -44,15 +43,13 @@ void Engine::Start()
 	{
 		Debug::Log(Debug::LOG_ENTRY, "Engine Initialized Successfully");
 
-		if (assetLoader->LoadAssets())
-		{
-			appState = Running;
-			levelManager->LoadNextLevel();
+		appState = Running;
+		assetLoader->LoadAssets();
+		levelManager->LoadNextLevel();
 
-			while (!IsExiting())
-			{
-				Heartbeat();
-			}
+		while (!IsExiting())
+		{
+			Heartbeat();
 		}
 	}
 	Destroy();
@@ -92,7 +89,7 @@ void Engine::Heartbeat()
 {
 	switch (appState)
 	{
-		case Running:
+	case Running:
 		{
 			OnEvent(&appEvent);
 			Update();
@@ -120,7 +117,7 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 
 void Engine::Update()
 {
-	world->Step(1.0f / 60.0f, 5, 5);
+	world->Step(1.0f / 60.0f, 10, 30);
 }
 
 void Engine::Render()
@@ -155,17 +152,17 @@ string Engine::ToString(AppState state)
 {
 	switch (state)
 	{
-		case Uninitialized:
-			return string("Uninitialized");
-			break;
-		case Running:
-			return string("Running");
-			break;
-		case Exiting:
-			return string("Exiting");
-			break;
-		default:
-			return string("State Not Valid");
-			break;
+	case Uninitialized:
+		return string("Uninitialized");
+		break;
+	case Running:
+		return string("Running");
+		break;
+	case Exiting:
+		return string("Exiting");
+		break;
+	default:
+		return string("State Not Valid");
+		break;
 	}
 }

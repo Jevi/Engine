@@ -28,7 +28,7 @@ RenderComponent::RenderComponent(string Id, Sprite* Sprite, bool Enabled) :
 	}
 }
 
-RenderComponent::~RenderComponent()
+RenderComponent::~RenderComponent(void)
 {
 	sprite->Unload();
 }
@@ -65,8 +65,9 @@ void RenderComponent::Render()
 		float x = entity->bodyDef.position.x;
 		float y = entity->bodyDef.position.y;
 		float rotation = entity->bodyDef.angle;
-		float scale = entity->scale;
-		Graphics::DrawTexture(sprite, x, y, rotation, scale);
+		float scaleX = entity->scale.x;
+		float scaleY = entity->scale.y;
+		Graphics::DrawTexture(sprite, x, y, rotation, scaleX, scaleY);
 	}
 }
 

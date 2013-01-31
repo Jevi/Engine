@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "render_component.h"
 #include "physics_component.h"
+#include "input_component.h"
 #include "engine_math.h"
 #include "debug.h"
 #include "tinyxml2.h"
@@ -98,6 +99,35 @@ bool Entity::RemoveComponentAt(unsigned int Index)
 	return true;
 }
 
+Entity::~Entity(void)
+{
+	for (unsigned int i = 0; i < components.size(); i++)
+	{
+		switch (components[i]->type)
+		{
+			case Component::RENDER:
+			{
+				RenderComponent* renderComponent = (RenderComponent*) components[i];
+				renderComponent->~RenderComponent();
+			}
+				break;
+			case Component::PHYSICS:
+			{
+				PhysicsComponent* physicsComponent = (PhysicsComponent*) components[i];
+				physicsComponent->~PhysicsComponent();
+			}
+			case Component::INPUT:
+			{
+				InputComponent* inputComponent = (InputComponent*) components[i];
+				inputComponent->~InputComponent();
+			}
+			default:
+				delete components[i];
+				break;
+		}
+	}
+}
+
 string Entity::ToString()
 {
 	XMLDocument doc;
@@ -106,6 +136,8 @@ string Entity::ToString()
 	root->SetAttribute("x", EngineMath::MetersToPixels(bodyDef.position.x));
 	root->SetAttribute("y", EngineMath::MetersToPixels(bodyDef.position.y));
 	root->SetAttribute("rot", EngineMath::RadiansToDegrees(bodyDef.angle));
+	root->SetAttribute("scalex", scale.x);
+	root->SetAttribute("scaley", scale.y);
 	doc.LinkEndChild(root);
 
 	for (unsigned int i = 0; i < components.size(); ++i)
@@ -134,6 +166,7 @@ string Entity::ToString()
 				physicsElement->SetAttribute("density", physicsComponent->density);
 				physicsElement->SetAttribute("friction", physicsComponent->friction);
 				physicsElement->SetAttribute("restitution", physicsComponent->restitution);
+				physicsElement->SetAttribute("gravityScale", physicsComponent->gravityScale);
 				componentElement->LinkEndChild(physicsElement);
 			}
 				break;

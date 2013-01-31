@@ -72,7 +72,8 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 	float posx;
 	float posy;
 	float rot;
-	float scale;
+	float scaleX;
+	float scaleY;
 	bool canAdd = true;
 
 	do
@@ -93,7 +94,11 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 		{
 			break;
 		}
-		if (entityElement->Attribute("scale") == NULL)
+		if (entityElement->Attribute("scalex") == NULL)
+		{
+			break;
+		}
+		if (entityElement->Attribute("scaley") == NULL)
 		{
 			break;
 		}
@@ -103,9 +108,10 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 		posy = EngineMath::PixelsToMeters((float) atof(entityElement->Attribute("y")));
 		rot = (float) atof(entityElement->Attribute("rot"));
 		rot = EngineMath::DegreesToRadians(rot);
-		scale = (float) atof(entityElement->Attribute("scale"));
+		scaleX = (float) atof(entityElement->Attribute("scalex"));
+		scaleY = (float) atof(entityElement->Attribute("scaley"));
 
-		entity = new Entity(entityId, posx, posy, rot, scale);
+		entity = new Entity(entityId, posx, posy, rot, scaleX, scaleY);
 
 		// Process Components
 		for (const XMLNode* componentNode = EntityNode->FirstChild(); componentNode; componentNode = componentNode->NextSibling())
@@ -157,13 +163,13 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 							float density = (float) atof(physicsElement->Attribute("density"));
 							float friction = (float) atof(physicsElement->Attribute("friction"));
 							float restitution = (float) atof(physicsElement->Attribute("restitution"));
-                            float gravityScale = (float) atof(physicsElement->Attribute("gravityScale"));
+							float gravityScale = (float) atof(physicsElement->Attribute("gravityScale"));
 							bool allowSleep = (atoi(physicsElement->Attribute("allowSleep")) != 0);
 							component = new PhysicsComponent(componentId, bodyType, enabled);
 							((PhysicsComponent*) component)->density = density;
 							((PhysicsComponent*) component)->friction = friction;
 							((PhysicsComponent*) component)->restitution = restitution;
-                            ((PhysicsComponent*) component)->gravityScale = gravityScale;
+							((PhysicsComponent*) component)->gravityScale = gravityScale;
 							((PhysicsComponent*) component)->allowSleep = allowSleep;
 						}
 							break;

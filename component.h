@@ -58,7 +58,7 @@ public:
 	{
 	}
 
-	virtual ~Component()
+	virtual ~Component(void)
 	{
 		entity = NULL;
 	}

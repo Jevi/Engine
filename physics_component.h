@@ -16,12 +16,12 @@ public:
 	};
 
 	b2Body* body;
-    bool synched;
+	bool synched;
 	unsigned int bodyType;
 	float density;
 	float friction;
 	float restitution;
-    float gravityScale;
+	float gravityScale;
 	bool allowSleep;
 
 	PhysicsComponent(string Id, unsigned int BodyType, bool Enabled);

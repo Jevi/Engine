@@ -14,23 +14,32 @@ class Component;
 class Entity
 {
 public:
+
+	struct Scale
+	{
+		float x, y;
+		Scale(float X, float Y)
+		{
+			x = X;
+			y = Y;
+		}
+	};
+
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
 	b2BodyDef bodyDef;
-	float scale;
+	Scale scale;
 
-	Entity(string Id, float PosX, float PosY, float Rot, float Scale) :
-			id(Id), scale(Scale)
+	Entity(string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
+			id(Id), scale(ScaleX, ScaleY)
 	{
 		bodyDef.position.x = PosX;
 		bodyDef.position.y = PosY;
 		bodyDef.angle = Rot;
 	}
 
-	virtual ~Entity()
-	{
-	}
+	virtual ~Entity();
 
 	/*
 	 Initializes Entity by initializing all enabled components

@@ -27,39 +27,34 @@ void InputComponent::Start()
 void InputComponent::Update(unsigned long dt)
 {
 	Uint8* keystate = SDL_GetKeyState(NULL);
-	if (keystate[SDLK_RIGHT])
+	if (entity->GetComponent("physics") != NULL)
 	{
-		if (entity->GetComponent("physics") != NULL)
+		PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
+		if (physicsComponent->body->IsAwake())
 		{
-			PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
-			physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x + EngineMath::PixelsToMeters(10), physicsComponent->body->GetTransform().p.y), physicsComponent->body->GetTransform().q.GetAngle());
-		}
-	}
+			if (keystate[SDLK_RIGHT])
+			{
+				physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x + EngineMath::PixelsToMeters(10), physicsComponent->body->GetTransform().p.y), physicsComponent->body->GetTransform().q.GetAngle());
+			}
 
-	if (keystate[SDLK_LEFT])
-	{
-		if (entity->GetComponent("physics") != NULL)
-		{
-			PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
-			physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x - EngineMath::PixelsToMeters(10), physicsComponent->body->GetTransform().p.y), physicsComponent->body->GetTransform().q.GetAngle());
-		}
-	}
+			if (keystate[SDLK_LEFT])
+			{
+				physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x - EngineMath::PixelsToMeters(10), physicsComponent->body->GetTransform().p.y), physicsComponent->body->GetTransform().q.GetAngle());
+			}
 
-	if (keystate[SDLK_UP])
-	{
-		if (entity->GetComponent("physics") != NULL)
-		{
-			PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
-			physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x, physicsComponent->body->GetTransform().p.y - EngineMath::PixelsToMeters(10)), physicsComponent->body->GetTransform().q.GetAngle());
-		}
-	}
+			if (keystate[SDLK_UP])
+			{
+				physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x, physicsComponent->body->GetTransform().p.y - EngineMath::PixelsToMeters(10)), physicsComponent->body->GetTransform().q.GetAngle());
+			}
 
-	if (keystate[SDLK_DOWN])
-	{
-		if (entity->GetComponent("physics") != NULL)
+			if (keystate[SDLK_DOWN])
+			{
+				physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x, physicsComponent->body->GetTransform().p.y + EngineMath::PixelsToMeters(10)), physicsComponent->body->GetTransform().q.GetAngle());
+			}
+		}
+		else
 		{
-			PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
-			physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x, physicsComponent->body->GetTransform().p.y + EngineMath::PixelsToMeters(10)), physicsComponent->body->GetTransform().q.GetAngle());
+			physicsComponent->body->SetAwake(true);
 		}
 	}
 }

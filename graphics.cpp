@@ -108,12 +108,13 @@ void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, float scale)
+void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, float scaleX, float scaleY)
 {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
-	float width = sprite->width * scale;
-	float height = sprite->height * scale;
+
+	float width = sprite->width * scaleX;
+	float height = sprite->height * scaleY;
 	rotation = EngineMath::RadiansToDegrees(rotation);
 
 	glPushMatrix();
@@ -129,13 +130,13 @@ void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, flo
 
 	glBegin (GL_QUADS);
 	glTexCoord2f(0, 0);
-	glVertex2f(x, y);
+	glVertex2f(x - width / 2, y - height / 2);
 	glTexCoord2f(1, 0);
-	glVertex2f(x + width, y);
+	glVertex2f(x + width / 2, y - height / 2);
 	glTexCoord2f(1, 1);
-	glVertex2f(x + width, y + height);
+	glVertex2f(x + width / 2, y + height / 2);
 	glTexCoord2f(0, 1);
-	glVertex2f(x, y + height);
+	glVertex2f(x - width / 2, y + height / 2);
 	glEnd();
 
 	glDisable(GL_BLEND);

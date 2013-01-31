@@ -1,29 +1,29 @@
 <Entities>
-        <Entity id="player" x="300" y="100" rot="0" scale="1">
+        <Entity id="player" x="320" y="480" rot="0" scalex="1" scaley="2">
                 <Component id="render" type="0" enabled="1">
                         <Render asset="king_sprite_sheet" />
                 </Component>
                 <Component id="physics" type="2" enabled="1">
-                        <Physics type="1" density="1" friction="1" restitution="2" gravityScale="1" allowSleep="1"/>
+                        <Physics type="0" density="1" friction="1" restitution="0.2" gravityScale="1" allowSleep="1"/>
                 </Component>
         </Entity>
-        <Entity id="player2" x="300" y="300" rot="0" scale="1">
+        <Entity id="player2" x="320" y="240" rot="90" scalex="1" scaley="2">
                 <Component id="render" type="0" enabled="1">
                         <Render asset="king_sprite_sheet" />
                 </Component>
                 <Component id="physics" type="2" enabled="1">
-                        <Physics type="1" density="1" friction="1" restitution="0" gravityScale="0" allowSleep="0"/>
+                        <Physics type="1" density="1" friction="1" restitution="0.2" gravityScale="1" allowSleep="1"/>
+                </Component>
+        </Entity>
+        <Entity id="player3" x="0" y="0" rot="90" scalex="0.5" scaley="0.5">
+                <Component id="render" type="0" enabled="1">
+                        <Render asset="king_sprite_sheet" />
+                </Component>
+                <Component id="physics" type="2" enabled="1">
+                        <Physics type="1" density="1" friction="1" restitution="0.2" gravityScale="1" allowSleep="1"/>
                 </Component>
                 <Component id="input" type="3" enabled="1">
                         <Input />
-                </Component>
-        </Entity>
-        <Entity id="player3" x="340" y="480" rot="0" scale="2">
-                <Component id="render" type="0" enabled="1">
-                        <Render asset="king_sprite_sheet" />
-                </Component>
-                <Component id="physics" type="2" enabled="1">
-                        <Physics type="0" density="1" friction="1" restitution="0" gravityScale="1" allowSleep="1"/>
                 </Component>
         </Entity>
 </Entities>
