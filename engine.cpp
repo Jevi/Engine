@@ -1,32 +1,22 @@
 #include "engine.h"
 
 Engine* Engine::instance;
-b2World* Engine::world;
-string Engine::appProject;
 
 Engine::Engine() :
-	appState(Uninitialized), appWidth(640), appHeight(480)
+		appState(Uninitialized), appWidth(640), appHeight(480)
 {
 	appProject = "workspace/demo";
-	assetLoader = AssetLoader::GetInstance();
-	levelManager = LevelSystem::GetInstance();
-}
-
-Engine* Engine::GetInstance()
-{
-	if (!instance)
-	{
-		world = new b2World(b2Vec2(0.0f, 9.81f));
-		instance = new Engine;
-	}
-	return instance;
+	assetSystem = AssetSystem::GetInstance();
+	levelSystem = LevelSystem::GetInstance();
+	luaSystem = LuaSystem::GetInstance();
 }
 
 void Engine::Destroy()
 {
 	Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
-	delete levelManager;
-	delete assetLoader;
+	luaSystem->Destroy();
+	levelSystem->Destroy();
+	assetSystem->Destroy();
 	delete world;
 	SDL_Quit();
 	delete this;
@@ -44,8 +34,11 @@ void Engine::Start()
 		Debug::Log(Debug::LOG_ENTRY, "Engine Initialized Successfully");
 
 		appState = Running;
-		assetLoader->LoadAssets();
-		levelManager->LoadNextLevel();
+		assetSystem->LoadAssets();
+		levelSystem->LoadNextLevel();
+		luaSystem->Register();
+
+		luaSystem->RunScript("workspace/demo/scripts/script.lua");
 
 		while (!IsExiting())
 		{
@@ -82,6 +75,14 @@ bool Engine::Init()
 	glLoadIdentity();
 	glOrtho(0, appWidth, appHeight, 0, 1, -1);
 	Debug::Log(Debug::LOG_INFO, "OpenGL Initialized");
+
+	world = new b2World(b2Vec2(0.0f, 9.81f));
+	if (!world)
+	{
+		Debug::Log(Debug::LOG_SEVERE, "Could Not Initialize Box2D World");
+	}
+	Debug::Log(Debug::LOG_INFO, "Box2D World Initialized");
+
 	return true;
 }
 
@@ -89,7 +90,7 @@ void Engine::Heartbeat()
 {
 	switch (appState)
 	{
-	case Running:
+		case Running:
 		{
 			OnEvent(&appEvent);
 			Update();
@@ -123,7 +124,7 @@ void Engine::Update()
 void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	levelManager->UpdateLevel();
+	levelSystem->UpdateLevel();
 	Graphics::DrawPoint(320, 240, 0, 255, 0, 255);
 	SDL_GL_SwapBuffers();
 }
@@ -152,17 +153,17 @@ string Engine::ToString(AppState state)
 {
 	switch (state)
 	{
-	case Uninitialized:
-		return string("Uninitialized");
-		break;
-	case Running:
-		return string("Running");
-		break;
-	case Exiting:
-		return string("Exiting");
-		break;
-	default:
-		return string("State Not Valid");
-		break;
+		case Uninitialized:
+			return string("Uninitialized");
+			break;
+		case Running:
+			return string("Running");
+			break;
+		case Exiting:
+			return string("Exiting");
+			break;
+		default:
+			return string("State Not Valid");
+			break;
 	}
 }

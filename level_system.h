@@ -11,7 +11,7 @@ using namespace std;
 using namespace tinyxml2;
 
 class Engine;
-class AssetLoader;
+class AssetSystem;
 class Entity;
 
 class LevelSystem
@@ -35,6 +35,14 @@ public:
 
 	void UpdateLevel();
 
+	unsigned int GetTotalEntities()
+	{
+		return entities.size();
+	}
+
+	Entity* GetEntity(string Id);
+	Entity* GetEntity(unsigned int Idx);
+
 private:
 
 	LevelSystem() :
@@ -44,7 +52,7 @@ private:
 	}
 
 	static LevelSystem* instance;
-	static AssetLoader* assetLoader;
+	static AssetSystem* assetLoader;
 
 	unsigned int currentLevel;
 	vector<Entity*> entities;

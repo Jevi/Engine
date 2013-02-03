@@ -13,11 +13,11 @@ using namespace std;
 
 class Engine;
 
-class AssetLoader
+class AssetSystem
 {
 public:
 
-	static AssetLoader* GetInstance();
+	static AssetSystem* GetInstance();
 
 	vector<Asset*> assets;
 
@@ -34,10 +34,10 @@ public:
 
 private:
 
-	static AssetLoader* instance;
+	static AssetSystem* instance;
 	unsigned int loadedAssetCount;
 
-	AssetLoader() :
+	AssetSystem() :
 			loadedAssetCount(0)
 	{
 	}

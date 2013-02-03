@@ -25,6 +25,10 @@ public:
 		}
 	};
 
+	/*
+	 Component vector of Entity which defines Entity properties
+	 */
+	vector<Component*> components;
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
@@ -86,10 +90,7 @@ public:
 	string ToString();
 
 private:
-	/*
-	 Component vector of Entity which defines Entity properties
-	 */
-	vector<Component*> components;
+
 	/*
 	 Unique name identifier of Entity
 	 */

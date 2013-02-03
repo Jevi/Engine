@@ -1,0 +1,13 @@
+$#include "engine.h"
+
+class Engine
+{
+public:
+	static Engine* GetInstance();
+	string GetAppProject();
+	int GetAppHeight();
+	int GetAppWidth();
+	string GetAppState();
+
+	LevelSystem* GetLevelSystem();
+};

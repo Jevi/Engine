@@ -8,18 +8,35 @@
 #include "sprite.h"
 #include "physics_component.h"
 #include "input_component.h"
+#include "script_component.h"
 
 LevelSystem* LevelSystem::instance;
-AssetLoader* LevelSystem::assetLoader;
+AssetSystem* LevelSystem::assetLoader;
 
 LevelSystem* LevelSystem::GetInstance()
 {
 	if (!instance)
 	{
-		assetLoader = AssetLoader::GetInstance();
+		assetLoader = AssetSystem::GetInstance();
 		instance = new LevelSystem;
 	}
 	return instance;
+}
+
+Entity* LevelSystem::GetEntity(string Id)
+{
+	for (unsigned int i = 0; i < entities.size(); i++)
+	{
+		if (strcmp(Id.c_str(), entities[i]->GetId().c_str()) == 0)
+		{
+			return entities[i];
+		}
+	}
+}
+
+Entity* LevelSystem::GetEntity(unsigned int Idx)
+{
+	return entities[Idx];
 }
 
 void LevelSystem::Destroy()
@@ -179,6 +196,12 @@ void LevelSystem::ProcessEntity(const XMLNode* EntityNode)
 							component = new InputComponent(componentId, enabled);
 						}
 							break;
+						case Component::SCRIPT:
+						{
+							const XMLElement* scriptElement = componentNode->FirstChild()->ToElement();
+							string filename(scriptElement->Attribute("filename"));
+							component = new ScriptComponent(componentId, filename, enabled);
+						}
 					}
 					if (component)
 					{
@@ -224,7 +247,7 @@ void LevelSystem::LoadPreviousLevel()
 
 string LevelSystem::GetLevelEntitiesXML(unsigned int Level)
 {
-	string filename = Engine::GetProject() + "/levels/levels.xml";
+	string filename = Engine::GetInstance()->GetAppProject() + "/levels/levels.xml";
 	string level = Debug::NumberToString(Level);
 
 	XMLDocument doc;
@@ -245,7 +268,7 @@ string LevelSystem::GetLevelEntitiesXML(unsigned int Level)
 			{
 				if (strcmp(element->Attribute("num"), level.c_str()) == 0)
 				{
-					return Engine::GetProject() + "/levels/" + string(element->Attribute("id"));
+					return Engine::GetInstance()->GetAppProject() + "/levels/" + string(element->Attribute("id"));
 				}
 			}
 		}

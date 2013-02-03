@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <Box2D/Box2D.h>
 
+#include <lua.hpp>
+
 #ifdef _WIN32
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -21,24 +23,32 @@
 #include "graphics.h"
 #include "debug.h"
 #include "event_handler.h"
+#include "lua_system.h"
 #include "asset_system.h"
 #include "level_system.h"
 
 using namespace std;
 
-class AssetLoader;
+class AssetSystem;
 class LevelSystem;
 
 class Engine: public EventHandler
 {
 public:
 
-	static string GetProject()
+	/*
+	 Returns singleton Engine instance.
+	 */
+	static Engine* GetInstance()
 	{
-		return appProject;
+		if (!instance)
+		{
+			instance = new Engine;
+		}
+		return instance;
 	}
 
-	static b2World* GetWorld()
+	b2World* GetWorld()
 	{
 		if (!world)
 		{
@@ -46,10 +56,32 @@ public:
 		}
 		return world;
 	}
-	/*
-	 Returns singleton Engine instance.
-	 */
-	static Engine* GetInstance();
+
+	string GetAppProject()
+	{
+		return appProject;
+	}
+
+	int GetAppHeight()
+	{
+		return appHeight;
+	}
+
+	int GetAppWidth()
+	{
+		return appWidth;
+	}
+
+	string GetAppState()
+	{
+		return ToString(appState);
+	}
+
+	LevelSystem* GetLevelSystem()
+	{
+		return levelSystem;
+	}
+
 	/*
 	 Initializes engine and begins main game loop (heartbeat)
 	 */
@@ -77,18 +109,19 @@ private:
 	};
 
 	static Engine* instance;
-	static b2World* world;
+	b2World* world;
 
 	int appWidth;
 	int appHeight;
-	static string appProject;
+	string appProject;
 
 	AppState appState;
 	SDL_Surface* appWindow;
 	SDL_Event appEvent;
 
-	AssetLoader* assetLoader;
-	LevelSystem* levelManager;
+	LuaSystem* luaSystem;
+	AssetSystem* assetSystem;
+	LevelSystem* levelSystem;
 
 	/*
 	 Initializes SDL/OpenGL as well as any other vital objects

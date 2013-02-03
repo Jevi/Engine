@@ -12,7 +12,7 @@ public:
 
 	enum ComponentType
 	{
-		RENDER, AUDIO, PHYSICS, INPUT
+		RENDER, AUDIO, PHYSICS, INPUT, SCRIPT
 	};
 
 	static string TypeToString(unsigned int Type)
@@ -31,6 +31,9 @@ public:
 			case INPUT:
 				return string("INPUT");
 				break;
+			case SCRIPT:
+				return string("SCRIPT");
+				break;
 			default:
 				return string("DEFUALT");
 				break;
@@ -43,7 +46,7 @@ public:
 	/*
 	 Component type
 	 */
-	int type;
+	unsigned int type;
 	/*
 	 Defines whether this component is enabled
 	 */
@@ -73,6 +76,21 @@ public:
 	virtual void Update(unsigned long dt) = 0;
 
 	virtual string ToString() = 0;
+
+	string GetId()
+	{
+		return id;
+	}
+
+	unsigned int GetType()
+	{
+		return type;
+	}
+
+	bool IsEnabled()
+	{
+		return enabled;
+	}
 };
 
 #endif

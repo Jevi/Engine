@@ -14,7 +14,7 @@ PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enable
 
 PhysicsComponent::~PhysicsComponent(void)
 {
-	b2World* world = Engine::GetWorld();
+	b2World* world = Engine::GetInstance()->GetWorld();
 	world->DestroyBody(body);
 }
 
@@ -27,7 +27,7 @@ void PhysicsComponent::Update(unsigned long dt)
 {
 	if (!synched)
 	{
-		b2World* world = Engine::GetWorld();
+		b2World* world = Engine::GetInstance()->GetWorld();
 
 		switch (bodyType)
 		{

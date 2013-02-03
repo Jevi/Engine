@@ -1,17 +1,17 @@
 #include "asset_system.h"
 
-AssetLoader* AssetLoader::instance;
+AssetSystem* AssetSystem::instance;
 
-AssetLoader* AssetLoader::GetInstance()
+AssetSystem* AssetSystem::GetInstance()
 {
 	if (!instance)
 	{
-		instance = new AssetLoader;
+		instance = new AssetSystem;
 	}
 	return instance;
 }
 
-Asset* AssetLoader::GetAsset(string Id)
+Asset* AssetSystem::GetAsset(string Id)
 {
 	for (unsigned int i = 0; i < assets.size(); i++)
 	{
@@ -23,7 +23,7 @@ Asset* AssetLoader::GetAsset(string Id)
 	return NULL;
 }
 
-void AssetLoader::Destroy()
+void AssetSystem::Destroy()
 {
 	for (unsigned int i = 0; i < assets.size(); ++i)
 	{
@@ -32,11 +32,11 @@ void AssetLoader::Destroy()
 	delete this;
 }
 
-bool AssetLoader::LoadAssets()
+bool AssetSystem::LoadAssets()
 {
 	XMLDocument doc;
 
-	string filename = Engine::GetProject() + "/assets.xml";
+	string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
 
 	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
 	{
@@ -56,7 +56,7 @@ bool AssetLoader::LoadAssets()
 	return true;
 }
 
-void AssetLoader::ProcessElements(const XMLNode* Tree)
+void AssetSystem::ProcessElements(const XMLNode* Tree)
 {
 	for (const XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling())
 	{
@@ -68,7 +68,7 @@ void AssetLoader::ProcessElements(const XMLNode* Tree)
 	}
 }
 
-void AssetLoader::ProcessAsset(const XMLNode* AssetNode)
+void AssetSystem::ProcessAsset(const XMLNode* AssetNode)
 {
 	const XMLElement* assetElement = AssetNode->ToElement();
 	Asset* asset = 0;
