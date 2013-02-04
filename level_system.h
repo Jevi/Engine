@@ -33,6 +33,11 @@ public:
 		return currentLevel;
 	}
 
+	string GetCurrentLevelPath()
+	{
+		return currentLevelPath;
+	}
+
 	void UpdateLevel();
 
 	unsigned int GetTotalEntities()
@@ -55,6 +60,7 @@ private:
 	static AssetSystem* assetLoader;
 
 	unsigned int currentLevel;
+	string currentLevelPath;
 	vector<Entity*> entities;
 
 	string GetLevelEntitiesXML(unsigned int Level);

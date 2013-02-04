@@ -38,8 +38,6 @@ void Engine::Start()
 		levelSystem->LoadNextLevel();
 		luaSystem->Register();
 
-		luaSystem->RunScript("workspace/demo/scripts/script.lua");
-
 		while (!IsExiting())
 		{
 			Heartbeat();
@@ -119,6 +117,7 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 void Engine::Update()
 {
 	world->Step(1.0f / 60.0f, 10, 30);
+	luaSystem->Update();
 }
 
 void Engine::Render()

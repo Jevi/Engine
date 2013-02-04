@@ -5,4 +5,5 @@ class Component
 public:
 	unsigned int GetType();
 	bool IsEnabled();
+	static string TypeToString(unsigned int Type);
 };

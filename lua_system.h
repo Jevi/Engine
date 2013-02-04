@@ -19,7 +19,10 @@ public:
 
 	void Register();
 
+	void Update();
+
 	void Destroy();
+
 	void RunScript(string filename);
 
 private:
@@ -28,10 +31,15 @@ private:
 	{
 		L = lua_open();
 		luaL_openlibs(L);
+		
+		cL = lua_newthread(L);
 	}
 
 	static LuaSystem* instance;
 	lua_State* L;
+	lua_State* cL;
+
+	static int Sleep(lua_State* L);
 
 };
 

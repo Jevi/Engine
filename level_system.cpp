@@ -32,6 +32,7 @@ Entity* LevelSystem::GetEntity(string Id)
 			return entities[i];
 		}
 	}
+	return NULL;
 }
 
 Entity* LevelSystem::GetEntity(unsigned int Idx)
@@ -50,12 +51,11 @@ void LevelSystem::Destroy()
 
 void LevelSystem::LoadLevel(unsigned int Level)
 {
-	string levelPath;
-	if ((levelPath = GetLevelEntitiesXML(Level)).empty())
+	if ((currentLevelPath = GetLevelEntitiesXML(Level)).empty())
 	{
 		return;
 	}
-	string filename = levelPath + "/entities.xml";
+	string filename = currentLevelPath + "/entities.xml";
 
 	XMLDocument doc;
 
