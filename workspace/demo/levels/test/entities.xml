@@ -1,7 +1,7 @@
 <Entities>
-        <Entity id="player" x="320" y="240" rot="0" scalex="1" scaley="1">
+        <Entity id="player" x="320" y="240" rot="0" scalex="2" scaley="2">
                 <Component id="render" type="0" enabled="1">
-                        <Render asset="king_sprite_sheet" />
+                        <Render asset="mario" />
                 </Component>
                 <Component id="script" type="4" enabled="1">
                         <Script filename="workspace/demo/scripts/script.lua"/>

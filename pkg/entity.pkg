@@ -10,4 +10,14 @@ public:
 	bool RemoveComponent(string Name);
 	bool RemoveComponentAt(unsigned int Index);
 	string ToString();
+
+	float GetX();
+	float GetY();
+	float GetAngle();
+	float GetScaleX();
+	float GetScaleY();
+	void SetX(float x);
+	void SetY(float y);
+	void SetScaleX(float scalex);
+	void SetScaleY(float scaley);
 };

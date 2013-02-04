@@ -1,12 +1,13 @@
 local engine = Engine:GetInstance()
 local levelSystem = engine:GetLevelSystem()
 
-local entity = levelSystem:GetEntity(0)
-local component = entity:GetComponentAt(0)
-
-io.write("Component: ", Component:TypeToString(component:GetType()))
-
 local i = 0
 while engine:GetAppState() == "Running" do
+	local entity = levelSystem:GetEntity(0)
+	io.write("X: ", entity:GetX(), "Y: ", entity:GetY(), "\n")
 	Sleep() -- Allow Engine Update
+end
+
+function MoveEntity()
+	
 end

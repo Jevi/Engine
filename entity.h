@@ -89,6 +89,53 @@ public:
 
 	string ToString();
 
+	// Additional Lua Accessors
+
+	float GetX()
+	{
+		return bodyDef.position.x;
+	}
+
+	float GetY()
+	{
+		return bodyDef.position.y;
+	}
+
+	float GetAngle()
+	{
+		return bodyDef.angle;
+	}
+
+	float GetScaleX()
+	{
+		return scale.x;
+	}
+
+	float GetScaleY()
+	{
+		return scale.y;
+	}
+
+	void SetX(float x)
+	{
+		bodyDef.position.x = x;
+	}
+
+	void SetY(float y)
+	{
+		bodyDef.position.y = y;
+	}
+
+	void SetScaleX(float scalex)
+	{
+		scale.x = scalex;
+	}
+
+	void SetScaleY(float scaley)
+	{
+		scale.y = scaley;
+	}
+
 private:
 
 	/*

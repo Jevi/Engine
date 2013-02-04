@@ -1,3 +1,4 @@
 <Assets>
 	<Asset id="king_sprite_sheet" filename="workspace/demo/res/King.png" type="0" />
+	<Asset id="mario" filename="workspace/demo/res/mario.png" type="0" />
 </Assets>
