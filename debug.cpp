@@ -30,29 +30,29 @@ std::string Debug::LogLevelToString(LogLevel Level)
 {
 	switch (Level)
 	{
-	case LOG_DEBUG:
-		return "LOG_DEBUG";
-		break;
-	case LOG_PARM:
-		return "LOG_PARAM";
-		break;
-	case LOG_ENTRY:
-		return "LOG_ENTRY";
-		break;
-	case LOG_INFO:
-		return "LOG_INFO";
-		break;
-	case LOG_WARNING:
-		return "LOG_WARNING";
-		break;
-	case LOG_ERROR:
-		return "LOG_ERROR";
-		break;
-	case LOG_SEVERE:
-		return "LOG_SEVERE";
-		break;
-	default:
-		return "LOG_DEFAULT";
-		break;
+		case LOG_DEBUG:
+			return "LOG_DEBUG";
+			break;
+		case LOG_PARM:
+			return "LOG_PARAM";
+			break;
+		case LOG_ENTRY:
+			return "LOG_ENTRY";
+			break;
+		case LOG_INFO:
+			return "LOG_INFO";
+			break;
+		case LOG_WARNING:
+			return "LOG_WARNING";
+			break;
+		case LOG_ERROR:
+			return "LOG_ERROR";
+			break;
+		case LOG_SEVERE:
+			return "LOG_SEVERE";
+			break;
+		default:
+			return "LOG_DEFAULT";
+			break;
 	}
 }

@@ -27,7 +27,9 @@ private:
 	unsigned int loadedAssetCount;
 
 	AssetSystem();
-	~AssetSystem() {}
+	~AssetSystem()
+	{
+	}
 
 	void ProcessElements(const tinyxml2::XMLNode* Tree);
 

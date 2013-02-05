@@ -26,11 +26,20 @@ public:
 
 	// Accessors
 
-	unsigned int GetCurrentLevel() { return currentLevel; }
+	unsigned int GetCurrentLevel()
+	{
+		return currentLevel;
+	}
 
-	std::string GetCurrentLevelPath() { return currentLevelPath; }
+	std::string GetCurrentLevelPath()
+	{
+		return currentLevelPath;
+	}
 
-	unsigned int GetTotalEntities() { return entities.size(); }
+	unsigned int GetTotalEntities()
+	{
+		return entities.size();
+	}
 
 	Entity* GetEntity(std::string Id);
 
@@ -39,7 +48,9 @@ public:
 private:
 
 	LevelSystem();
-	~LevelSystem() { }
+	~LevelSystem()
+	{
+	}
 
 	static LevelSystem* instance;
 

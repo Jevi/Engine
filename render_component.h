@@ -16,7 +16,10 @@ public:
 	RenderComponent(std::string Id, Sprite* Sprite, bool Enabled);
 	~RenderComponent();
 
-	Sprite* GetSprite() { return sprite; }
+	Sprite* GetSprite()
+	{
+		return sprite;
+	}
 
 	/*
 	 Override base class Start()

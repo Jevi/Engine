@@ -18,12 +18,17 @@ public:
 
 	void RunScript(std::string filename);
 
-	lua_State* GetLuaState() { return L; }
+	lua_State* GetLuaState()
+	{
+		return L;
+	}
 
 private:
 
 	LuaSystem();
-	~LuaSystem() { }
+	~LuaSystem()
+	{
+	}
 
 	static LuaSystem* instance;
 	lua_State* L;

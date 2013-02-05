@@ -1,6 +1,5 @@
 #include "script_component.h"
 
-
 ScriptComponent::ScriptComponent(std::string Id, std::string Filename, bool Enabled) :
 		Component(Id, Component::SCRIPT), filename(Filename)
 {

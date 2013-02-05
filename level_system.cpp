@@ -17,8 +17,8 @@
 
 LevelSystem* LevelSystem::instance;
 
-LevelSystem::LevelSystem()
-	: currentLevel(0)
+LevelSystem::LevelSystem() :
+		currentLevel(0)
 {
 
 }

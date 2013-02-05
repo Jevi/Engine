@@ -56,20 +56,37 @@ public:
 
 	// Accessors
 
-	b2World* GetWorld() { return world; }
+	b2World* GetWorld()
+	{
+		return world;
+	}
 
-	 std::string GetAppProject() { return appProject; }
+	std::string GetAppProject()
+	{
+		return appProject;
+	}
 
-	int GetAppHeight() { return appHeight; }
+	int GetAppHeight()
+	{
+		return appHeight;
+	}
 
-	int GetAppWidth() {	return appWidth; }
+	int GetAppWidth()
+	{
+		return appWidth;
+	}
 
-	 std::string GetAppState() { return ToString(appState); }
+	std::string GetAppState()
+	{
+		return ToString(appState);
+	}
 
 private:
 
 	Engine();
-	~Engine() {}
+	~Engine()
+	{
+	}
 
 	enum AppState
 	{
@@ -81,7 +98,7 @@ private:
 
 	int appWidth;
 	int appHeight;
-	 std::string appProject;
+	std::string appProject;
 
 	AppState appState;
 	SDL_Surface* appWindow;
@@ -111,7 +128,7 @@ private:
 	 */
 	void SwitchState(AppState state);
 
-	 std::string ToString(AppState state);
+	std::string ToString(AppState state);
 	/*
 	 Changes Engine state to AppState::Exiting
 	 */

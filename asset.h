@@ -13,12 +13,12 @@ public:
 		GRAPHICAL, AUDIO
 	};
 
-	static  std::string TypeToString(unsigned int Type)
+	static std::string TypeToString(unsigned int Type)
 	{
 		switch (Type)
 		{
 			case GRAPHICAL:
-				return  std::string("GRAPHICAL");
+				return std::string("GRAPHICAL");
 				break;
 			case AUDIO:
 				return std::string("AUDIO");
@@ -28,7 +28,7 @@ public:
 		}
 	}
 
-	 std::string id;
+	std::string id;
 	/*
 	 asset location on hdd
 	 */
@@ -42,7 +42,7 @@ public:
 	 */
 	bool loaded;
 
-	Asset( std::string Id, std::string Filename, unsigned int Type) :
+	Asset(std::string Id, std::string Filename, unsigned int Type) :
 			id(Id), filename(Filename), type(Type), loaded(false)
 	{
 	}
@@ -56,7 +56,7 @@ public:
 	 */
 	virtual void Unload() = 0;
 
-	virtual  std::string ToString() = 0;
+	virtual std::string ToString() = 0;
 };
 
 #endif

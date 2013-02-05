@@ -8,7 +8,6 @@
 
 Engine* Engine::instance;
 
-
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
 {

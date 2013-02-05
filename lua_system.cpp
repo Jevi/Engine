@@ -40,9 +40,9 @@ void LuaSystem::Update()
 void LuaSystem::Register()
 {
 	/*tolua_Engine_open(L);
-	tolua_LevelSystem_open(L);
-	tolua_Component_open(L);
-	tolua_Entity_open(L);*/
+	 tolua_LevelSystem_open(L);
+	 tolua_Component_open(L);
+	 tolua_Entity_open(L);*/
 
 	lua_register(L, "Sleep", Sleep);
 	luaL_loadfile(L, std::string(LevelSystem::GetInstance()->GetCurrentLevelPath() + "/scripts/main.lua").c_str());

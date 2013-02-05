@@ -6,8 +6,8 @@
 
 AssetSystem* AssetSystem::instance;
 
-AssetSystem::AssetSystem()
-	: loadedAssetCount(0)
+AssetSystem::AssetSystem() :
+		loadedAssetCount(0)
 {
 
 }
@@ -21,7 +21,7 @@ AssetSystem* AssetSystem::GetInstance()
 	return instance;
 }
 
-Asset* AssetSystem::GetAsset( std::string Id)
+Asset* AssetSystem::GetAsset(std::string Id)
 {
 	for (unsigned int i = 0; i < assets.size(); i++)
 	{
@@ -50,7 +50,7 @@ bool AssetSystem::LoadAssets()
 {
 	tinyxml2::XMLDocument doc;
 
-	 std::string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
+	std::string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
 
 	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
 	{
@@ -86,8 +86,8 @@ void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode)
 {
 	const tinyxml2::XMLElement* assetElement = AssetNode->ToElement();
 	Asset* asset = 0;
-	 std::string id(assetElement->Attribute("id"));
-	 std::string filename(assetElement->Attribute("filename"));
+	std::string id(assetElement->Attribute("id"));
+	std::string filename(assetElement->Attribute("filename"));
 	unsigned int type = atoi(assetElement->Attribute("type"));
 
 	switch (type)
