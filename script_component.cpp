@@ -1,7 +1,7 @@
 #include "script_component.h"
-#include "engine.h"
 
-ScriptComponent::ScriptComponent(string Id, string Filename, bool Enabled) :
+
+ScriptComponent::ScriptComponent(std::string Id, std::string Filename, bool Enabled) :
 		Component(Id, Component::SCRIPT), filename(Filename)
 {
 	enabled = Enabled;
@@ -22,7 +22,7 @@ void ScriptComponent::Update(unsigned long dt)
 
 }
 
-string ScriptComponent::ToString()
+std::string ScriptComponent::ToString()
 {
 	return "SCRIPT";
 }

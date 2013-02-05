@@ -1,6 +1,16 @@
 #include "asset_system.h"
 
+#include "engine.h"
+#include "debug.h"
+#include "sprite.h"
+
 AssetSystem* AssetSystem::instance;
+
+AssetSystem::AssetSystem()
+	: loadedAssetCount(0)
+{
+
+}
 
 AssetSystem* AssetSystem::GetInstance()
 {
@@ -11,7 +21,7 @@ AssetSystem* AssetSystem::GetInstance()
 	return instance;
 }
 
-Asset* AssetSystem::GetAsset(string Id)
+Asset* AssetSystem::GetAsset( std::string Id)
 {
 	for (unsigned int i = 0; i < assets.size(); i++)
 	{
@@ -25,18 +35,22 @@ Asset* AssetSystem::GetAsset(string Id)
 
 void AssetSystem::Destroy()
 {
-	for (unsigned int i = 0; i < assets.size(); ++i)
+	if (instance)
 	{
-		delete assets[i];
+		for (unsigned int i = 0; i < assets.size(); ++i)
+		{
+			delete assets[i];
+		}
+		delete instance;
+		instance = 0;
 	}
-	delete this;
 }
 
 bool AssetSystem::LoadAssets()
 {
-	XMLDocument doc;
+	tinyxml2::XMLDocument doc;
 
-	string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
+	 std::string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
 
 	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
 	{
@@ -45,7 +59,7 @@ bool AssetSystem::LoadAssets()
 	}
 	Debug::Log(Debug::LOG_ENTRY, "Processing: %s", filename.c_str());
 
-	XMLNode* Tree = doc.FirstChild();
+	tinyxml2::XMLNode* Tree = doc.FirstChild();
 	if (Tree)
 	{
 		ProcessElements(Tree);
@@ -56,11 +70,11 @@ bool AssetSystem::LoadAssets()
 	return true;
 }
 
-void AssetSystem::ProcessElements(const XMLNode* Tree)
+void AssetSystem::ProcessElements(const tinyxml2::XMLNode* Tree)
 {
-	for (const XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling())
+	for (const tinyxml2::XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling())
 	{
-		const XMLElement* Element = Node->ToElement();
+		const tinyxml2::XMLElement* Element = Node->ToElement();
 		if (strcmp(Element->Name(), "Asset") == 0)
 		{
 			ProcessAsset(Node);
@@ -68,12 +82,12 @@ void AssetSystem::ProcessElements(const XMLNode* Tree)
 	}
 }
 
-void AssetSystem::ProcessAsset(const XMLNode* AssetNode)
+void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode)
 {
-	const XMLElement* assetElement = AssetNode->ToElement();
+	const tinyxml2::XMLElement* assetElement = AssetNode->ToElement();
 	Asset* asset = 0;
-	string id(assetElement->Attribute("id"));
-	string filename(assetElement->Attribute("filename"));
+	 std::string id(assetElement->Attribute("id"));
+	 std::string filename(assetElement->Attribute("filename"));
 	unsigned int type = atoi(assetElement->Attribute("type"));
 
 	switch (type)

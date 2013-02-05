@@ -1,4 +1,5 @@
 #include "graphics.h"
+
 #include "engine_math.h"
 
 void Graphics::DrawPoint(float x, float y)

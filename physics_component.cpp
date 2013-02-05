@@ -6,7 +6,7 @@
 #include "render_component.h"
 #include "tinyxml2.h"
 
-PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enabled) :
+PhysicsComponent::PhysicsComponent(std::string Id, unsigned int BodyType, bool Enabled) :
 		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false), density(1.0f), friction(1.0f), restitution(1.0f), allowSleep(true)
 {
 	enabled = Enabled;
@@ -14,8 +14,7 @@ PhysicsComponent::PhysicsComponent(string Id, unsigned int BodyType, bool Enable
 
 PhysicsComponent::~PhysicsComponent(void)
 {
-	b2World* world = Engine::GetInstance()->GetWorld();
-	world->DestroyBody(body);
+	Engine::GetInstance()->GetWorld()->DestroyBody(body);
 }
 
 void PhysicsComponent::Start()
@@ -23,7 +22,7 @@ void PhysicsComponent::Start()
 
 }
 
-void PhysicsComponent::Update(unsigned long dt)
+void PhysicsComponent::Update(unsigned long Dt)
 {
 	if (!synched)
 	{
@@ -62,7 +61,7 @@ void PhysicsComponent::Update(unsigned long dt)
 	entity->bodyDef.angle = body->GetTransform().q.GetAngle();
 }
 
-string PhysicsComponent::ToString()
+std::string PhysicsComponent::ToString()
 {
 	XMLDocument doc;
 	XMLElement* componentElement = doc.NewElement("Component");

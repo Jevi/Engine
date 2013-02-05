@@ -1,25 +1,33 @@
 #include "engine.h"
 
+#include "lua_system.h"
+#include "asset_system.h"
+#include "level_system.h"
+
+#include "debug.h"
+
 Engine* Engine::instance;
+
 
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480)
 {
 	appProject = "workspace/demo";
-	assetSystem = AssetSystem::GetInstance();
-	levelSystem = LevelSystem::GetInstance();
-	luaSystem = LuaSystem::GetInstance();
 }
 
 void Engine::Destroy()
 {
-	Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
-	luaSystem->Destroy();
-	levelSystem->Destroy();
-	assetSystem->Destroy();
-	delete world;
-	SDL_Quit();
-	delete this;
+	if (instance)
+	{
+		Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
+		LuaSystem::GetInstance()->Destroy();
+		LevelSystem::GetInstance()->Destroy();
+		AssetSystem::GetInstance()->Destroy();
+		delete world;
+		SDL_Quit();
+		delete instance;
+		instance = 0;
+	}
 }
 
 void Engine::Start()
@@ -34,9 +42,9 @@ void Engine::Start()
 		Debug::Log(Debug::LOG_ENTRY, "Engine Initialized Successfully");
 
 		appState = Running;
-		assetSystem->LoadAssets();
-		levelSystem->LoadNextLevel();
-		luaSystem->Register();
+		AssetSystem::GetInstance()->LoadAssets();
+		LevelSystem::GetInstance()->LoadNextLevel();
+		LuaSystem::GetInstance()->Register();
 
 		while (!IsExiting())
 		{
@@ -117,14 +125,13 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 void Engine::Update()
 {
 	world->Step(1.0f / 60.0f, 10, 30);
-	luaSystem->Update();
+	LuaSystem::GetInstance()->Update();
 }
 
 void Engine::Render()
 {
 	glClear (GL_COLOR_BUFFER_BIT);
-	levelSystem->UpdateLevel();
-	Graphics::DrawPoint(320, 240, 0, 255, 0, 255);
+	LevelSystem::GetInstance()->UpdateLevel();
 	SDL_GL_SwapBuffers();
 }
 
@@ -148,21 +155,21 @@ void Engine::SwitchState(AppState state)
 	appState = state;
 }
 
-string Engine::ToString(AppState state)
+std::string Engine::ToString(AppState state)
 {
 	switch (state)
 	{
 		case Uninitialized:
-			return string("Uninitialized");
+			return "Uninitialized";
 			break;
 		case Running:
-			return string("Running");
+			return "Running";
 			break;
 		case Exiting:
-			return string("Exiting");
+			return "Exiting";
 			break;
 		default:
-			return string("State Not Valid");
+			return "State Not Valid";
 			break;
 	}
 }

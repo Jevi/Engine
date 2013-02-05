@@ -2071,7 +2071,7 @@ public:
 private:
 	void SealElement();
 	void PrintSpace(int depth);
-	void PrintString(const char*, bool restrictedEntitySet); // prints out, after detecting entities.
+	void Printstring(const char*, bool restrictedEntitySet); // prints out, after detecting entities.
 	void Print(const char* format, ...);
 
 	bool _elementJustOpened;

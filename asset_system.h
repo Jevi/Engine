@@ -1,17 +1,11 @@
 #ifndef ASSETSYSTEM_H
 #define ASSETSYSTEM_H
 
+#include <iostream>
 #include <vector>
 
 #include "tinyxml2.h"
 #include "asset.h"
-#include "sprite.h"
-#include "engine.h"
-
-using namespace tinyxml2;
-using namespace std;
-
-class Engine;
 
 class AssetSystem
 {
@@ -19,31 +13,25 @@ public:
 
 	static AssetSystem* GetInstance();
 
-	vector<Asset*> assets;
+	std::vector<Asset*> assets;
 
-	Asset* GetAsset(string Id);
+	Asset* GetAsset(std::string Id);
 
 	void Destroy();
 
 	bool LoadAssets();
-
-	unsigned int GetLoadedAssetCount()
-	{
-		return loadedAssetCount;
-	}
 
 private:
 
 	static AssetSystem* instance;
 	unsigned int loadedAssetCount;
 
-	AssetSystem() :
-			loadedAssetCount(0)
-	{
-	}
+	AssetSystem();
+	~AssetSystem() {}
 
-	void ProcessElements(const XMLNode* Tree);
-	void ProcessAsset(const XMLNode* AssetNode);
+	void ProcessElements(const tinyxml2::XMLNode* Tree);
+
+	void ProcessAsset(const tinyxml2::XMLNode* AssetNode);
 
 };
 

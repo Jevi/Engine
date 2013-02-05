@@ -15,8 +15,6 @@
 #endif
 
 #include <Box2D/Box2D.h>
-#include "engine_math.h"
-#include "debug.h"
 #include "sprite.h"
 
 class Sprite;

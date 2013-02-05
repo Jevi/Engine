@@ -20,12 +20,12 @@ public:
 	 Dimension of texture
 	 */
 	int width, height;
-	string id;
+	 std::string id;
 	/*
 	 asset location on hdd
 	 */
-	string filename;
-	Sprite(string Id, string Filename) :
+	 std::string filename;
+	Sprite( std::string Id,  std::string Filename) :
 			Asset(Id, Filename, Asset::GRAPHICAL), id(Id), filename(Filename), width(0), height(0), loaded(false)
 	{
 	}
@@ -41,7 +41,7 @@ public:
 
 	void Unload();
 
-	string ToString();
+	 std::string ToString();
 
 protected:
 

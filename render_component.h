@@ -7,21 +7,16 @@
 #include "component.h"
 #include "sprite.h"
 
-using namespace std;
-
 class RenderComponent: public Component
 {
 public:
 
-	RenderComponent(string Id);
-	RenderComponent(string Id, Sprite* Sprite);
-	RenderComponent(string Id, Sprite* Sprite, bool Enabled);
+	RenderComponent(std::string Id);
+	RenderComponent(std::string Id, Sprite* Sprite);
+	RenderComponent(std::string Id, Sprite* Sprite, bool Enabled);
 	~RenderComponent();
 
-	Sprite* GetSprite()
-	{
-		return sprite;
-	}
+	Sprite* GetSprite() { return sprite; }
 
 	/*
 	 Override base class Start()
@@ -30,9 +25,9 @@ public:
 	/*
 	 Override base class Update()
 	 */
-	void Update(unsigned long dt);
+	void Update(unsigned long Dt);
 
-	string ToString();
+	std::string ToString();
 
 private:
 

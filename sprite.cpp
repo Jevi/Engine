@@ -1,5 +1,7 @@
 #include "sprite.h"
 
+#include "debug.h"
+
 void Sprite::Bind()
 {
 	glBindTexture(GL_TEXTURE_2D, textureId);
@@ -51,7 +53,7 @@ void Sprite::Unload()
 	}
 }
 
-string Sprite::ToString()
+std::string Sprite::ToString()
 {
 	XMLDocument doc;
 	XMLElement* root = doc.NewElement("Asset");

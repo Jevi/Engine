@@ -2,7 +2,6 @@
 #define COMPONENT_H
 
 #include "entity.h"
-using namespace std;
 
 class Entity;
 
@@ -15,34 +14,34 @@ public:
 		RENDER, AUDIO, PHYSICS, INPUT, SCRIPT
 	};
 
-	static string TypeToString(unsigned int Type)
+	static std::string TypeToString(unsigned int Type)
 	{
 		switch (Type)
 		{
 			case RENDER:
-				return string("RENDER");
+				return std::string("RENDER");
 				break;
 			case AUDIO:
-				return string("AUDIO");
+				return std::string("AUDIO");
 				break;
 			case PHYSICS:
-				return string("PHYSICS");
+				return std::string("PHYSICS");
 				break;
 			case INPUT:
-				return string("INPUT");
+				return std::string("INPUT");
 				break;
 			case SCRIPT:
-				return string("SCRIPT");
+				return std::string("SCRIPT");
 				break;
 			default:
-				return string("DEFUALT");
+				return std::string("DEFUALT");
 				break;
 		}
 	}
 	/*
 	 Unique name identifier for Component
 	 */
-	string id;
+	std::string id;
 	/*
 	 Component type
 	 */
@@ -56,7 +55,7 @@ public:
 	 */
 	Entity* entity;
 
-	Component(string Id, unsigned int Type) :
+	Component(std::string Id, unsigned int Type) :
 			id(Id), type(Type), enabled(false), entity(NULL)
 	{
 	}
@@ -75,9 +74,9 @@ public:
 	 */
 	virtual void Update(unsigned long dt) = 0;
 
-	virtual string ToString() = 0;
+	virtual std::string ToString() = 0;
 
-	string GetId()
+	std::string GetId()
 	{
 		return id;
 	}

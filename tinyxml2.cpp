@@ -1860,7 +1860,7 @@ void XMLPrinter::PrintSpace(int depth)
 	}
 }
 
-void XMLPrinter::PrintString(const char* p, bool restricted)
+void XMLPrinter::Printstring(const char* p, bool restricted)
 {
 	// Look for runs of bytes between entities to print.
 	const char* q = p;
@@ -1942,7 +1942,7 @@ void XMLPrinter::PushAttribute(const char* name, const char* value)
 {
 	TIXMLASSERT( _elementJustOpened);
 	Print(" %s=\"", name);
-	PrintString(value, false);
+	Printstring(value, false);
 	Print("\"");
 }
 
@@ -2026,7 +2026,7 @@ void XMLPrinter::PushText(const char* text, bool cdata)
 	}
 	else
 	{
-		PrintString(text, true);
+		Printstring(text, true);
 	}
 }
 

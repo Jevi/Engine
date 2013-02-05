@@ -1,10 +1,8 @@
 #ifndef LUA_SYSTEM_H
 #define LUA_SYSTEM_H
 
+#include <iostream>
 #include <lua.hpp>
-#include <string>
-
-using namespace std;
 
 class LuaSystem
 {
@@ -12,28 +10,20 @@ public:
 
 	static LuaSystem* GetInstance();
 
-	lua_State* GetLuaState()
-	{
-		return L;
-	}
+	void Destroy();
 
 	void Register();
 
 	void Update();
 
-	void Destroy();
+	void RunScript(std::string filename);
 
-	void RunScript(string filename);
+	lua_State* GetLuaState() { return L; }
 
 private:
 
-	LuaSystem(void)
-	{
-		L = lua_open();
-		luaL_openlibs(L);
-		
-		cL = lua_newthread(L);
-	}
+	LuaSystem();
+	~LuaSystem() { }
 
 	static LuaSystem* instance;
 	lua_State* L;

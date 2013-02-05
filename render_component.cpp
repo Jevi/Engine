@@ -5,18 +5,18 @@
 #include "tinyxml2.h"
 #include "debug.h"
 
-RenderComponent::RenderComponent(string Id) :
+RenderComponent::RenderComponent(std::string Id) :
 		Component(Id, Component::RENDER)
 {
 }
 
-RenderComponent::RenderComponent(string Id, Sprite* Sprite) :
+RenderComponent::RenderComponent(std::string Id, Sprite* Sprite) :
 		Component(Id, Component::RENDER)
 {
 	sprite = Sprite;
 }
 
-RenderComponent::RenderComponent(string Id, Sprite* Sprite, bool Enabled) :
+RenderComponent::RenderComponent(std::string Id, Sprite* Sprite, bool Enabled) :
 		Component(Id, Component::RENDER)
 {
 	sprite = Sprite;
@@ -38,7 +38,7 @@ void RenderComponent::Start()
 
 }
 
-void RenderComponent::Update(unsigned long dt)
+void RenderComponent::Update(unsigned long Dt)
 {
 	Render();
 }
@@ -71,7 +71,7 @@ void RenderComponent::Render()
 	}
 }
 
-string RenderComponent::ToString()
+std::string RenderComponent::ToString()
 {
 	XMLDocument doc;
 	XMLElement* componentElement = doc.NewElement("Component");

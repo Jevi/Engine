@@ -7,7 +7,6 @@
 #include <Box2D/Box2D.h>
 
 #include "component.h"
-using namespace std;
 
 class Component;
 
@@ -28,14 +27,14 @@ public:
 	/*
 	 Component vector of Entity which defines Entity properties
 	 */
-	vector<Component*> components;
+	std::vector<Component*> components;
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
 	b2BodyDef bodyDef;
 	Scale scale;
 
-	Entity(string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
+	Entity(std::string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
 			id(Id), scale(ScaleX, ScaleY)
 	{
 		bodyDef.position.x = PosX;
@@ -59,14 +58,14 @@ public:
 	/*
 	 Return Entity unique name identifier
 	 */
-	string GetId()
+	std::string GetId()
 	{
 		return id;
 	}
 	/*
 	 Returns component with unique name identifier
 	 */
-	Component* GetComponent(string Name);
+	Component* GetComponent(std::string Name);
 	/*
 	 Returns component at specific index from Entity component vector
 	 */
@@ -81,67 +80,40 @@ public:
 	/*
 	 Removes component with unique name identifier
 	 */
-	bool RemoveComponent(string Name);
+	bool RemoveComponent(std::string Name);
 	/*
 	 Removes component from Entity component vector if it has a unique name identifier
 	 */
 	bool RemoveComponentAt(unsigned int Index);
 
-	string ToString();
+	std::string ToString();
 
 	// Additional Lua Accessors
 
-	float GetX()
-	{
-		return bodyDef.position.x;
-	}
+	float GetX() { return bodyDef.position.x; }
 
-	float GetY()
-	{
-		return bodyDef.position.y;
-	}
+	float GetY() { return bodyDef.position.y; }
 
-	float GetAngle()
-	{
-		return bodyDef.angle;
-	}
+	float GetAngle() { return bodyDef.angle; }
 
-	float GetScaleX()
-	{
-		return scale.x;
-	}
+	float GetScaleX() { return scale.x; }
 
-	float GetScaleY()
-	{
-		return scale.y;
-	}
+	float GetScaleY() {	return scale.y;	}
 
-	void SetX(float x)
-	{
-		bodyDef.position.x = x;
-	}
+	void SetX(float x) { bodyDef.position.x = x; }
 
-	void SetY(float y)
-	{
-		bodyDef.position.y = y;
-	}
+	void SetY(float y) { bodyDef.position.y = y; }
 
-	void SetScaleX(float scalex)
-	{
-		scale.x = scalex;
-	}
+	void SetScaleX(float scalex) { scale.x = scalex; }
 
-	void SetScaleY(float scaley)
-	{
-		scale.y = scaley;
-	}
+	void SetScaleY(float scaley) { scale.y = scaley; }
 
 private:
 
 	/*
 	 Unique name identifier of Entity
 	 */
-	string id;
+	std::string id;
 };
 
 #endif

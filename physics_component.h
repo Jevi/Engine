@@ -4,8 +4,6 @@
 #include <Box2D/Box2D.h>
 #include "component.h"
 
-using namespace std;
-
 class PhysicsComponent: public Component
 {
 public:
@@ -24,14 +22,14 @@ public:
 	float gravityScale;
 	bool allowSleep;
 
-	PhysicsComponent(string Id, unsigned int BodyType, bool Enabled);
+	PhysicsComponent(std::string Id, unsigned int BodyType, bool Enabled);
 	~PhysicsComponent(void);
 
 	void Start();
 
-	void Update(unsigned long dt);
+	void Update(unsigned long Dt);
 
-	string ToString();
+	std::string ToString();
 
 };
 

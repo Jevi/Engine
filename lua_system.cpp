@@ -3,12 +3,15 @@
 #include "lua_system.h"
 #include "level_system.h"
 
-#include "engine_wrapper.h"
-#include "level_system_wrapper.h"
-#include "entity_wrapper.h"
-#include "component_wrapper.h"
-
 LuaSystem* LuaSystem::instance;
+
+LuaSystem::LuaSystem()
+{
+	L = lua_open();
+	luaL_openlibs(L);
+
+	cL = lua_newthread(L);
+}
 
 LuaSystem* LuaSystem::GetInstance()
 {
@@ -21,7 +24,12 @@ LuaSystem* LuaSystem::GetInstance()
 
 void LuaSystem::Destroy()
 {
-	lua_close(L);
+	if (instance)
+	{
+		lua_close(L);
+		delete instance;
+		instance = 0;
+	}
 }
 
 void LuaSystem::Update()
@@ -31,16 +39,16 @@ void LuaSystem::Update()
 
 void LuaSystem::Register()
 {
-	tolua_Engine_open(L);
+	/*tolua_Engine_open(L);
 	tolua_LevelSystem_open(L);
 	tolua_Component_open(L);
-	tolua_Entity_open(L);
+	tolua_Entity_open(L);*/
 
 	lua_register(L, "Sleep", Sleep);
-	luaL_loadfile(L, string(LevelSystem::GetInstance()->GetCurrentLevelPath() + "/scripts/main.lua").c_str());
+	luaL_loadfile(L, std::string(LevelSystem::GetInstance()->GetCurrentLevelPath() + "/scripts/main.lua").c_str());
 }
 
-void LuaSystem::RunScript(string filename)
+void LuaSystem::RunScript(std::string filename)
 {
 	luaL_dofile(cL, filename.c_str());
 }
@@ -49,4 +57,3 @@ int LuaSystem::Sleep(lua_State* L)
 {
 	return lua_yield(L, 0);
 }
-

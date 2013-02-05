@@ -2,7 +2,6 @@
 #define ASSET_H
 
 #include <iostream>
-using namespace std;
 
 class Asset
 {
@@ -14,26 +13,26 @@ public:
 		GRAPHICAL, AUDIO
 	};
 
-	static string TypeToString(unsigned int Type)
+	static  std::string TypeToString(unsigned int Type)
 	{
 		switch (Type)
 		{
 			case GRAPHICAL:
-				return string("GRAPHICAL");
+				return  std::string("GRAPHICAL");
 				break;
 			case AUDIO:
-				return string("AUDIO");
+				return std::string("AUDIO");
 				break;
 			default:
 				return "DEFAULT";
 		}
 	}
 
-	string id;
+	 std::string id;
 	/*
 	 asset location on hdd
 	 */
-	string filename;
+	std::string filename;
 	/*
 	 type of asset
 	 */
@@ -43,7 +42,7 @@ public:
 	 */
 	bool loaded;
 
-	Asset(string Id, string Filename, unsigned int Type) :
+	Asset( std::string Id, std::string Filename, unsigned int Type) :
 			id(Id), filename(Filename), type(Type), loaded(false)
 	{
 	}
@@ -57,7 +56,7 @@ public:
 	 */
 	virtual void Unload() = 0;
 
-	virtual string ToString() = 0;
+	virtual  std::string ToString() = 0;
 };
 
 #endif

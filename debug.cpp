@@ -1,27 +1,58 @@
 #include "debug.h"
 
-void Debug::Log(LogLevel level, const char* format, ...)
+void Debug::Log(LogLevel Level, const char* Format, ...)
 {
 	va_list args;
-	va_start(args, format);
-	cout << "[" << LogLevelToString(level) << "]\t";
-	vprintf(format, args);
+	va_start(args, Format);
+	std::cout << "[" << LogLevelToString(Level) << "]\t";
+	vprintf(Format, args);
 	va_end(args);
-	cout << endl;
+	std::cout << std::endl;
 }
 
-string Debug::BoolToString(bool Bool)
+std::string Debug::BoolToString(bool Bool)
 {
 	if (Bool)
 	{
-		return string("true");
+		return std::string("true");
 	}
-	return string("false");
+	return std::string("false");
 }
 
-string Debug::XMLDocumentToString(XMLDocument* doc)
+std::string Debug::XMLDocumentToString(tinyxml2::XMLDocument* Doc)
 {
-	XMLPrinter printer;
-	doc->Print(&printer);
+	tinyxml2::XMLPrinter printer;
+	Doc->Print(&printer);
 	return printer.CStr();
+}
+
+std::string Debug::LogLevelToString(LogLevel Level)
+{
+	switch (Level)
+	{
+	case LOG_DEBUG:
+		return "LOG_DEBUG";
+		break;
+	case LOG_PARM:
+		return "LOG_PARAM";
+		break;
+	case LOG_ENTRY:
+		return "LOG_ENTRY";
+		break;
+	case LOG_INFO:
+		return "LOG_INFO";
+		break;
+	case LOG_WARNING:
+		return "LOG_WARNING";
+		break;
+	case LOG_ERROR:
+		return "LOG_ERROR";
+		break;
+	case LOG_SEVERE:
+		return "LOG_SEVERE";
+		break;
+	default:
+		return "LOG_DEFAULT";
+		break;
+	}
 }

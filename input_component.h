@@ -7,14 +7,14 @@ class InputComponent: public Component
 {
 public:
 
-	InputComponent(string Id, bool Enabled);
+	InputComponent(std::string Id, bool Enabled);
 	~InputComponent(void);
 
 	void Start();
 
-	void Update(unsigned long dt);
+	void Update(unsigned long Dt);
 
-	string ToString();
+	std::string ToString();
 
 };
 

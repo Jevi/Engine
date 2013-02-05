@@ -9,7 +9,7 @@
 #include "debug.h"
 #include "engine_math.h"
 
-InputComponent::InputComponent(string Id, bool Enabled) :
+InputComponent::InputComponent(std::string Id, bool Enabled) :
 		Component(Id, Component::INPUT)
 {
 	enabled = Enabled;
@@ -24,7 +24,7 @@ void InputComponent::Start()
 
 }
 
-void InputComponent::Update(unsigned long dt)
+void InputComponent::Update(unsigned long Dt)
 {
 	Uint8* keystate = SDL_GetKeyState(NULL);
 	if (entity->GetComponent("physics") != NULL)
@@ -59,7 +59,7 @@ void InputComponent::Update(unsigned long dt)
 	}
 }
 
-string InputComponent::ToString()
+std::string InputComponent::ToString()
 {
 	return "INPUT COMPONENT";
 }

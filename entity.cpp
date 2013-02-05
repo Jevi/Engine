@@ -31,7 +31,7 @@ void Entity::Update(unsigned long dt)
 	}
 }
 
-Component* Entity::GetComponent(string Name)
+Component* Entity::GetComponent(std::string Name)
 {
 	for (unsigned int i = 0; i < components.size(); i++)
 	{
@@ -70,7 +70,7 @@ bool Entity::AddComponent(Component* NewComponent)
 	return true;
 }
 
-bool Entity::RemoveComponent(string Name)
+bool Entity::RemoveComponent(std::string Name)
 {
 	//Iterate over the component list
 	for (unsigned int i = 0; i < components.size(); ++i)
@@ -82,7 +82,6 @@ bool Entity::RemoveComponent(string Name)
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -128,7 +127,7 @@ Entity::~Entity(void)
 	}
 }
 
-string Entity::ToString()
+std::string Entity::ToString()
 {
 	XMLDocument doc;
 	XMLElement* root = doc.NewElement("Entity");

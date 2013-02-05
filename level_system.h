@@ -5,13 +5,7 @@
 
 #include "tinyxml2.h"
 #include "entity.h"
-#include "asset_system.h"
 
-using namespace std;
-using namespace tinyxml2;
-
-class Engine;
-class AssetSystem;
 class Entity;
 
 class LevelSystem
@@ -28,43 +22,34 @@ public:
 
 	void LoadPreviousLevel();
 
-	unsigned int GetCurrentLevel()
-	{
-		return currentLevel;
-	}
-
-	string GetCurrentLevelPath()
-	{
-		return currentLevelPath;
-	}
-
 	void UpdateLevel();
 
-	unsigned int GetTotalEntities()
-	{
-		return entities.size();
-	}
+	// Accessors
 
-	Entity* GetEntity(string Id);
+	unsigned int GetCurrentLevel() { return currentLevel; }
+
+	std::string GetCurrentLevelPath() { return currentLevelPath; }
+
+	unsigned int GetTotalEntities() { return entities.size(); }
+
+	Entity* GetEntity(std::string Id);
+
 	Entity* GetEntity(unsigned int Idx);
 
 private:
 
-	LevelSystem() :
-			currentLevel(0)
-	{
-
-	}
+	LevelSystem();
+	~LevelSystem() { }
 
 	static LevelSystem* instance;
-	static AssetSystem* assetLoader;
 
 	unsigned int currentLevel;
-	string currentLevelPath;
-	vector<Entity*> entities;
+	std::string currentLevelPath;
+	std::vector<Entity*> entities;
 
-	string GetLevelEntitiesXML(unsigned int Level);
-	void ProcessEntity(const XMLNode* EntityNode);
+	std::string GetLevelEntitiesXML(unsigned int Level);
+
+	void ProcessEntity(const tinyxml2::XMLNode* EntityNode);
 };
 
 #endif

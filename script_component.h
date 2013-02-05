@@ -7,9 +7,9 @@ class ScriptComponent: public Component
 {
 public:
 
-	string filename;
+	std::string filename;
 
-	ScriptComponent(string Id, string Filename, bool Enabled);
+	ScriptComponent(std::string Id, std::string Filename, bool Enabled);
 
 	~ScriptComponent(void);
 
@@ -17,7 +17,7 @@ public:
 
 	void Update(unsigned long dt);
 
-	string ToString();
+	std::string ToString();
 
 private:
 
