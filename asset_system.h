@@ -7,8 +7,7 @@
 #include "tinyxml2.h"
 #include "asset.h"
 
-class AssetSystem
-{
+class AssetSystem {
 public:
 
 	static AssetSystem* GetInstance();
@@ -27,8 +26,7 @@ private:
 	unsigned int loadedAssetCount;
 
 	AssetSystem();
-	~AssetSystem()
-	{
+	~AssetSystem() {
 	}
 
 	void ProcessElements(const tinyxml2::XMLNode* Tree);

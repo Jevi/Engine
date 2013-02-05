@@ -4,8 +4,7 @@
 #include <iostream>
 #include <lua.hpp>
 
-class LuaSystem
-{
+class LuaSystem {
 public:
 
 	static LuaSystem* GetInstance();
@@ -18,16 +17,14 @@ public:
 
 	void RunScript(std::string filename);
 
-	lua_State* GetLuaState()
-	{
+	lua_State* GetLuaState() {
 		return L;
 	}
 
 private:
 
 	LuaSystem();
-	~LuaSystem()
-	{
+	~LuaSystem() {
 	}
 
 	static LuaSystem* instance;

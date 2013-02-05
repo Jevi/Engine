@@ -1,7 +1,6 @@
 #include "debug.h"
 
-void Debug::Log(LogLevel Level, const char* Format, ...)
-{
+void Debug::Log(LogLevel Level, const char* Format, ...) {
 	va_list args;
 	va_start(args, Format);
 	std::cout << "[" << LogLevelToString(Level) << "]\t";
@@ -10,26 +9,21 @@ void Debug::Log(LogLevel Level, const char* Format, ...)
 	std::cout << std::endl;
 }
 
-std::string Debug::BoolToString(bool Bool)
-{
-	if (Bool)
-	{
+std::string Debug::BoolToString(bool Bool) {
+	if (Bool) {
 		return std::string("true");
 	}
 	return std::string("false");
 }
 
-std::string Debug::XMLDocumentToString(tinyxml2::XMLDocument* Doc)
-{
+std::string Debug::XMLDocumentToString(tinyxml2::XMLDocument* Doc) {
 	tinyxml2::XMLPrinter printer;
 	Doc->Print(&printer);
 	return printer.CStr();
 }
 
-std::string Debug::LogLevelToString(LogLevel Level)
-{
-	switch (Level)
-	{
+std::string Debug::LogLevelToString(LogLevel Level) {
+	switch (Level) {
 		case LOG_DEBUG:
 			return "LOG_DEBUG";
 			break;

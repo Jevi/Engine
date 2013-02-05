@@ -7,38 +7,29 @@
 AssetSystem* AssetSystem::instance;
 
 AssetSystem::AssetSystem() :
-		loadedAssetCount(0)
-{
+		loadedAssetCount(0) {
 
 }
 
-AssetSystem* AssetSystem::GetInstance()
-{
-	if (!instance)
-	{
+AssetSystem* AssetSystem::GetInstance() {
+	if (!instance) {
 		instance = new AssetSystem;
 	}
 	return instance;
 }
 
-Asset* AssetSystem::GetAsset(std::string Id)
-{
-	for (unsigned int i = 0; i < assets.size(); i++)
-	{
-		if (strcmp(assets[i]->id.c_str(), Id.c_str()) == 0)
-		{
+Asset* AssetSystem::GetAsset(std::string Id) {
+	for (unsigned int i = 0; i < assets.size(); i++) {
+		if (strcmp(assets[i]->id.c_str(), Id.c_str()) == 0) {
 			return assets[i];
 		}
 	}
 	return NULL;
 }
 
-void AssetSystem::Destroy()
-{
-	if (instance)
-	{
-		for (unsigned int i = 0; i < assets.size(); ++i)
-		{
+void AssetSystem::Destroy() {
+	if (instance) {
+		for (unsigned int i = 0; i < assets.size(); ++i) {
 			delete assets[i];
 		}
 		delete instance;
@@ -46,22 +37,19 @@ void AssetSystem::Destroy()
 	}
 }
 
-bool AssetSystem::LoadAssets()
-{
+bool AssetSystem::LoadAssets() {
 	tinyxml2::XMLDocument doc;
 
 	std::string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
 
-	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
-	{
+	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
 		return false;
 	}
 	Debug::Log(Debug::LOG_ENTRY, "Processing: %s", filename.c_str());
 
 	tinyxml2::XMLNode* Tree = doc.FirstChild();
-	if (Tree)
-	{
+	if (Tree) {
 		ProcessElements(Tree);
 	}
 
@@ -70,28 +58,23 @@ bool AssetSystem::LoadAssets()
 	return true;
 }
 
-void AssetSystem::ProcessElements(const tinyxml2::XMLNode* Tree)
-{
-	for (const tinyxml2::XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling())
-	{
+void AssetSystem::ProcessElements(const tinyxml2::XMLNode* Tree) {
+	for (const tinyxml2::XMLNode* Node = Tree->FirstChild(); Node; Node = Node->NextSibling()) {
 		const tinyxml2::XMLElement* Element = Node->ToElement();
-		if (strcmp(Element->Name(), "Asset") == 0)
-		{
+		if (strcmp(Element->Name(), "Asset") == 0) {
 			ProcessAsset(Node);
 		}
 	}
 }
 
-void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode)
-{
+void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode) {
 	const tinyxml2::XMLElement* assetElement = AssetNode->ToElement();
 	Asset* asset = 0;
 	std::string id(assetElement->Attribute("id"));
 	std::string filename(assetElement->Attribute("filename"));
 	unsigned int type = atoi(assetElement->Attribute("type"));
 
-	switch (type)
-	{
+	switch (type) {
 		case Asset::GRAPHICAL:
 			asset = new Sprite(id, filename);
 			break;

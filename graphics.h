@@ -19,8 +19,7 @@
 
 class Sprite;
 
-class Graphics
-{
+class Graphics {
 
 public:
 

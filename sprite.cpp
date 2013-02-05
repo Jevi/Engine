@@ -2,25 +2,21 @@
 
 #include "debug.h"
 
-void Sprite::Bind()
-{
+void Sprite::Bind() {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
-bool Sprite::Load()
-{
+bool Sprite::Load() {
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
-	if (image == NULL)
-	{
+	if (image == NULL) {
 		return false;
 	}
 
 	width = image->w;
 	height = image->h;
 
-	if ((width == 0) || (height == 0))
-	{
+	if ((width == 0) || (height == 0)) {
 		return false;
 	}
 
@@ -39,10 +35,8 @@ bool Sprite::Load()
 	return true;
 }
 
-void Sprite::Unload()
-{
-	if (loaded)
-	{
+void Sprite::Unload() {
+	if (loaded) {
 		GLuint tempId;
 		tempId = textureId;
 		glDeleteTextures(1, &tempId);
@@ -53,8 +47,7 @@ void Sprite::Unload()
 	}
 }
 
-std::string Sprite::ToString()
-{
+std::string Sprite::ToString() {
 	XMLDocument doc;
 	XMLElement* root = doc.NewElement("Asset");
 	root->SetAttribute("id", id.c_str());

@@ -3,8 +3,7 @@
 
 #include "component.h"
 
-class ScriptComponent: public Component
-{
+class ScriptComponent: public Component {
 public:
 
 	std::string filename;

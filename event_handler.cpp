@@ -1,51 +1,40 @@
 #include "event_handler.h"
 
-EventHandler::EventHandler()
-{
+EventHandler::EventHandler() {
 }
 
-EventHandler::~EventHandler()
-{
+EventHandler::~EventHandler() {
 	//Do nothing
 }
 
-void EventHandler::OnEvent(SDL_Event* Event)
-{
-	switch (Event->type)
-	{
+void EventHandler::OnEvent(SDL_Event* Event) {
+	switch (Event->type) {
 		case SDL_ACTIVEEVENT:
 
-			switch (Event->active.state)
-			{
+			switch (Event->active.state) {
 				case SDL_APPMOUSEFOCUS:
-					if (Event->active.gain)
-					{
+					if (Event->active.gain) {
 						OnMouseFocus();
 					}
-					else
-					{
+					else {
 						OnMouseBlur();
 					}
 					break;
 
 				case SDL_APPINPUTFOCUS:
-					if (Event->active.gain)
-					{
+					if (Event->active.gain) {
 						OnInputFocus();
 					}
-					else
-					{
+					else {
 						OnInputBlur();
 					}
 					break;
 
 				case SDL_APPACTIVE:
-					if (Event->active.gain)
-					{
+					if (Event->active.gain) {
 						OnRestore();
 					}
-					else
-					{
+					else {
 						OnMinimize();
 					}
 					break;
@@ -65,8 +54,7 @@ void EventHandler::OnEvent(SDL_Event* Event)
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-			switch (Event->button.button)
-			{
+			switch (Event->button.button) {
 				case SDL_BUTTON_LEFT:
 					OnLButtonDown(Event->button.x, Event->button.y);
 					break;
@@ -82,8 +70,7 @@ void EventHandler::OnEvent(SDL_Event* Event)
 			break;
 
 		case SDL_MOUSEBUTTONUP:
-			switch (Event->button.button)
-			{
+			switch (Event->button.button) {
 				case SDL_BUTTON_LEFT:
 					OnLButtonUp(Event->button.x, Event->button.y);
 					break;
@@ -140,127 +127,102 @@ void EventHandler::OnEvent(SDL_Event* Event)
 	}
 }
 
-void EventHandler::OnInputFocus()
-{
+void EventHandler::OnInputFocus() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnInputBlur()
-{
+void EventHandler::OnInputBlur() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
-{
+void EventHandler::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode)
-{
+void EventHandler::OnKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseFocus()
-{
+void EventHandler::OnMouseFocus() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseBlur()
-{
+void EventHandler::OnMouseBlur() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle)
-{
+void EventHandler::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMouseWheel(bool Up, bool Down)
-{
+void EventHandler::OnMouseWheel(bool Up, bool Down) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnLButtonDown(int mX, int mY)
-{
+void EventHandler::OnLButtonDown(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnLButtonUp(int mX, int mY)
-{
+void EventHandler::OnLButtonUp(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnRButtonDown(int mX, int mY)
-{
+void EventHandler::OnRButtonDown(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnRButtonUp(int mX, int mY)
-{
+void EventHandler::OnRButtonUp(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMButtonDown(int mX, int mY)
-{
+void EventHandler::OnMButtonDown(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMButtonUp(int mX, int mY)
-{
+void EventHandler::OnMButtonUp(int mX, int mY) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value)
-{
+void EventHandler::OnJoyAxis(Uint8 which, Uint8 axis, Sint16 value) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnJoyButtonDown(Uint8 which, Uint8 button)
-{
+void EventHandler::OnJoyButtonDown(Uint8 which, Uint8 button) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnJoyButtonUp(Uint8 which, Uint8 button)
-{
+void EventHandler::OnJoyButtonUp(Uint8 which, Uint8 button) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value)
-{
+void EventHandler::OnJoyHat(Uint8 which, Uint8 hat, Uint8 value) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnJoyBall(Uint8 which, Uint8 ball, Sint16 xrel, Sint16 yrel)
-{
+void EventHandler::OnJoyBall(Uint8 which, Uint8 ball, Sint16 xrel, Sint16 yrel) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnMinimize()
-{
+void EventHandler::OnMinimize() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnRestore()
-{
+void EventHandler::OnRestore() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnResize(int w, int h)
-{
+void EventHandler::OnResize(int w, int h) {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnExpose()
-{
+void EventHandler::OnExpose() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::Exit()
-{
+void EventHandler::Exit() {
 //Pure virtual, do nothing
 }
 
-void EventHandler::OnUser(Uint8 type, int code, void* data1, void* data2)
-{
+void EventHandler::OnUser(Uint8 type, int code, void* data1, void* data2) {
 //Pure virtual, do nothing
 }

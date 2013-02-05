@@ -2,15 +2,13 @@
 
 #include "engine_math.h"
 
-void Graphics::DrawPoint(float x, float y)
-{
+void Graphics::DrawPoint(float x, float y) {
 	glBegin (GL_POINTS);
 	glVertex2f(x, y);
 	glEnd();
 }
 
-void Graphics::DrawPoint(float x, float y, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
+void Graphics::DrawPoint(float x, float y, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -20,16 +18,14 @@ void Graphics::DrawPoint(float x, float y, GLfloat r, GLfloat g, GLfloat b, GLfl
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawLine(float x1, float y1, float x2, float y2)
-{
+void Graphics::DrawLine(float x1, float y1, float x2, float y2) {
 	glBegin (GL_LINES);
 	glVertex2f(x1, y1);
 	glVertex2f(x2, y2);
 	glEnd();
 }
 
-void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
+void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -40,8 +36,7 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLflo
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawQuad(float x, float y, float width, float height)
-{
+void Graphics::DrawQuad(float x, float y, float width, float height) {
 	glBegin (GL_LINE_LOOP);
 	glVertex2f(x, y);
 	glVertex2f(x + width, y);
@@ -50,8 +45,7 @@ void Graphics::DrawQuad(float x, float y, float width, float height)
 	glEnd();
 }
 
-void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
+void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 
@@ -65,8 +59,7 @@ void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawQuad(float x, float y, float width, float height, float rotation, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
+void Graphics::DrawQuad(float x, float y, float width, float height, float rotation, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 	rotation = EngineMath::RadiansToDegrees(rotation);
@@ -87,8 +80,7 @@ void Graphics::DrawQuad(float x, float y, float width, float height, float rotat
 	glPopMatrix();
 }
 
-void Graphics::FillQuad(float x, float y, float width, float height)
-{
+void Graphics::FillQuad(float x, float y, float width, float height) {
 	glBegin (GL_QUADS);
 	glVertex2f(x, y);
 	glVertex2f(x + width, y);
@@ -97,8 +89,7 @@ void Graphics::FillQuad(float x, float y, float width, float height)
 	glEnd();
 }
 
-void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-{
+void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -109,8 +100,7 @@ void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, float scaleX, float scaleY)
-{
+void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, float scaleX, float scaleY) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 
@@ -145,8 +135,7 @@ void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, flo
 	glPopMatrix();
 }
 
-void Graphics::DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation)
-{
+void Graphics::DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation) {
 	rotation = EngineMath::RadiansToDegrees(rotation);
 
 	glPushMatrix();

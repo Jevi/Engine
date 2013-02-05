@@ -5,19 +5,15 @@
 
 class Entity;
 
-class Component
-{
+class Component {
 public:
 
-	enum ComponentType
-	{
+	enum ComponentType {
 		RENDER, AUDIO, PHYSICS, INPUT, SCRIPT
 	};
 
-	static std::string TypeToString(unsigned int Type)
-	{
-		switch (Type)
-		{
+	static std::string TypeToString(unsigned int Type) {
+		switch (Type) {
 			case RENDER:
 				return std::string("RENDER");
 				break;
@@ -56,12 +52,10 @@ public:
 	Entity* entity;
 
 	Component(std::string Id, unsigned int Type) :
-			id(Id), type(Type), enabled(false), entity(NULL)
-	{
+			id(Id), type(Type), enabled(false), entity(NULL) {
 	}
 
-	virtual ~Component(void)
-	{
+	virtual ~Component(void) {
 		entity = NULL;
 	}
 
@@ -76,18 +70,15 @@ public:
 
 	virtual std::string ToString() = 0;
 
-	std::string GetId()
-	{
+	std::string GetId() {
 		return id;
 	}
 
-	unsigned int GetType()
-	{
+	unsigned int GetType() {
 		return type;
 	}
 
-	bool IsEnabled()
-	{
+	bool IsEnabled() {
 		return enabled;
 	}
 };

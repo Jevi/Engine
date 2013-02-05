@@ -7,8 +7,7 @@
 #include "component.h"
 #include "sprite.h"
 
-class RenderComponent: public Component
-{
+class RenderComponent: public Component {
 public:
 
 	RenderComponent(std::string Id);
@@ -16,8 +15,7 @@ public:
 	RenderComponent(std::string Id, Sprite* Sprite, bool Enabled);
 	~RenderComponent();
 
-	Sprite* GetSprite()
-	{
+	Sprite* GetSprite() {
 		return sprite;
 	}
 

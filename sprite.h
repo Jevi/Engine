@@ -12,8 +12,7 @@
 using namespace tinyxml2;
 using namespace std;
 
-class Sprite: public Asset
-{
+class Sprite: public Asset {
 public:
 
 	/*
@@ -26,12 +25,10 @@ public:
 	 */
 	std::string filename;
 	Sprite(std::string Id, std::string Filename) :
-			Asset(Id, Filename, Asset::GRAPHICAL), id(Id), filename(Filename), width(0), height(0), loaded(false)
-	{
+			Asset(Id, Filename, Asset::GRAPHICAL), id(Id), filename(Filename), width(0), height(0), loaded(false) {
 	}
 
-	~Sprite(void)
-	{
+	~Sprite(void) {
 		Unload();
 	}
 

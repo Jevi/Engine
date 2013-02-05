@@ -7,29 +7,23 @@
 #include "tinyxml2.h"
 
 PhysicsComponent::PhysicsComponent(std::string Id, unsigned int BodyType, bool Enabled) :
-		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false), density(1.0f), friction(1.0f), restitution(1.0f), allowSleep(true)
-{
+		Component(Id, Component::PHYSICS), bodyType(BodyType), synched(false), density(1.0f), friction(1.0f), restitution(1.0f), allowSleep(true) {
 	enabled = Enabled;
 }
 
-PhysicsComponent::~PhysicsComponent(void)
-{
+PhysicsComponent::~PhysicsComponent(void) {
 	Engine::GetInstance()->GetWorld()->DestroyBody(body);
 }
 
-void PhysicsComponent::Start()
-{
+void PhysicsComponent::Start() {
 
 }
 
-void PhysicsComponent::Update(unsigned long Dt)
-{
-	if (!synched)
-	{
+void PhysicsComponent::Update(unsigned long Dt) {
+	if (!synched) {
 		b2World* world = Engine::GetInstance()->GetWorld();
 
-		switch (bodyType)
-		{
+		switch (bodyType) {
 			case StaticBody:
 				entity->bodyDef.type = b2_staticBody;
 				break;
@@ -61,8 +55,7 @@ void PhysicsComponent::Update(unsigned long Dt)
 	entity->bodyDef.angle = body->GetTransform().q.GetAngle();
 }
 
-std::string PhysicsComponent::ToString()
-{
+std::string PhysicsComponent::ToString() {
 	XMLDocument doc;
 	XMLElement* componentElement = doc.NewElement("Component");
 	componentElement->SetAttribute("id", id.c_str());

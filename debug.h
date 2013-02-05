@@ -7,12 +7,10 @@
 
 #include "tinyxml2.h"
 
-class Debug
-{
+class Debug {
 public:
 
-	enum LogLevel
-	{
+	enum LogLevel {
 		LOG_DEBUG, LOG_PARM, LOG_ENTRY, LOG_INFO, LOG_WARNING, LOG_ERROR, LOG_SEVERE
 	};
 
@@ -21,8 +19,7 @@ public:
 	static std::string XMLDocumentToString(tinyxml2::XMLDocument* Doc);
 
 	template<typename T>
-	static std::string NumberToString(T Number)
-	{
+	static std::string NumberToString(T Number) {
 		ostringstream ss;
 		ss << Number;
 		return ss.str();

@@ -10,15 +10,12 @@
 
 class Component;
 
-class Entity
-{
+class Entity {
 public:
 
-	struct Scale
-	{
+	struct Scale {
 		float x, y;
-		Scale(float X, float Y)
-		{
+		Scale(float X, float Y) {
 			x = X;
 			y = Y;
 		}
@@ -35,8 +32,7 @@ public:
 	Scale scale;
 
 	Entity(std::string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
-			id(Id), scale(ScaleX, ScaleY)
-	{
+			id(Id), scale(ScaleX, ScaleY) {
 		bodyDef.position.x = PosX;
 		bodyDef.position.y = PosY;
 		bodyDef.angle = Rot;
@@ -58,8 +54,7 @@ public:
 	/*
 	 Return Entity unique name identifier
 	 */
-	std::string GetId()
-	{
+	std::string GetId() {
 		return id;
 	}
 	/*
@@ -90,48 +85,39 @@ public:
 
 	// Additional Lua Accessors
 
-	float GetX()
-	{
+	float GetX() {
 		return bodyDef.position.x;
 	}
 
-	float GetY()
-	{
+	float GetY() {
 		return bodyDef.position.y;
 	}
 
-	float GetAngle()
-	{
+	float GetAngle() {
 		return bodyDef.angle;
 	}
 
-	float GetScaleX()
-	{
+	float GetScaleX() {
 		return scale.x;
 	}
 
-	float GetScaleY()
-	{
+	float GetScaleY() {
 		return scale.y;
 	}
 
-	void SetX(float x)
-	{
+	void SetX(float x) {
 		bodyDef.position.x = x;
 	}
 
-	void SetY(float y)
-	{
+	void SetY(float y) {
 		bodyDef.position.y = y;
 	}
 
-	void SetScaleX(float scalex)
-	{
+	void SetScaleX(float scalex) {
 		scale.x = scalex;
 	}
 
-	void SetScaleY(float scaley)
-	{
+	void SetScaleY(float scaley) {
 		scale.y = scaley;
 	}
 

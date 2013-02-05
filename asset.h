@@ -3,20 +3,16 @@
 
 #include <iostream>
 
-class Asset
-{
+class Asset {
 public:
 
 	// constant types of Assets
-	enum AssetType
-	{
+	enum AssetType {
 		GRAPHICAL, AUDIO
 	};
 
-	static std::string TypeToString(unsigned int Type)
-	{
-		switch (Type)
-		{
+	static std::string TypeToString(unsigned int Type) {
+		switch (Type) {
 			case GRAPHICAL:
 				return std::string("GRAPHICAL");
 				break;
@@ -43,8 +39,7 @@ public:
 	bool loaded;
 
 	Asset(std::string Id, std::string Filename, unsigned int Type) :
-			id(Id), filename(Filename), type(Type), loaded(false)
-	{
+			id(Id), filename(Filename), type(Type), loaded(false) {
 	}
 
 	/*

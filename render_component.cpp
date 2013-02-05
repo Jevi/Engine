@@ -6,62 +6,50 @@
 #include "debug.h"
 
 RenderComponent::RenderComponent(std::string Id) :
-		Component(Id, Component::RENDER)
-{
+		Component(Id, Component::RENDER) {
 }
 
 RenderComponent::RenderComponent(std::string Id, Sprite* Sprite) :
-		Component(Id, Component::RENDER)
-{
+		Component(Id, Component::RENDER) {
 	sprite = Sprite;
 }
 
 RenderComponent::RenderComponent(std::string Id, Sprite* Sprite, bool Enabled) :
-		Component(Id, Component::RENDER)
-{
+		Component(Id, Component::RENDER) {
 	sprite = Sprite;
 	enabled = Enabled;
 
-	if (enabled)
-	{
+	if (enabled) {
 		sprite->Load();
 	}
 }
 
-RenderComponent::~RenderComponent(void)
-{
+RenderComponent::~RenderComponent(void) {
 	sprite->Unload();
 }
 
-void RenderComponent::Start()
-{
+void RenderComponent::Start() {
 
 }
 
-void RenderComponent::Update(unsigned long Dt)
-{
+void RenderComponent::Update(unsigned long Dt) {
 	Render();
 }
 
-void RenderComponent::Render()
-{
-	if (entity->GetComponent("physics") != NULL)
-	{
+void RenderComponent::Render() {
+	if (entity->GetComponent("physics") != NULL) {
 		PhysicsComponent* physicsComponent = ((PhysicsComponent*) entity->GetComponent("physics"));
-		if (physicsComponent->body && physicsComponent->synched)
-		{
+		if (physicsComponent->body && physicsComponent->synched) {
 			b2Vec2 bodyVerticies[4];
 			b2Vec2 bodyCenter = physicsComponent->body->GetWorldCenter();
 			float rotation = physicsComponent->body->GetAngle();
-			for (unsigned int i = 0; i < 4; i++)
-			{
+			for (unsigned int i = 0; i < 4; i++) {
 				bodyVerticies[i] = ((b2PolygonShape*) (physicsComponent->body->GetFixtureList()->GetShape()))->GetVertex(i);
 			}
 			Graphics::DrawTexture(sprite, bodyVerticies, bodyCenter, rotation);
 		}
 	}
-	else
-	{
+	else {
 		float x = entity->bodyDef.position.x;
 		float y = entity->bodyDef.position.y;
 		float rotation = entity->bodyDef.angle;
@@ -71,8 +59,7 @@ void RenderComponent::Render()
 	}
 }
 
-std::string RenderComponent::ToString()
-{
+std::string RenderComponent::ToString() {
 	XMLDocument doc;
 	XMLElement* componentElement = doc.NewElement("Component");
 	componentElement->SetAttribute("id", id.c_str());

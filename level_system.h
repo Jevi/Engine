@@ -8,8 +8,7 @@
 
 class Entity;
 
-class LevelSystem
-{
+class LevelSystem {
 public:
 
 	static LevelSystem* GetInstance();
@@ -26,18 +25,15 @@ public:
 
 	// Accessors
 
-	unsigned int GetCurrentLevel()
-	{
+	unsigned int GetCurrentLevel() {
 		return currentLevel;
 	}
 
-	std::string GetCurrentLevelPath()
-	{
+	std::string GetCurrentLevelPath() {
 		return currentLevelPath;
 	}
 
-	unsigned int GetTotalEntities()
-	{
+	unsigned int GetTotalEntities() {
 		return entities.size();
 	}
 
@@ -48,8 +44,7 @@ public:
 private:
 
 	LevelSystem();
-	~LevelSystem()
-	{
+	~LevelSystem() {
 	}
 
 	static LevelSystem* instance;

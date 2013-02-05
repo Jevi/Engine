@@ -7,8 +7,7 @@
 #include <SDL/SDL.h>
 #endif
 
-class EventHandler
-{
+class EventHandler {
 public:
 	EventHandler();
 

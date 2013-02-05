@@ -4,12 +4,10 @@
 #include <Box2D/Box2D.h>
 #include "component.h"
 
-class PhysicsComponent: public Component
-{
+class PhysicsComponent: public Component {
 public:
 
-	enum BodyType
-	{
+	enum BodyType {
 		StaticBody, DynamicBody
 	};
 

@@ -22,17 +22,14 @@
 
 #include "event_handler.h"
 
-class Engine: public EventHandler
-{
+class Engine: public EventHandler {
 public:
 
 	/*
 	 Returns singleton Engine instance.
 	 */
-	static Engine* GetInstance()
-	{
-		if (!instance)
-		{
+	static Engine* GetInstance() {
+		if (!instance) {
 			instance = new Engine;
 		}
 		return instance;
@@ -56,40 +53,33 @@ public:
 
 	// Accessors
 
-	b2World* GetWorld()
-	{
+	b2World* GetWorld() {
 		return world;
 	}
 
-	std::string GetAppProject()
-	{
+	std::string GetAppProject() {
 		return appProject;
 	}
 
-	int GetAppHeight()
-	{
+	int GetAppHeight() {
 		return appHeight;
 	}
 
-	int GetAppWidth()
-	{
+	int GetAppWidth() {
 		return appWidth;
 	}
 
-	std::string GetAppState()
-	{
+	std::string GetAppState() {
 		return ToString(appState);
 	}
 
 private:
 
 	Engine();
-	~Engine()
-	{
+	~Engine() {
 	}
 
-	enum AppState
-	{
+	enum AppState {
 		Uninitialized, Running, Exiting
 	};
 
