@@ -1,13 +1,13 @@
 #ifndef ASSETSYSTEM_H
 #define ASSETSYSTEM_H
 
-#include <iostream>
 #include <vector>
 
+#include "system.h"
 #include "tinyxml2.h"
 #include "asset.h"
 
-class AssetSystem {
+class AssetSystem : public System{
 public:
 
 	static AssetSystem* GetInstance();

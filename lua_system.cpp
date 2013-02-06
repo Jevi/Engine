@@ -38,7 +38,7 @@ void LuaSystem::Register() {
 	 tolua_Entity_open(L);*/
 
 	lua_register(L, "Sleep", Sleep);
-	luaL_loadfile(L, std::string(LevelSystem::GetInstance()->GetCurrentLevelPath() + "/scripts/main.lua").c_str());
+	luaL_loadfile(L, std::string(_currentLevelPath + "/scripts/main.lua").c_str());
 }
 
 void LuaSystem::RunScript(std::string filename) {

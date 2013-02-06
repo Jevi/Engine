@@ -20,9 +20,10 @@
 #include <unistd.h>
 #endif
 
+#include "system.h"
 #include "event_handler.h"
 
-class Engine: public EventHandler {
+class Engine: public System, public EventHandler {
 public:
 
 	/*
@@ -57,10 +58,6 @@ public:
 		return world;
 	}
 
-	std::string GetAppProject() {
-		return appProject;
-	}
-
 	int GetAppHeight() {
 		return appHeight;
 	}
@@ -88,7 +85,6 @@ private:
 
 	int appWidth;
 	int appHeight;
-	std::string appProject;
 
 	AppState appState;
 	SDL_Surface* appWindow;

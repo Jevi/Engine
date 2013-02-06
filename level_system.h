@@ -3,12 +3,13 @@
 
 #include <vector>
 
+#include "system.h"
 #include "tinyxml2.h"
 #include "entity.h"
 
 class Entity;
 
-class LevelSystem {
+class LevelSystem : public System {
 public:
 
 	static LevelSystem* GetInstance();
@@ -29,10 +30,6 @@ public:
 		return currentLevel;
 	}
 
-	std::string GetCurrentLevelPath() {
-		return currentLevelPath;
-	}
-
 	unsigned int GetTotalEntities() {
 		return entities.size();
 	}
@@ -50,7 +47,6 @@ private:
 	static LevelSystem* instance;
 
 	unsigned int currentLevel;
-	std::string currentLevelPath;
 	std::vector<Entity*> entities;
 
 	std::string GetLevelEntitiesXML(unsigned int Level);

@@ -1,10 +1,10 @@
 #ifndef LUA_SYSTEM_H
 #define LUA_SYSTEM_H
 
-#include <iostream>
 #include <lua.hpp>
+#include "system.h"
 
-class LuaSystem {
+class LuaSystem : public System {
 public:
 
 	static LuaSystem* GetInstance();

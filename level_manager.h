@@ -1,5 +1,10 @@
-#ifndef LEVELMANAGER_H
-#define LEVELMANAGER_H
+#ifndef LEVEL_MANAGER_H
+#define LEVEL_MANAGER_H
+
+#include <iostream>
+#include <vector>
+
+#include "entity.h"
 
 class LevelManager {
 protected:
@@ -8,4 +13,4 @@ protected:
     static std::vector<Entity*> _sharedEntities;
 };
 
-#endif // LEVEL_H
+#endif

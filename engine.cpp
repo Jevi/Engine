@@ -8,9 +8,12 @@
 
 Engine* Engine::instance;
 
+std::string System::_workspace;
+std::string System::_currentLevelPath;
+
 Engine::Engine() :
 		appState(Uninitialized), appWidth(640), appHeight(480) {
-	appProject = "workspace/demo";
+	_workspace = "workspace/demo";
 }
 
 void Engine::Destroy() {

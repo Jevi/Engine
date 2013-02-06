@@ -53,10 +53,10 @@ Entity* LevelSystem::GetEntity(unsigned int Idx) {
 }
 
 void LevelSystem::LoadLevel(unsigned int Level) {
-	if ((currentLevelPath = GetLevelEntitiesXML(Level)).empty()) {
+	if ((_currentLevelPath = GetLevelEntitiesXML(Level)).empty()) {
 		return;
 	}
-	std::string filename = currentLevelPath + "/entities.xml";
+	std::string filename = _currentLevelPath + "/entities.xml";
 
 	tinyxml2::XMLDocument doc;
 
@@ -217,7 +217,7 @@ void LevelSystem::LoadPreviousLevel() {
 }
 
 std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
-	std::string filename = Engine::GetInstance()->GetAppProject() + "/levels/levels.xml";
+	std::string filename = _workspace + "/levels/levels.xml";
 	std::string level = Debug::NumberToString(Level);
 
 	tinyxml2::XMLDocument doc;
@@ -233,7 +233,7 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 			const tinyxml2::XMLElement* element = node->ToElement();
 			if (strcmp(element->Name(), "Level") == 0) {
 				if (strcmp(element->Attribute("num"), level.c_str()) == 0) {
-					return Engine::GetInstance()->GetAppProject() + "/levels/" + std::string(element->Attribute("id"));
+					return _workspace + "/levels/" + std::string(element->Attribute("id"));
 				}
 			}
 		}

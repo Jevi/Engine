@@ -40,7 +40,7 @@ void AssetSystem::Destroy() {
 bool AssetSystem::LoadAssets() {
 	tinyxml2::XMLDocument doc;
 
-	std::string filename = Engine::GetInstance()->GetAppProject() + "/assets.xml";
+	std::string filename = _workspace + "/assets.xml";
 
 	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
