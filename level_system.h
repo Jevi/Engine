@@ -4,17 +4,18 @@
 #include <vector>
 
 #include "system.h"
+#include "level_manager.h"
+#include "asset_manager.h"
 #include "tinyxml2.h"
-#include "entity.h"
 
 class Entity;
 
-class LevelSystem : public System {
+class LevelSystem: public System, public LevelManager, public AssetManager {
 public:
 
-	static LevelSystem* GetInstance();
+	LevelSystem(void);
 
-	void Destroy();
+	~LevelSystem(void);
 
 	void LoadLevel(unsigned int Level);
 
@@ -26,30 +27,11 @@ public:
 
 	// Accessors
 
-	unsigned int GetCurrentLevel() {
-		return currentLevel;
-	}
-
-	unsigned int GetTotalEntities() {
-		return entities.size();
-	}
-
-	Entity* GetEntity(std::string Id);
-
-	Entity* GetEntity(unsigned int Idx);
-
 private:
 
-	LevelSystem();
-	~LevelSystem() {
-	}
-
-	static LevelSystem* instance;
-
-	unsigned int currentLevel;
-	std::vector<Entity*> entities;
-
 	std::string GetLevelEntitiesXML(unsigned int Level);
+
+	std::shared_ptr<Asset> GetAsset(std::string Id);
 
 	void ProcessEntity(const tinyxml2::XMLNode* EntityNode);
 };

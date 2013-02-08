@@ -2,9 +2,10 @@
 #define PHYSICSCOMPONENT_H
 
 #include <Box2D/Box2D.h>
+#include "level_manager.h"
 #include "component.h"
 
-class PhysicsComponent: public Component {
+class PhysicsComponent: public Component, public LevelManager {
 public:
 
 	enum BodyType {

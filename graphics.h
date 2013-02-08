@@ -33,8 +33,8 @@ public:
 	static void FillQuad(float x, float y, float width, float height);
 	static void FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
-	static void DrawTexture(Sprite* sprite, float x, float y, float rotation, float scaleX, float scaleY);
-	static void DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation);
+	static void DrawTexture(std::shared_ptr<Sprite> sprite, float x, float y, float rotation, float scaleX, float scaleY);
+	static void DrawTexture(std::shared_ptr<Sprite> sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation);
 
 private:
 

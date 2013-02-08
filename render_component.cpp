@@ -5,16 +5,7 @@
 #include "tinyxml2.h"
 #include "debug.h"
 
-RenderComponent::RenderComponent(std::string Id) :
-		Component(Id, Component::RENDER) {
-}
-
-RenderComponent::RenderComponent(std::string Id, Sprite* Sprite) :
-		Component(Id, Component::RENDER) {
-	sprite = Sprite;
-}
-
-RenderComponent::RenderComponent(std::string Id, Sprite* Sprite, bool Enabled) :
+RenderComponent::RenderComponent(std::string Id, std::shared_ptr<Sprite> Sprite, bool Enabled) :
 		Component(Id, Component::RENDER) {
 	sprite = Sprite;
 	enabled = Enabled;
@@ -38,7 +29,7 @@ void RenderComponent::Update(unsigned long Dt) {
 
 void RenderComponent::Render() {
 	if (entity->GetComponent("physics") != NULL) {
-		PhysicsComponent* physicsComponent = ((PhysicsComponent*) entity->GetComponent("physics"));
+		std::shared_ptr<PhysicsComponent> physicsComponent(std::static_pointer_cast < PhysicsComponent > (entity->GetComponent("physics")));
 		if (physicsComponent->body && physicsComponent->synched) {
 			b2Vec2 bodyVerticies[4];
 			b2Vec2 bodyCenter = physicsComponent->body->GetWorldCenter();

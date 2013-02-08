@@ -1,32 +1,21 @@
 #include "engine.h"
 
-#include "lua_system.h"
-#include "asset_system.h"
-#include "level_system.h"
-
 #include "debug.h"
-
-Engine* Engine::instance;
 
 std::string System::_workspace;
 std::string System::_currentLevelPath;
 
-Engine::Engine() :
-		appState(Uninitialized), appWidth(640), appHeight(480) {
-	_workspace = "workspace/demo";
+Engine::Engine(std::string Workspace, unsigned int Width, unsigned int Height, float wGravity) :
+		appState(Uninitialized), appWidth(Width), appHeight(Height) {
+	_workspace = Workspace;
+	_world = std::shared_ptr < b2World > (new b2World(b2Vec2(0.0f, wGravity)));
+	levelSystem = std::unique_ptr < LevelSystem > (new LevelSystem());
+	luaSystem = std::unique_ptr < LuaSystem > (new LuaSystem());
 }
 
-void Engine::Destroy() {
-	if (instance) {
-		Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
-		LuaSystem::GetInstance()->Destroy();
-		LevelSystem::GetInstance()->Destroy();
-		AssetSystem::GetInstance()->Destroy();
-		delete world;
-		SDL_Quit();
-		delete instance;
-		instance = 0;
-	}
+Engine::~Engine(void) {
+	Debug::Log(Debug::LOG_ENTRY, "Exiting Engine");
+	SDL_Quit();
 }
 
 void Engine::Start() {
@@ -38,15 +27,16 @@ void Engine::Start() {
 		Debug::Log(Debug::LOG_ENTRY, "Engine Initialized Successfully");
 
 		appState = Running;
-		AssetSystem::GetInstance()->LoadAssets();
-		LevelSystem::GetInstance()->LoadNextLevel();
-		LuaSystem::GetInstance()->Register();
+		assetSystem->LoadAssets();
+		levelSystem->LoadNextLevel();
+		luaSystem->Register();
 
 		while (!IsExiting()) {
+
 			Heartbeat();
 		}
 	}
-	Destroy();
+	this->~Engine();
 }
 
 bool Engine::Init() {
@@ -73,12 +63,6 @@ bool Engine::Init() {
 	glLoadIdentity();
 	glOrtho(0, appWidth, appHeight, 0, 1, -1);
 	Debug::Log(Debug::LOG_INFO, "OpenGL Initialized");
-
-	world = new b2World(b2Vec2(0.0f, 9.81f));
-	if (!world) {
-		Debug::Log(Debug::LOG_SEVERE, "Could Not Initialize Box2D World");
-	}
-	Debug::Log(Debug::LOG_INFO, "Box2D World Initialized");
 
 	return true;
 }
@@ -107,13 +91,13 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 }
 
 void Engine::Update() {
-	world->Step(1.0f / 60.0f, 10, 30);
-	LuaSystem::GetInstance()->Update();
+	_world->Step(1.0f / 60.0f, 10, 30);
+	luaSystem->Update();
 }
 
 void Engine::Render() {
 	glClear (GL_COLOR_BUFFER_BIT);
-	LevelSystem::GetInstance()->UpdateLevel();
+	levelSystem->UpdateLevel();
 	SDL_GL_SwapBuffers();
 }
 

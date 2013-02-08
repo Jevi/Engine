@@ -3,14 +3,15 @@
 
 #include <iostream>
 #include <vector>
+#include <Box2D/Box2D.h>
 
 #include "entity.h"
 
 class LevelManager {
 protected:
-    static unsigned int _currentLevel;
-    static std::string _currentLevelPath;
-    static std::vector<Entity*> _sharedEntities;
+	static unsigned int _currentLevel;
+	static std::shared_ptr<b2World> _world;
+	static std::vector<std::shared_ptr<Entity> > _sharedEntities;
 };
 
 #endif

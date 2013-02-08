@@ -4,37 +4,19 @@
 #include "debug.h"
 #include "sprite.h"
 
-AssetSystem* AssetSystem::instance;
+std::vector<std::shared_ptr<Asset>> AssetManager::_sharedAssets;
 
-AssetSystem::AssetSystem() :
-		loadedAssetCount(0) {
+AssetSystem::AssetSystem() {
 
 }
 
-AssetSystem* AssetSystem::GetInstance() {
-	if (!instance) {
-		instance = new AssetSystem;
-	}
-	return instance;
-}
-
-Asset* AssetSystem::GetAsset(std::string Id) {
-	for (unsigned int i = 0; i < assets.size(); i++) {
-		if (strcmp(assets[i]->id.c_str(), Id.c_str()) == 0) {
-			return assets[i];
+std::shared_ptr<Asset> AssetSystem::GetAsset(std::string Id) {
+	for (unsigned int i = 0; i < _sharedAssets.size(); i++) {
+		if (strcmp(_sharedAssets[i]->id.c_str(), Id.c_str()) == 0) {
+			return _sharedAssets[i];
 		}
 	}
 	return NULL;
-}
-
-void AssetSystem::Destroy() {
-	if (instance) {
-		for (unsigned int i = 0; i < assets.size(); ++i) {
-			delete assets[i];
-		}
-		delete instance;
-		instance = 0;
-	}
 }
 
 bool AssetSystem::LoadAssets() {
@@ -53,7 +35,7 @@ bool AssetSystem::LoadAssets() {
 		ProcessElements(Tree);
 	}
 
-	Debug::Log(Debug::LOG_INFO, "Total Assets Loaded: %i", assets.size());
+	Debug::Log(Debug::LOG_INFO, "Total Assets Loaded: %i", _sharedAssets.size());
 	Debug::Log(Debug::LOG_ENTRY, "Finished Processing: %s", filename.c_str());
 	return true;
 }
@@ -81,6 +63,6 @@ void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode) {
 		case Asset::AUDIO:
 			break;
 	}
-	assets.push_back(asset);
+	_sharedAssets.push_back(std::unique_ptr < Asset > (asset));
 	Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 }

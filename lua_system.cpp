@@ -1,30 +1,16 @@
 #include <tolua++.h>
+#include <string>
 
 #include "lua_system.h"
-#include "level_system.h"
 
-LuaSystem* LuaSystem::instance;
-
-LuaSystem::LuaSystem() {
+LuaSystem::LuaSystem(void) {
 	L = lua_open();
 	luaL_openlibs(L);
-
 	cL = lua_newthread(L);
 }
 
-LuaSystem* LuaSystem::GetInstance() {
-	if (!instance) {
-		instance = new LuaSystem;
-	}
-	return instance;
-}
-
-void LuaSystem::Destroy() {
-	if (instance) {
-		lua_close(L);
-		delete instance;
-		instance = 0;
-	}
+LuaSystem::~LuaSystem(void) {
+	lua_close(L);
 }
 
 void LuaSystem::Update() {

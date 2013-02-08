@@ -24,7 +24,7 @@ void InputComponent::Start() {
 void InputComponent::Update(unsigned long Dt) {
 	Uint8* keystate = SDL_GetKeyState(NULL);
 	if (entity->GetComponent("physics") != NULL) {
-		PhysicsComponent* physicsComponent = (PhysicsComponent*) entity->GetComponent("physics");
+		std::shared_ptr<PhysicsComponent> physicsComponent(std::static_pointer_cast < PhysicsComponent > (entity->GetComponent("physics")));
 		if (physicsComponent->body->IsAwake()) {
 			if (keystate[SDLK_RIGHT]) {
 				physicsComponent->body->SetTransform(b2Vec2(physicsComponent->body->GetTransform().p.x + EngineMath::PixelsToMeters(10), physicsComponent->body->GetTransform().p.y), physicsComponent->body->GetTransform().q.GetAngle());

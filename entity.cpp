@@ -25,7 +25,7 @@ void Entity::Update(unsigned long dt) {
 	}
 }
 
-Component* Entity::GetComponent(std::string Name) {
+std::shared_ptr<Component> Entity::GetComponent(std::string Name) {
 	for (unsigned int i = 0; i < components.size(); i++) {
 		if (components[i]->id == Name) {
 			return components[i];
@@ -34,7 +34,7 @@ Component* Entity::GetComponent(std::string Name) {
 	return NULL;
 }
 
-Component* Entity::GetComponentAt(unsigned int Index) {
+std::shared_ptr<Component> Entity::GetComponentAt(unsigned int Index) {
 	//If the target index exceeds the number of objects in the list, then the component does not exist
 	if (Index > components.size() - 1) {
 		return NULL;
@@ -42,7 +42,7 @@ Component* Entity::GetComponentAt(unsigned int Index) {
 	return components[Index];
 }
 
-bool Entity::AddComponent(Component* NewComponent) {
+bool Entity::AddComponent(std::shared_ptr<Component> NewComponent) {
 	//make sure the component doesn't already exist
 	for (unsigned int i = 0; i < components.size(); ++i) {
 		if ((components[i] == NewComponent) || (components[i]->id == NewComponent->id)) {
@@ -80,26 +80,7 @@ bool Entity::RemoveComponentAt(unsigned int Index) {
 }
 
 Entity::~Entity(void) {
-	for (unsigned int i = 0; i < components.size(); i++) {
-		switch (components[i]->type) {
-			case Component::RENDER: {
-				RenderComponent* renderComponent = (RenderComponent*) components[i];
-				renderComponent->~RenderComponent();
-			}
-				break;
-			case Component::PHYSICS: {
-				PhysicsComponent* physicsComponent = (PhysicsComponent*) components[i];
-				physicsComponent->~PhysicsComponent();
-			}
-			case Component::INPUT: {
-				InputComponent* inputComponent = (InputComponent*) components[i];
-				inputComponent->~InputComponent();
-			}
-			default:
-				delete components[i];
-				break;
-		}
-	}
+
 }
 
 std::string Entity::ToString() {
@@ -114,7 +95,7 @@ std::string Entity::ToString() {
 	doc.LinkEndChild(root);
 
 	for (unsigned int i = 0; i < components.size(); ++i) {
-		Component* component = components[i];
+		std::shared_ptr<Component> component = components[i];
 		XMLElement* componentElement = doc.NewElement("Component");
 		componentElement->SetAttribute("id", component->id.c_str());
 		componentElement->SetAttribute("type", Component::TypeToString(component->type).c_str());
@@ -122,14 +103,14 @@ std::string Entity::ToString() {
 
 		switch (components[i]->type) {
 			case Component::RENDER: {
-				RenderComponent* renderComponent = ((RenderComponent*) components[i]);
+				std::shared_ptr<RenderComponent> renderComponent = std::static_pointer_cast < RenderComponent > (components[i]);
 				XMLElement* renderElement = doc.NewElement("Render");
 				renderElement->SetAttribute("asset", renderComponent->GetSprite()->id.c_str());
 				componentElement->LinkEndChild(renderElement);
 			}
 				break;
 			case Component::PHYSICS: {
-				PhysicsComponent* physicsComponent = ((PhysicsComponent*) components[i]);
+				std::shared_ptr<PhysicsComponent> physicsComponent = std::static_pointer_cast < PhysicsComponent > (components[i]);
 				XMLElement* physicsElement = doc.NewElement("Physics");
 				physicsElement->SetAttribute("type", physicsComponent->bodyType);
 				physicsElement->SetAttribute("density", physicsComponent->density);

@@ -1,33 +1,22 @@
 #ifndef ASSETSYSTEM_H
 #define ASSETSYSTEM_H
 
-#include <vector>
-
 #include "system.h"
+#include "asset_manager.h"
 #include "tinyxml2.h"
-#include "asset.h"
 
-class AssetSystem : public System{
+class AssetSystem: public System, public AssetManager {
 public:
 
-	static AssetSystem* GetInstance();
+	AssetSystem(void);
+	~AssetSystem(void) {
+	}
 
-	std::vector<Asset*> assets;
-
-	Asset* GetAsset(std::string Id);
-
-	void Destroy();
+	std::shared_ptr<Asset> GetAsset(std::string Id);
 
 	bool LoadAssets();
 
 private:
-
-	static AssetSystem* instance;
-	unsigned int loadedAssetCount;
-
-	AssetSystem();
-	~AssetSystem() {
-	}
 
 	void ProcessElements(const tinyxml2::XMLNode* Tree);
 

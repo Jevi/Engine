@@ -10,12 +10,10 @@
 class RenderComponent: public Component {
 public:
 
-	RenderComponent(std::string Id);
-	RenderComponent(std::string Id, Sprite* Sprite);
-	RenderComponent(std::string Id, Sprite* Sprite, bool Enabled);
+	RenderComponent(std::string Id, std::shared_ptr<Sprite> Sprite, bool Enabled);
 	~RenderComponent();
 
-	Sprite* GetSprite() {
+	std::shared_ptr<Sprite> GetSprite() {
 		return sprite;
 	}
 
@@ -35,7 +33,7 @@ private:
 	/*
 	 Texture2D to render to screen
 	 */
-	Sprite* sprite;
+	std::shared_ptr<Sprite> sprite;
 
 	void Render();
 };

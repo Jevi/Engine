@@ -20,7 +20,7 @@ public:
 
 	template<typename T>
 	static std::string NumberToString(T Number) {
-        std::ostringstream ss;
+		std::ostringstream ss;
 		ss << Number;
 		return ss.str();
 	}

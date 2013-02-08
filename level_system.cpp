@@ -15,41 +15,16 @@
 #include "input_component.h"
 #include "script_component.h"
 
-LevelSystem* LevelSystem::instance;
+unsigned int LevelManager::_currentLevel = 0;
+std::shared_ptr<b2World> LevelManager::_world;
+std::vector<std::shared_ptr<Entity> > LevelManager::_sharedEntities;
 
-LevelSystem::LevelSystem() :
-		currentLevel(0) {
+LevelSystem::LevelSystem(void) {
 
 }
 
-LevelSystem* LevelSystem::GetInstance() {
-	if (!instance) {
-		instance = new LevelSystem;
-	}
-	return instance;
-}
+LevelSystem::~LevelSystem(void) {
 
-void LevelSystem::Destroy() {
-	if (instance) {
-		for (unsigned int i = 0; i < entities.size(); i++) {
-			delete entities[i];
-		}
-		delete instance;
-		instance = 0;
-	}
-}
-
-Entity* LevelSystem::GetEntity(std::string Id) {
-	for (unsigned int i = 0; i < entities.size(); i++) {
-		if (strcmp(Id.c_str(), entities[i]->GetId().c_str()) == 0) {
-			return entities[i];
-		}
-	}
-	return NULL;
-}
-
-Entity* LevelSystem::GetEntity(unsigned int Idx) {
-	return entities[Idx];
 }
 
 void LevelSystem::LoadLevel(unsigned int Level) {
@@ -80,7 +55,6 @@ void LevelSystem::LoadLevel(unsigned int Level) {
 
 void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 	const tinyxml2::XMLElement* entityElement = EntityNode->ToElement();
-	Entity* entity = 0;
 	std::string entityId;
 	float posx;
 	float posy;
@@ -117,13 +91,12 @@ void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 		scaleX = (float) atof(entityElement->Attribute("scalex"));
 		scaleY = (float) atof(entityElement->Attribute("scaley"));
 
-		entity = new Entity(entityId, posx, posy, rot, scaleX, scaleY);
+		std::shared_ptr<Entity> entity(new Entity(entityId, posx, posy, rot, scaleX, scaleY));
 
 		// Process Components
 		for (const tinyxml2::XMLNode* componentNode = EntityNode->FirstChild(); componentNode; componentNode = componentNode->NextSibling()) {
 			const tinyxml2::XMLElement* componentElement = componentNode->ToElement();
 			if (strcmp(componentElement->Name(), "Component") == 0) {
-				Component* component = 0;
 				std::string componentId;
 				int type;
 				bool enabled;
@@ -147,9 +120,10 @@ void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 						case Component::RENDER: {
 							const tinyxml2::XMLElement* assetElement = componentNode->FirstChild()->ToElement();
 							std::string assetId(assetElement->Attribute("asset"));
-							Asset* asset = AssetSystem::GetInstance()->GetAsset(assetId);
+							std::shared_ptr<Asset> asset = GetAsset(assetId);
 							Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
-							component = new RenderComponent(componentId, (Sprite*) asset, enabled);
+							std::shared_ptr<RenderComponent> component(new RenderComponent(componentId, std::static_pointer_cast < Sprite > (asset), enabled));
+							entity->AddComponent(component);
 						}
 							break;
 						case Component::AUDIO:
@@ -162,58 +136,60 @@ void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 							float restitution = (float) atof(physicsElement->Attribute("restitution"));
 							float gravityScale = (float) atof(physicsElement->Attribute("gravityScale"));
 							bool allowSleep = (atoi(physicsElement->Attribute("allowSleep")) != 0);
-							component = new PhysicsComponent(componentId, bodyType, enabled);
-							((PhysicsComponent*) component)->density = density;
-							((PhysicsComponent*) component)->friction = friction;
-							((PhysicsComponent*) component)->restitution = restitution;
-							((PhysicsComponent*) component)->gravityScale = gravityScale;
-							((PhysicsComponent*) component)->allowSleep = allowSleep;
+							std::shared_ptr<PhysicsComponent> component(new PhysicsComponent(componentId, bodyType, enabled));
+							component->density = density;
+							component->friction = friction;
+							component->restitution = restitution;
+							component->gravityScale = gravityScale;
+							component->allowSleep = allowSleep;
+							entity->AddComponent(component);
 						}
 							break;
 						case Component::INPUT: {
 							const tinyxml2::XMLElement* inputElement = componentNode->FirstChild()->ToElement();
-							component = new InputComponent(componentId, enabled);
+							std::shared_ptr<InputComponent> component(new InputComponent(componentId, enabled));
+							entity->AddComponent(component);
 						}
 							break;
 						case Component::SCRIPT: {
 							const tinyxml2::XMLElement* scriptElement = componentNode->FirstChild()->ToElement();
 							std::string filename(scriptElement->Attribute("filename"));
-							component = new ScriptComponent(componentId, filename, enabled);
+							std::shared_ptr<ScriptComponent> component(new ScriptComponent(componentId, filename, enabled));
+							entity->AddComponent(component);
 						}
 					}
-					if (component) {
-						entity->AddComponent(component);
-						Debug::Log(Debug::LOG_INFO, "Added Component To: %s\n%s", entity->GetId().c_str(), component->ToString().c_str());
-					}
+					/*if (component) {
+					 entity->AddComponent(component);
+					 Debug::Log(Debug::LOG_INFO, "Added Component To: %s\n%s", entity->GetId().c_str(), component->ToString().c_str());
+					 }*/
 				}
 				while (0);
 			}
 		} // process components
 
-		for (unsigned int i = 0; i < entities.size(); i++) {
-			if (strcmp(entity->GetId().c_str(), entities[i]->GetId().c_str()) == 0) {
+		for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
+			if (strcmp(entity->GetId().c_str(), _sharedEntities[i]->GetId().c_str()) == 0) {
 				canAdd = false;
 			}
 		}
 
 		if (canAdd) {
 			Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", entity->ToString().c_str());
-			entities.push_back(entity);
+			_sharedEntities.push_back(entity);
 		}
 		else {
 			Debug::Log(Debug::LOG_INFO, "Could Not Load:\n%s", entity->ToString().c_str());
-			delete entity;
 		}
 	}
 	while (0);
 }
 
 void LevelSystem::LoadNextLevel() {
-	LoadLevel(++currentLevel);
+	LoadLevel(++_currentLevel);
 }
 
 void LevelSystem::LoadPreviousLevel() {
-	LoadLevel(--currentLevel);
+	LoadLevel(--_currentLevel);
 }
 
 std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
@@ -242,7 +218,16 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 }
 
 void LevelSystem::UpdateLevel() {
-	for (unsigned int i = 0; i < entities.size(); i++) {
-		entities[i]->Update(0);
+	for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
+		_sharedEntities[i]->Update(0);
 	}
+}
+
+std::shared_ptr<Asset> LevelSystem::GetAsset(std::string Id) {
+	for (unsigned int i = 0; i < _sharedAssets.size(); i++) {
+		if (strcmp(_sharedAssets[i]->id.c_str(), Id.c_str()) == 0) {
+			return _sharedAssets[i];
+		}
+	}
+	return NULL;
 }

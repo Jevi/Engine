@@ -12,7 +12,7 @@ PhysicsComponent::PhysicsComponent(std::string Id, unsigned int BodyType, bool E
 }
 
 PhysicsComponent::~PhysicsComponent(void) {
-	Engine::GetInstance()->GetWorld()->DestroyBody(body);
+	_world->DestroyBody(body);
 }
 
 void PhysicsComponent::Start() {
@@ -21,7 +21,6 @@ void PhysicsComponent::Start() {
 
 void PhysicsComponent::Update(unsigned long Dt) {
 	if (!synched) {
-		b2World* world = Engine::GetInstance()->GetWorld();
 
 		switch (bodyType) {
 			case StaticBody:
@@ -32,10 +31,9 @@ void PhysicsComponent::Update(unsigned long Dt) {
 		}
 		entity->bodyDef.gravityScale = gravityScale;
 		entity->bodyDef.allowSleep = allowSleep;
-		body = world->CreateBody(&entity->bodyDef);
-
+		body = _world->CreateBody(&entity->bodyDef);
 		b2PolygonShape shape;
-		RenderComponent* renderComponent = ((RenderComponent*) entity->GetComponent("render"));
+		std::shared_ptr<RenderComponent> renderComponent(std::static_pointer_cast < RenderComponent > (entity->GetComponent("render")));
 		int width = renderComponent->GetSprite()->width;
 		int height = renderComponent->GetSprite()->height;
 		shape.SetAsBox(EngineMath::PixelsToMeters(((float) width) * entity->scale.x) / 2.0f, EngineMath::PixelsToMeters(((float) height) * entity->scale.y) / 2.0f);

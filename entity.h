@@ -24,7 +24,7 @@ public:
 	/*
 	 Component vector of Entity which defines Entity properties
 	 */
-	std::vector<Component*> components;
+	std::vector<std::shared_ptr<Component> > components;
 	/**
 	 Holds Entity's position, rotation and scale
 	 */
@@ -60,18 +60,18 @@ public:
 	/*
 	 Returns component with unique name identifier
 	 */
-	Component* GetComponent(std::string Name);
+	std::shared_ptr<Component> GetComponent(std::string Name);
 	/*
 	 Returns component at specific index from Entity component vector
 	 */
-	Component* GetComponentAt(unsigned int Index);
+	std::shared_ptr<Component> GetComponentAt(unsigned int Index);
 
 	// Modifier Methods
 
 	/*
 	 Adds component to Entity component vector if it has a unique name identifier
 	 */
-	bool AddComponent(Component* NewComponent);
+	bool AddComponent(std::shared_ptr<Component> NewComponent);
 	/*
 	 Removes component with unique name identifier
 	 */

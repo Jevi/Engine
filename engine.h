@@ -5,7 +5,6 @@
 
 #define NO_SDL_GLEXT
 #include <GL/glew.h>
-#include <Box2D/Box2D.h>
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -21,20 +20,17 @@
 #endif
 
 #include "system.h"
+#include "level_system.h"
+#include "asset_system.h"
+#include "lua_system.h"
 #include "event_handler.h"
 
-class Engine: public System, public EventHandler {
+class Engine: public System, public EventHandler, public LevelManager {
 public:
 
-	/*
-	 Returns singleton Engine instance.
-	 */
-	static Engine* GetInstance() {
-		if (!instance) {
-			instance = new Engine;
-		}
-		return instance;
-	}
+	Engine(std::string Workspace, unsigned int Width, unsigned int Height, float wGravity);
+	~Engine();
+
 	/*
 	 Initializes engine and begins main game loop (heartbeat)
 	 */
@@ -54,10 +50,6 @@ public:
 
 	// Accessors
 
-	b2World* GetWorld() {
-		return world;
-	}
-
 	int GetAppHeight() {
 		return appHeight;
 	}
@@ -72,16 +64,13 @@ public:
 
 private:
 
-	Engine();
-	~Engine() {
-	}
-
 	enum AppState {
 		Uninitialized, Running, Exiting
 	};
 
-	static Engine* instance;
-	b2World* world;
+	std::unique_ptr<AssetSystem> assetSystem;
+	std::unique_ptr<LevelSystem> levelSystem;
+	std::unique_ptr<LuaSystem> luaSystem;
 
 	int appWidth;
 	int appHeight;
@@ -119,10 +108,6 @@ private:
 	 Changes Engine state to AppState::Exiting
 	 */
 	void Exit();
-	/*
-	 Frees up memory, deletes instance and quits APIs accordingly
-	 */
-	void Destroy();
 
 };
 

@@ -100,7 +100,7 @@ void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, float scaleX, float scaleY) {
+void Graphics::DrawTexture(std::shared_ptr<Sprite> sprite, float x, float y, float rotation, float scaleX, float scaleY) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 
@@ -135,7 +135,7 @@ void Graphics::DrawTexture(Sprite* sprite, float x, float y, float rotation, flo
 	glPopMatrix();
 }
 
-void Graphics::DrawTexture(Sprite* sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation) {
+void Graphics::DrawTexture(std::shared_ptr<Sprite> sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation) {
 	rotation = EngineMath::RadiansToDegrees(rotation);
 
 	glPushMatrix();
