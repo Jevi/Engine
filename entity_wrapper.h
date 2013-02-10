@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Entity
-** Generated automatically by tolua++-1.0.92 on 02/03/13 22:33:46.
+** Generated automatically by tolua++-1.0.92 on 02/09/13 21:33:07.
 */
 
 /* Exported function */

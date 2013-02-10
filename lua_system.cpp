@@ -2,6 +2,8 @@
 #include <string>
 
 #include "lua_system.h"
+#include "engine_wrapper.h"
+#include "level_system_wrapper.h"
 
 LuaSystem::LuaSystem(void) {
 	L = lua_open();
@@ -18,10 +20,10 @@ void LuaSystem::Update() {
 }
 
 void LuaSystem::Register() {
-	/*tolua_Engine_open(L);
-	 tolua_LevelSystem_open(L);
-	 tolua_Component_open(L);
-	 tolua_Entity_open(L);*/
+	 tolua_Engine_open(L);
+	 tolua_LevelSyStem_open(L);
+	 // tolua_Component_open(L);
+	 // tolua_Entity_open(L);*/
 
 	lua_register(L, "Sleep", Sleep);
 	luaL_loadfile(L, std::string(_currentLevelPath + "/scripts/main.lua").c_str());

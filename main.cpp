@@ -1,7 +1,9 @@
 #include "engine.h"
 
 int main(int argc, char *argv[]) {
-	std::unique_ptr<Engine> en(new Engine("workspace/demo", 640, 480, 9.81f));
+	
+	Engine::CreateInstance("workspace/demo", 640, 480, 0.0f, 9.81f);
+	Engine* en = Engine::GetInstance();
 	en->Start();
 	system("pause");
 	return 0;

@@ -84,44 +84,45 @@ Entity::~Entity(void) {
 }
 
 std::string Entity::ToString() {
-	XMLDocument doc;
-	XMLElement* root = doc.NewElement("Entity");
-	root->SetAttribute("id", id.c_str());
-	root->SetAttribute("x", EngineMath::MetersToPixels(bodyDef.position.x));
-	root->SetAttribute("y", EngineMath::MetersToPixels(bodyDef.position.y));
-	root->SetAttribute("rot", EngineMath::RadiansToDegrees(bodyDef.angle));
-	root->SetAttribute("scalex", scale.x);
-	root->SetAttribute("scaley", scale.y);
-	doc.LinkEndChild(root);
+	/*XMLDocument doc;
+	 XMLElement* root = doc.NewElement("Entity");
+	 root->SetAttribute("id", id.c_str());
+	 root->SetAttribute("x", EngineMath::MetersToPixels(bodyDef.position.x));
+	 root->SetAttribute("y", EngineMath::MetersToPixels(bodyDef.position.y));
+	 root->SetAttribute("rot", EngineMath::RadiansToDegrees(bodyDef.angle));
+	 root->SetAttribute("scalex", scale.x);
+	 root->SetAttribute("scaley", scale.y);
+	 doc.LinkEndChild(root);
 
-	for (unsigned int i = 0; i < components.size(); ++i) {
-		std::shared_ptr<Component> component = components[i];
-		XMLElement* componentElement = doc.NewElement("Component");
-		componentElement->SetAttribute("id", component->id.c_str());
-		componentElement->SetAttribute("type", Component::TypeToString(component->type).c_str());
-		componentElement->SetAttribute("enabled", component->enabled);
+	 for (unsigned int i = 0; i < components.size(); ++i) {
+	 std::shared_ptr<Component> component = components[i];
+	 XMLElement* componentElement = doc.NewElement("Component");
+	 componentElement->SetAttribute("id", component->id.c_str());
+	 componentElement->SetAttribute("type", Component::TypeToString(component->type).c_str());
+	 componentElement->SetAttribute("enabled", component->enabled);
 
-		switch (components[i]->type) {
-			case Component::RENDER: {
-				std::shared_ptr<RenderComponent> renderComponent = std::static_pointer_cast < RenderComponent > (components[i]);
-				XMLElement* renderElement = doc.NewElement("Render");
-				renderElement->SetAttribute("asset", renderComponent->GetSprite()->id.c_str());
-				componentElement->LinkEndChild(renderElement);
-			}
-				break;
-			case Component::PHYSICS: {
-				std::shared_ptr<PhysicsComponent> physicsComponent = std::static_pointer_cast < PhysicsComponent > (components[i]);
-				XMLElement* physicsElement = doc.NewElement("Physics");
-				physicsElement->SetAttribute("type", physicsComponent->bodyType);
-				physicsElement->SetAttribute("density", physicsComponent->density);
-				physicsElement->SetAttribute("friction", physicsComponent->friction);
-				physicsElement->SetAttribute("restitution", physicsComponent->restitution);
-				physicsElement->SetAttribute("gravityScale", physicsComponent->gravityScale);
-				componentElement->LinkEndChild(physicsElement);
-			}
-				break;
-		}
-		root->LinkEndChild(componentElement);
-	}
-	return Debug::XMLDocumentToString(&doc);
+	 switch (components[i]->type) {
+	 case Component::RENDER: {
+	 std::shared_ptr<RenderComponent> renderComponent = std::static_pointer_cast < RenderComponent > (components[i]);
+	 XMLElement* renderElement = doc.NewElement("Render");
+	 renderElement->SetAttribute("asset", renderComponent->GetSprite()->id.c_str());
+	 componentElement->LinkEndChild(renderElement);
+	 }
+	 break;
+	 case Component::PHYSICS: {
+	 std::shared_ptr<PhysicsComponent> physicsComponent = std::static_pointer_cast < PhysicsComponent > (components[i]);
+	 XMLElement* physicsElement = doc.NewElement("Physics");
+	 physicsElement->SetAttribute("type", physicsComponent->bodyType);
+	 physicsElement->SetAttribute("density", physicsComponent->density);
+	 physicsElement->SetAttribute("friction", physicsComponent->friction);
+	 physicsElement->SetAttribute("restitution", physicsComponent->restitution);
+	 physicsElement->SetAttribute("gravityScale", physicsComponent->gravityScale);
+	 componentElement->LinkEndChild(physicsElement);
+	 }
+	 break;
+	 }
+	 root->LinkEndChild(componentElement);
+	 }
+	 return Debug::XMLDocumentToString(&doc);*/
+	return "ENTITY";
 }

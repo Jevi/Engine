@@ -16,8 +16,10 @@
 
 #include <Box2D/Box2D.h>
 #include "sprite.h"
+#include "sprite_sheet.h"
 
 class Sprite;
+class SpriteSheet;
 
 class Graphics {
 
@@ -34,6 +36,7 @@ public:
 	static void FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
 	static void DrawTexture(std::shared_ptr<Sprite> sprite, float x, float y, float rotation, float scaleX, float scaleY);
+	static void DrawTexture(std::shared_ptr<SpriteSheet> spriteSheet, int row, int column, float x, float y, float rotation, float scaleX, float scaleY);
 	static void DrawTexture(std::shared_ptr<Sprite> sprite, b2Vec2* bodyVerticies, b2Vec2 bodyCenter, float rotation);
 
 private:

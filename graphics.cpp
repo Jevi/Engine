@@ -1,5 +1,6 @@
 #include "graphics.h"
 
+#include "debug.h"
 #include "engine_math.h"
 
 void Graphics::DrawPoint(float x, float y) {
@@ -127,6 +128,51 @@ void Graphics::DrawTexture(std::shared_ptr<Sprite> sprite, float x, float y, flo
 	glTexCoord2f(1, 1);
 	glVertex2f(x + width / 2, y + height / 2);
 	glTexCoord2f(0, 1);
+	glVertex2f(x - width / 2, y + height / 2);
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
+void Graphics::DrawTexture(std::shared_ptr<SpriteSheet> spriteSheet, int row, int column, float x, float y, float rotation, float scaleX, float scaleY) {
+	x = EngineMath::MetersToPixels(x);
+	y = EngineMath::MetersToPixels(y);
+
+	// width and height of sprite in sprite sheet
+	float width = (float) spriteSheet->width / (float) spriteSheet->totalColumns;
+	float height = (float) spriteSheet->height / (float) spriteSheet->totalRows;
+
+	float startx = (width * (column)) / spriteSheet->width;
+	float starty = (height * (row)) / spriteSheet->height;
+	float endx = (width * (column + 1)) / spriteSheet->width;
+	float endy = (height * (row + 1)) / spriteSheet->height;
+
+	width *= scaleX;
+	height *= scaleY;
+
+	rotation = EngineMath::RadiansToDegrees(rotation);
+
+	glPushMatrix();
+	glEnable (GL_TEXTURE_2D);
+	spriteSheet->Bind();
+
+	glEnable (GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glTranslatef(x, y, 0);
+	glRotatef(rotation, 0, 0, 1);
+	glTranslatef(-x, -y, 0);
+
+	glBegin (GL_QUADS);
+	glTexCoord2f(startx, starty);
+	glVertex2f(x - width / 2, y - height / 2);
+	glTexCoord2f(endx, starty);
+	glVertex2f(x + width / 2, y - height / 2);
+	glTexCoord2f(endx, endy);
+	glVertex2f(x + width / 2, y + height / 2);
+	glTexCoord2f(startx, endy);
 	glVertex2f(x - width / 2, y + height / 2);
 	glEnd();
 

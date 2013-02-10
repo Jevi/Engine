@@ -8,16 +8,16 @@ public:
 
 	// constant types of Assets
 	enum AssetType {
-		GRAPHICAL, AUDIO
+		SPRITE, SPRITE_SHEET
 	};
 
 	static std::string TypeToString(unsigned int Type) {
 		switch (Type) {
-			case GRAPHICAL:
-				return std::string("GRAPHICAL");
+			case SPRITE:
+				return std::string("SPRITE");
 				break;
-			case AUDIO:
-				return std::string("AUDIO");
+			case SPRITE_SHEET:
+				return std::string("SPRITE_SHEET");
 				break;
 			default:
 				return "DEFAULT";

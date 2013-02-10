@@ -28,9 +28,14 @@
 class Engine: public System, public EventHandler, public LevelManager {
 public:
 
-	Engine(std::string Workspace, unsigned int Width, unsigned int Height, float wGravity);
-	~Engine();
+	static void CreateInstance(std::string Workspace, unsigned int Width, unsigned int Height, float yGravity, float wGravity) {
+		instance = new Engine(Workspace, Width, Height, yGravity, wGravity);
+	}
 
+	static Engine* GetInstance()
+	{
+		return instance;
+	}
 	/*
 	 Initializes engine and begins main game loop (heartbeat)
 	 */
@@ -48,7 +53,11 @@ public:
 	 */
 	void OnKeyboardState(Uint8* keyboardState);
 
-	// Accessors
+	// Lua Accessors
+
+	std::string GetAppProject() {
+		return _workspace;
+	}
 
 	int GetAppHeight() {
 		return appHeight;
@@ -61,19 +70,30 @@ public:
 	std::string GetAppState() {
 		return ToString(appState);
 	}
+	
+	LevelSystem* GetLevelSystem() {
+		return &*levelSystem;
+	}
 
 private:
+
+	static Engine* instance;
+	Engine(std::string Workspace, unsigned int Width, unsigned int Height, float yGravity, float wGravity);
+	~Engine();
 
 	enum AppState {
 		Uninitialized, Running, Exiting
 	};
 
-	std::unique_ptr<AssetSystem> assetSystem;
-	std::unique_ptr<LevelSystem> levelSystem;
-	std::unique_ptr<LuaSystem> luaSystem;
+	std::shared_ptr<AssetSystem> assetSystem;
+	std::shared_ptr<LevelSystem> levelSystem;
+	std::shared_ptr<LuaSystem> luaSystem;
 
 	int appWidth;
 	int appHeight;
+
+	unsigned long Dt;
+	unsigned long lastUpdate;
 
 	AppState appState;
 	SDL_Surface* appWindow;

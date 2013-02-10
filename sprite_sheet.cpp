@@ -1,14 +1,13 @@
-#include "sprite.h"
+#include "sprite_sheet.h"
 
 #include "debug.h"
-#include "tinyxml2.h"
 #include "engine_math.h"
 
-void Sprite::Bind() {
+void SpriteSheet::Bind() {
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
 
-bool Sprite::Load() {
+bool SpriteSheet::Load() {
 	SDL_Surface* image = IMG_Load(filename.c_str());
 
 	if (image == NULL) {
@@ -37,7 +36,7 @@ bool Sprite::Load() {
 	return true;
 }
 
-void Sprite::Unload() {
+void SpriteSheet::Unload() {
 	if (loaded) {
 		GLuint tempId;
 		tempId = textureId;
@@ -49,7 +48,7 @@ void Sprite::Unload() {
 	}
 }
 
-std::string Sprite::ToString() {
+std::string SpriteSheet::ToString() {
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLElement* root = doc.NewElement("Asset");
 	root->SetAttribute("id", id.c_str());

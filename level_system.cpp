@@ -8,6 +8,7 @@
 
 #include "asset.h"
 #include "sprite.h"
+#include "sprite_sheet.h"
 
 #include "component.h"
 #include "render_component.h"
@@ -35,7 +36,7 @@ void LevelSystem::LoadLevel(unsigned int Level) {
 
 	tinyxml2::XMLDocument doc;
 
-	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
+	if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
 		return;
 	}
@@ -121,9 +122,21 @@ void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 							const tinyxml2::XMLElement* assetElement = componentNode->FirstChild()->ToElement();
 							std::string assetId(assetElement->Attribute("asset"));
 							std::shared_ptr<Asset> asset = GetAsset(assetId);
-							Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
-							std::shared_ptr<RenderComponent> component(new RenderComponent(componentId, std::static_pointer_cast < Sprite > (asset), enabled));
-							entity->AddComponent(component);
+							switch (asset->type) {
+								case Asset::SPRITE: {
+									Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
+									std::shared_ptr<RenderComponent> component(new RenderComponent(componentId, std::static_pointer_cast < Sprite > (asset), enabled));
+									entity->AddComponent(component);
+								}
+									break;
+								case Asset::SPRITE_SHEET: {
+									Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
+									std::shared_ptr<RenderComponent> component(new RenderComponent(componentId, std::static_pointer_cast < SpriteSheet > (asset), enabled));
+									entity->AddComponent(component);
+								}
+									break;
+							}
+
 						}
 							break;
 						case Component::AUDIO:
@@ -198,7 +211,7 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 
 	tinyxml2::XMLDocument doc;
 
-	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
+	if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
 		return "";
 	}
@@ -217,9 +230,9 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 	return "";
 }
 
-void LevelSystem::UpdateLevel() {
+void LevelSystem::UpdateLevel(unsigned long Dt) {
 	for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
-		_sharedEntities[i]->Update(0);
+		_sharedEntities[i]->Update(Dt);
 	}
 }
 
@@ -227,6 +240,19 @@ std::shared_ptr<Asset> LevelSystem::GetAsset(std::string Id) {
 	for (unsigned int i = 0; i < _sharedAssets.size(); i++) {
 		if (strcmp(_sharedAssets[i]->id.c_str(), Id.c_str()) == 0) {
 			return _sharedAssets[i];
+		}
+	}
+	return NULL;
+}
+
+Entity* LevelSystem::GetEntity(unsigned int Idx) {
+	return &*_sharedEntities[Idx];
+}
+
+Entity* LevelSystem::GetEntity(std::string Id) {
+	for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
+		if (strcmp(_sharedEntities[i]->GetId().c_str(), Id.c_str()) == 0) {
+			return &*_sharedEntities[i];
 		}
 	}
 	return NULL;

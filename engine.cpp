@@ -2,13 +2,14 @@
 
 #include "debug.h"
 
+Engine* Engine::instance;
 std::string System::_workspace;
 std::string System::_currentLevelPath;
 
-Engine::Engine(std::string Workspace, unsigned int Width, unsigned int Height, float wGravity) :
-		appState(Uninitialized), appWidth(Width), appHeight(Height) {
+Engine::Engine(std::string Workspace, unsigned int Width, unsigned int Height, float xGravity, float yGravity) :
+		appState(Uninitialized), appWidth(Width), appHeight(Height), Dt(0), lastUpdate(0) {
 	_workspace = Workspace;
-	_world = std::shared_ptr < b2World > (new b2World(b2Vec2(0.0f, wGravity)));
+	_world = std::shared_ptr < b2World > (new b2World(b2Vec2(xGravity, yGravity)));
 	levelSystem = std::unique_ptr < LevelSystem > (new LevelSystem());
 	luaSystem = std::unique_ptr < LuaSystem > (new LuaSystem());
 }
@@ -32,7 +33,6 @@ void Engine::Start() {
 		luaSystem->Register();
 
 		while (!IsExiting()) {
-
 			Heartbeat();
 		}
 	}
@@ -91,13 +91,15 @@ void Engine::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
 }
 
 void Engine::Update() {
+	Dt = SDL_GetTicks() - lastUpdate;
+	lastUpdate = SDL_GetTicks();
 	_world->Step(1.0f / 60.0f, 10, 30);
 	luaSystem->Update();
 }
 
 void Engine::Render() {
 	glClear (GL_COLOR_BUFFER_BIT);
-	levelSystem->UpdateLevel();
+	levelSystem->UpdateLevel(Dt);
 	SDL_GL_SwapBuffers();
 }
 

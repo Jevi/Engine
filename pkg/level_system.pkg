@@ -3,8 +3,7 @@ $#include "level_system.h"
 class LevelSystem
 {
 public:
-	unsigned int GetCurrentLevel();
-	unsigned int GetTotalEntities();
-	Entity* GetEntity(string Id);
 	Entity* GetEntity(unsigned int Idx);
+
+	Entity* GetEntity(std::string Id);	
 };

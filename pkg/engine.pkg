@@ -4,10 +4,9 @@ class Engine
 {
 public:
 	static Engine* GetInstance();
-	string GetAppProject();
+	std::string GetAppProject();
 	int GetAppHeight();
 	int GetAppWidth();
-	string GetAppState();
-
+	std::string GetAppState();
 	LevelSystem* GetLevelSystem();
 };

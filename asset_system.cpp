@@ -3,6 +3,7 @@
 #include "engine.h"
 #include "debug.h"
 #include "sprite.h"
+#include "sprite_sheet.h"
 
 std::vector<std::shared_ptr<Asset>> AssetManager::_sharedAssets;
 
@@ -24,7 +25,7 @@ bool AssetSystem::LoadAssets() {
 
 	std::string filename = _workspace + "/assets.xml";
 
-	if (doc.LoadFile(filename.c_str()) != XML_SUCCESS) {
+	if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
 		return false;
 	}
@@ -51,18 +52,26 @@ void AssetSystem::ProcessElements(const tinyxml2::XMLNode* Tree) {
 
 void AssetSystem::ProcessAsset(const tinyxml2::XMLNode* AssetNode) {
 	const tinyxml2::XMLElement* assetElement = AssetNode->ToElement();
-	Asset* asset = 0;
 	std::string id(assetElement->Attribute("id"));
 	std::string filename(assetElement->Attribute("filename"));
 	unsigned int type = atoi(assetElement->Attribute("type"));
 
 	switch (type) {
-		case Asset::GRAPHICAL:
-			asset = new Sprite(id, filename);
+		case Asset::SPRITE: {
+			std::shared_ptr<Sprite> sprite(new Sprite(id, filename));
+			_sharedAssets.push_back(sprite);
+			Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", sprite->ToString().c_str());
+		}
 			break;
-		case Asset::AUDIO:
+		case Asset::SPRITE_SHEET: {
+			const tinyxml2::XMLElement* spriteSheetElement = assetElement->FirstChild()->ToElement();
+			int totalRows = atoi(spriteSheetElement->Attribute("totalRows"));
+			int totalColumns = atoi(spriteSheetElement->Attribute("totalColumns"));
+			unsigned long update = (unsigned long) atof(spriteSheetElement->Attribute("update"));
+			std::shared_ptr<SpriteSheet> spriteSheet(new SpriteSheet(id, filename, totalRows, totalColumns, update));
+			_sharedAssets.push_back(spriteSheet);
+			Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", spriteSheet->ToString().c_str());
+		}
 			break;
 	}
-	_sharedAssets.push_back(std::unique_ptr < Asset > (asset));
-	Debug::Log(Debug::LOG_INFO, "Loaded:\n%s", asset->ToString().c_str());
 }

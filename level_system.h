@@ -23,9 +23,13 @@ public:
 
 	void LoadPreviousLevel();
 
-	void UpdateLevel();
+	void UpdateLevel(unsigned long Dt);
 
-	// Accessors
+	// Lua Accessors
+
+	Entity* GetEntity(unsigned int Idx);
+
+	Entity* GetEntity(std::string Id);
 
 private:
 

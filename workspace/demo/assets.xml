@@ -1,4 +1,6 @@
 <Assets>
-	<Asset id="king_sprite_sheet" filename="workspace/demo/res/King.png" type="0" />
+	<Asset id="king_sprite_sheet" filename="workspace/demo/res/King.png" type="1" >
+		<SpriteSheet totalRows="1" totalColumns="8" update="300"/>
+	</Asset>
 	<Asset id="mario" filename="workspace/demo/res/mario.png" type="0" />
 </Assets>

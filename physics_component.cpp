@@ -54,12 +54,12 @@ void PhysicsComponent::Update(unsigned long Dt) {
 }
 
 std::string PhysicsComponent::ToString() {
-	XMLDocument doc;
-	XMLElement* componentElement = doc.NewElement("Component");
+	tinyxml2::XMLDocument doc;
+	tinyxml2::XMLElement* componentElement = doc.NewElement("Component");
 	componentElement->SetAttribute("id", id.c_str());
 	componentElement->SetAttribute("type", Component::TypeToString(Component::PHYSICS).c_str());
 	componentElement->SetAttribute("enabled", enabled);
-	XMLElement* physicsElement = doc.NewElement("Physics");
+	tinyxml2::XMLElement* physicsElement = doc.NewElement("Physics");
 	physicsElement->SetAttribute("type", bodyType);
 	physicsElement->SetAttribute("density", density);
 	physicsElement->SetAttribute("friction", friction);

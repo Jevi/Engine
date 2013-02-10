@@ -1,9 +1,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <string>
+
 #include <vector>
-#include <sstream>
+#include <iostream>
 #include <Box2D/Box2D.h>
 
 #include "component.h"
@@ -81,9 +81,14 @@ public:
 	 */
 	bool RemoveComponentAt(unsigned int Index);
 
-	std::string ToString();
+	std::string ToString();	
 
 	// Additional Lua Accessors
+
+	b2BodyDef* GetBodyDef()
+	{
+		return &bodyDef;
+	}
 
 	float GetX() {
 		return bodyDef.position.x;
