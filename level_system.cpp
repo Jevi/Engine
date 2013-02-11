@@ -180,8 +180,8 @@ void LevelSystem::ProcessEntity(const tinyxml2::XMLNode* EntityNode) {
 			}
 		} // process components
 
-		for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
-			if (strcmp(entity->GetId().c_str(), _sharedEntities[i]->GetId().c_str()) == 0) {
+		for (auto sharedEntity : _sharedEntities) {
+			if (strcmp(entity->GetId().c_str(), sharedEntity->GetId().c_str()) == 0) {
 				canAdd = false;
 			}
 		}
@@ -213,7 +213,7 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 
 	if (doc.LoadFile(filename.c_str()) != tinyxml2::XML_SUCCESS) {
 		Debug::Log(Debug::LOG_ERROR, "Could Not Load: %s", filename.c_str());
-		return "";
+		return NULL;
 	}
 
 	const tinyxml2::XMLNode* tree = doc.FirstChild();
@@ -227,33 +227,40 @@ std::string LevelSystem::GetLevelEntitiesXML(unsigned int Level) {
 			}
 		}
 	}
-	return "";
+	return NULL;
 }
 
 void LevelSystem::UpdateLevel(unsigned long Dt) {
-	for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
-		_sharedEntities[i]->Update(Dt);
+	for (auto entity : _sharedEntities) {
+		entity->Update(Dt);
 	}
 }
 
 std::shared_ptr<Asset> LevelSystem::GetAsset(std::string Id) {
-	for (unsigned int i = 0; i < _sharedAssets.size(); i++) {
-		if (strcmp(_sharedAssets[i]->id.c_str(), Id.c_str()) == 0) {
-			return _sharedAssets[i];
+	for (auto asset : _sharedAssets) {
+		if (strcmp(asset->id.c_str(), Id.c_str()) == 0) {
+			return asset;
 		}
 	}
 	return NULL;
 }
 
-Entity* LevelSystem::GetEntity(unsigned int Idx) {
-	return &*_sharedEntities[Idx];
+Entity* LevelSystem::GetEntityAt(unsigned int Idx) {
+	if (Idx >= 0 && Idx < _sharedEntities.size()) {
+		return &*_sharedEntities[Idx];
+	}
+	return NULL;
 }
 
 Entity* LevelSystem::GetEntity(std::string Id) {
-	for (unsigned int i = 0; i < _sharedEntities.size(); i++) {
-		if (strcmp(_sharedEntities[i]->GetId().c_str(), Id.c_str()) == 0) {
-			return &*_sharedEntities[i];
+	for (auto entity : _sharedEntities) {
+		if (strcmp(entity->GetId().c_str(), Id.c_str()) == 0) {
+			return &*entity;
 		}
 	}
 	return NULL;
+}
+
+unsigned int LevelSystem::GetNumEntity() {
+	return _sharedEntities.size();
 }

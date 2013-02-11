@@ -12,9 +12,9 @@ AssetSystem::AssetSystem() {
 }
 
 std::shared_ptr<Asset> AssetSystem::GetAsset(std::string Id) {
-	for (unsigned int i = 0; i < _sharedAssets.size(); i++) {
-		if (strcmp(_sharedAssets[i]->id.c_str(), Id.c_str()) == 0) {
-			return _sharedAssets[i];
+	for (auto asset : _sharedAssets) {
+		if (strcmp(asset->id.c_str(), Id.c_str()) == 0) {
+			return asset;
 		}
 	}
 	return NULL;

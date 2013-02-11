@@ -32,8 +32,7 @@ public:
 		instance = new Engine(Workspace, Width, Height, yGravity, wGravity);
 	}
 
-	static Engine* GetInstance()
-	{
+	static Engine* GetInstance() {
 		return instance;
 	}
 	/*
@@ -70,7 +69,7 @@ public:
 	std::string GetAppState() {
 		return ToString(appState);
 	}
-	
+
 	LevelSystem* GetLevelSystem() {
 		return &*levelSystem;
 	}

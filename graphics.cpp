@@ -9,7 +9,7 @@ void Graphics::DrawPoint(float x, float y) {
 	glEnd();
 }
 
-void Graphics::DrawPoint(float x, float y, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void Graphics::DrawPoint(float x, float y, float r, float g, float b, float a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -26,7 +26,7 @@ void Graphics::DrawLine(float x1, float y1, float x2, float y2) {
 	glEnd();
 }
 
-void Graphics::DrawLine(float x1, float y1, float x2, float y2, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void Graphics::DrawLine(float x1, float y1, float x2, float y2, float r, float g, float b, float a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);
@@ -46,7 +46,7 @@ void Graphics::DrawQuad(float x, float y, float width, float height) {
 	glEnd();
 }
 
-void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void Graphics::DrawQuad(float x, float y, float width, float height, float r, float g, float b, float a) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 
@@ -60,7 +60,7 @@ void Graphics::DrawQuad(float x, float y, float width, float height, GLfloat r, 
 	glColor4f(1, 1, 1, 1);
 }
 
-void Graphics::DrawQuad(float x, float y, float width, float height, float rotation, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void Graphics::DrawQuad(float x, float y, float width, float height, float rotation, float r, float g, float b, float a) {
 	x = EngineMath::MetersToPixels(x);
 	y = EngineMath::MetersToPixels(y);
 	rotation = EngineMath::RadiansToDegrees(rotation);
@@ -90,7 +90,7 @@ void Graphics::FillQuad(float x, float y, float width, float height) {
 	glEnd();
 }
 
-void Graphics::FillQuad(float x, float y, float width, float height, GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+void Graphics::FillQuad(float x, float y, float width, float height, float r, float g, float b, float a) {
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColor4f(r, g, b, a);

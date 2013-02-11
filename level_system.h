@@ -27,9 +27,11 @@ public:
 
 	// Lua Accessors
 
-	Entity* GetEntity(unsigned int Idx);
+	Entity* GetEntityAt(unsigned int Idx);
 
 	Entity* GetEntity(std::string Id);
+
+	unsigned int GetNumEntity();
 
 private:
 

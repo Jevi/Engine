@@ -94,11 +94,11 @@ void Engine::Update() {
 	Dt = SDL_GetTicks() - lastUpdate;
 	lastUpdate = SDL_GetTicks();
 	_world->Step(1.0f / 60.0f, 10, 30);
-	luaSystem->Update();
 }
 
 void Engine::Render() {
 	glClear (GL_COLOR_BUFFER_BIT);
+	luaSystem->Update();
 	levelSystem->UpdateLevel(Dt);
 	SDL_GL_SwapBuffers();
 }

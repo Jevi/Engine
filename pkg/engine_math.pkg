@@ -1,0 +1,9 @@
+$#include "engine_math.h"
+
+class EngineMath {
+	
+	static float DegreesToRadians(float degrees);
+	static float RadiansToDegrees(float radians);
+	static float PixelsToMeters(float pixels);
+	static float MetersToPixels(float meters);
+}

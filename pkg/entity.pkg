@@ -3,5 +3,19 @@ $#include "entity.h"
 class Entity
 {
 public:
-	std::string ToString();	
+
+	struct Scale {
+		float x, y;
+		Scale(float X, float Y) {
+			x = X;
+			y = Y;
+		}
+	};
+	
+	/**
+	 Holds Entity's position, rotation and scale
+	 */
+	b2BodyDef bodyDef;
+
+	Scale scale;
 };
