@@ -3,10 +3,5 @@
                 <Component id="render" type="0" enabled="1">
                         <Render asset="king_sprite_sheet" />
                 </Component>
-        </Entity>        
-        <Entity id="player2" x="0" y="200" rot="0" scalex="1" scaley="1">
-                <Component id="render" type="0" enabled="1">
-                        <Render asset="king_sprite_sheet" />
-                </Component>
         </Entity>
 </Entities>

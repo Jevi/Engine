@@ -1,0 +1,12 @@
+$#include "myEngine.h"
+
+class myEngine
+{
+public:
+	static myEngine* GetInstance();
+	std::string GetAppProject();
+	int GetAppHeight();
+	int GetAppWidth();
+	std::string GetAppState();
+	myLevelSystem* GetLevelSystem();
+};

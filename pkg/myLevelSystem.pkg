@@ -1,0 +1,12 @@
+$#include "myLevelSystem.h"
+
+class myLevelSystem
+{
+public:
+
+	myEntity* GetEntityAt(unsigned int Idx);
+
+	myEntity* GetEntity(std::string Id);
+
+	unsigned int GetNumEntity();
+};

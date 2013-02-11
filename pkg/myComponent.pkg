@@ -1,0 +1,9 @@
+$#include "myComponent.h"
+
+class myComponent
+{
+public:
+	unsigned int GetType();
+	bool IsEnabled();
+	static std::string TypeToString(unsigned int Type);
+};
