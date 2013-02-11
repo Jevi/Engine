@@ -1,6 +1,6 @@
 /*
 ** Lua binding: myEntity
-** Generated automatically by tolua++-1.0.93 on Mon Feb 11 16:22:11 2013.
+** Generated automatically by tolua++-1.0.92 on 02/11/13 17:42:24.
 */
 
 #ifndef __cplusplus

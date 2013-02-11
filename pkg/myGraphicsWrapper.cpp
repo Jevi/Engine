@@ -1,6 +1,6 @@
 /*
 ** Lua binding: myGraphics
-** Generated automatically by tolua++-1.0.92 on 02/11/13 17:42:24.
+** Generated automatically by tolua++-1.0.92 on 02/11/13 17:46:55.
 */
 
 #ifndef __cplusplus
