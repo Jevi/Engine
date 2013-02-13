@@ -3,7 +3,7 @@ $#include "myComponent.h"
 class myComponent
 {
 public:
+	std::string GetId();
 	unsigned int GetType();
-	bool IsEnabled();
 	static std::string TypeToString(unsigned int Type);
 };

@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +14,17 @@ public class ToLua
 	private static final String userDir = System.getProperty("user.dir");
 	private static final String osName = System.getProperty("os.name");
 
-	public static void main(String[] args)
+	public static synchronized void main(String[] args)
+	{
+		ToLua tl = new ToLua();
+		tl.run();
+	}
+
+	public ToLua()
+	{
+	}
+
+	public void run()
 	{
 		File currDir = new File(userDir);
 		ArrayList<File> pkgs = new ArrayList<File>();
@@ -49,24 +62,36 @@ public class ToLua
 					System.out.println("Executing: " + Arrays.toString(cmd));
 					Process p = Runtime.getRuntime().exec(cmd);
 
-					File prntDir = new File(new File(userDir).getParent());
-					Path src = Paths.get(new File(pkgName + "Wrapper.cpp").toURI());
-					Path hdr = Paths.get(new File(pkgName + "Wrapper.h").toURI());
+					int exitValue = p.waitFor();
+					if (exitValue != 0)
+					{
+						StringBuilder sb = new StringBuilder();
+						BufferedReader esbr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+						String errorLine = esbr.readLine();
+						while (errorLine != null)
+						{
+							sb.append(errorLine);
+							errorLine = esbr.readLine();
+						}
+						System.out.println(sb.toString());
+					}
 
-					Path srcTarget = Paths.get(new File(prntDir.getAbsolutePath() + File.separator + src.toFile().getName()).toURI());
-					Path hdrTarget = Paths.get(new File(prntDir.getAbsolutePath() + File.separator + hdr.toFile().getName()).toURI());
+					File parentDirectory = new File(new File(userDir).getParent());
+					Path sourceFile = Paths.get(new File(pkgName + "Wrapper.cpp").toURI());
+					Path headerFile = Paths.get(new File(pkgName + "Wrapper.h").toURI());
 
-					System.out.println("Moving: " + src.toFile().getAbsolutePath() + " -- " + srcTarget.toFile().getAbsolutePath());
-					System.out.println("Moving: " + hdr.toFile().getAbsolutePath() + " -- " + hdrTarget.toFile().getAbsolutePath());
+					Path sourceTarget = Paths.get(new File(parentDirectory.getAbsolutePath() + File.separator + sourceFile.toFile().getName()).toURI());
+					Path headerTarget = Paths.get(new File(parentDirectory.getAbsolutePath() + File.separator + headerFile.toFile().getName()).toURI());
+
+					System.out.println("Moving: " + sourceFile.toFile().getAbsolutePath() + " -- " + sourceTarget.toFile().getAbsolutePath());
+					System.out.println("Moving: " + headerFile.toFile().getAbsolutePath() + " -- " + headerTarget.toFile().getAbsolutePath());
 					System.out.println();
 
-					Files.move(src, srcTarget, StandardCopyOption.REPLACE_EXISTING);
-					Files.move(hdr, hdrTarget, StandardCopyOption.REPLACE_EXISTING);
+					Files.move(sourceFile, sourceTarget, StandardCopyOption.REPLACE_EXISTING);
+					Files.move(headerFile, headerTarget, StandardCopyOption.REPLACE_EXISTING);
 
-					Thread.sleep(10);
-
-					src.toFile().delete();
-					hdr.toFile().delete();
+					sourceFile.toFile().delete();
+					headerFile.toFile().delete();
 				}
 				catch (Exception e)
 				{

@@ -6,6 +6,17 @@
 #include "myDebug.h"
 #include "tinyxml2.h"
 
+myEntity::myEntity(std::string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
+        id(Id), scale(ScaleX, ScaleY) {
+    bodyDef.position.x = PosX;
+    bodyDef.position.y = PosY;
+    bodyDef.angle = Rot;
+}
+
+myEntity::~myEntity(void) {
+
+}
+
 void myEntity::Start() {
 	//Iterate over the component list, initializing each component if it is enabled
 	for (auto component : components) {
@@ -25,15 +36,15 @@ void myEntity::Update(unsigned long dt) {
 }
 
 std::shared_ptr<myComponent> myEntity::GetComponent(std::string Name) {
-	for (auto component : components) {
-		if (component->id == Name) {
+    for (std::shared_ptr<myComponent> component : components) {
+        if (component->GetId() == Name) {
 			return component;
 		}
 	}
 	return NULL;
 }
 
-std::shared_ptr<myComponent> myEntity::GetComponentAt(unsigned int Index) {
+std::shared_ptr<myComponent> myEntity::GetComponent(unsigned int Index) {
 	//If the target index exceeds the number of objects in the list, then the component does not exist
 	if (Index > components.size() - 1) {
 		return NULL;
@@ -43,8 +54,8 @@ std::shared_ptr<myComponent> myEntity::GetComponentAt(unsigned int Index) {
 
 bool myEntity::AddComponent(std::shared_ptr<myComponent> NewComponent) {
 	//make sure the component doesn't already exist
-	for (auto component : components) {
-		if ((component == NewComponent) || (component->id == NewComponent->id)) {
+    for (std::shared_ptr<myComponent> component : components) {
+        if ((component == NewComponent) || (component->GetId() == NewComponent->GetId())) {
 			return false;
 		}
 	}
@@ -59,7 +70,7 @@ bool myEntity::RemoveComponent(std::string Name) {
 	//Iterate over the component list
 	for (unsigned int i = 0; i < components.size(); ++i) {
 		//If the current component's name matches the target name, then remove the component from the list
-		if (strcmp(components[i]->id.c_str(), Name.c_str()) == 0) {
+        if (strcmp(components[i]->GetId().c_str(), Name.c_str()) == 0) {
 			components.erase(components.begin() + i);
 			return true;
 		}
@@ -76,10 +87,6 @@ bool myEntity::RemoveComponentAt(unsigned int Index) {
 	//Remove the component from the list
 	components.erase(components.begin() + Index);
 	return true;
-}
-
-myEntity::~myEntity(void) {
-
 }
 
 std::string myEntity::ToString() {

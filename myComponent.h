@@ -33,22 +33,15 @@ public:
 				return std::string("DEFUALT");
 				break;
 		}
-	}
-	/*
-	 Unique name identifier for Component
-	 */
-	std::string id;
-	/*
-	 Component type
-	 */
-	unsigned int type;
+    }
+
 	/*
 	 Defines whether this component is enabled
 	 */
 	bool enabled;
-	/*
-	 refers to this Components Entity owner
-	 */
+    /*
+     refers to this Components Entity owner
+     */
     myEntity* entity;
 
     myComponent(std::string Id, unsigned int Type) :
@@ -78,9 +71,15 @@ public:
 		return type;
 	}
 
-	bool IsEnabled() {
-		return enabled;
-	}
+protected:
+    /*
+     Unique name identifier for Component
+     */
+    std::string id;
+    /*
+     Component type
+     */
+    unsigned int type;
 };
 
 #endif

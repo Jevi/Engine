@@ -24,18 +24,14 @@ public:
 	 Component vector of Entity which defines Entity properties
 	 */
 	std::vector<std::shared_ptr<myComponent> > components;
-	/**
+
+    /*
 	 Holds Entity's position, rotation and scale
 	 */
 	b2BodyDef bodyDef;
 	Scale scale;
 
-    myEntity(std::string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY) :
-			id(Id), scale(ScaleX, ScaleY) {
-		bodyDef.position.x = PosX;
-		bodyDef.position.y = PosY;
-		bodyDef.angle = Rot;
-	}
+    myEntity(std::string Id, float PosX, float PosY, float Rot, float ScaleX, float ScaleY);
 
     virtual ~myEntity();
 
@@ -48,14 +44,15 @@ public:
 	 */
 	void Update(unsigned long dt);
 
-	// Accessor Methods
+    // Accessor Methods
 
-	/*
-	 Return Entity unique name identifier
-	 */
-	std::string GetId() {
-		return id;
-	}
+    /*
+     Return Entity unique name identifier
+     */
+    std::string GetId() {
+        return id;
+    }
+
 	/*
 	 Returns component with unique name identifier
 	 */
@@ -63,7 +60,7 @@ public:
 	/*
 	 Returns component at specific index from Entity component vector
 	 */
-	std::shared_ptr<myComponent> GetComponentAt(unsigned int Index);
+    std::shared_ptr<myComponent> GetComponent(unsigned int Index);
 
 	// Modifier Methods
 
@@ -81,6 +78,12 @@ public:
 	bool RemoveComponentAt(unsigned int Index);
 
 	std::string ToString();
+
+    // Lua Specific Acessors
+
+//   myComponent* LuaGetComponent(std::string Name);
+
+//   myComponent* LuaGetComponentAt(unsigned int Index);
 
 private:
 
